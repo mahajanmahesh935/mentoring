@@ -209,4 +209,10 @@ module.exports = {
 		],
 	},
 	FALSE: 'false',
+	CONNECTIONS_STATUS: {
+		ACCEPTED: 'ACCEPTED',
+		REJECTED: 'REJECTED',
+		PENDING: 'PENDING',
+		REQUESTED: 'REQUESTED',
+	},
 }
