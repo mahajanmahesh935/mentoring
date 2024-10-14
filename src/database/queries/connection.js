@@ -186,11 +186,14 @@ exports.getSentAndReceivedRequests = async (userId) => {
 	}
 }
 
-exports.getConnection = async (userId) => {
+exports.getConnection = async (userId, friendId) => {
 	try {
 		const result = await Connection.findOne({
 			where: {
-				[Op.or]: [{ user_id: userId }, { friend_id: userId }],
+				[Op.or]: [
+					{ user_id: userId, friend_id: friendId },
+					{ user_id: friendId, friend_id: userId },
+				],
 				status: common.CONNECTIONS_STATUS.ACCEPTED,
 			},
 			raw: true,
