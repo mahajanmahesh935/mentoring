@@ -93,13 +93,13 @@ module.exports = class ConnectionHelper {
 		}
 	}
 
-	static async pending(userId) {
+	static async pending(userId, pageNo, pageSize) {
 		try {
-			const connections = await connectionQueries.getPendingRequests(userId)
+			const connections = await connectionQueries.getPendingRequests(userId, pageNo, pageSize)
 			return responses.successResponse({
 				statusCode: httpStatusCode.ok,
 				message: 'CONNECTION_LIST',
-				result: connections,
+				result: { data: connections.rows, count: connections.count },
 			})
 		} catch (error) {
 			console.error(error)

@@ -18,7 +18,7 @@ module.exports = class Connection {
 
 	async pending(req) {
 		try {
-			return await connectionsService.pending(req.decodedToken.id)
+			return await connectionsService.pending(req.decodedToken.id, req.pageNo, req.pageSize)
 		} catch (error) {
 			throw error
 		}

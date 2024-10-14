@@ -44,21 +44,24 @@ exports.addFriendRequest = async (userId, friendId, message) => {
 	}
 }
 
-exports.getPendingRequests = async (userId) => {
+exports.getPendingRequests = async (userId, page, pageSize) => {
 	try {
-		const result = await ConnectionRequest.findAll({
+		const result = await ConnectionRequest.findAndCountAll({
 			where: {
 				user_id: userId,
 				status: common.CONNECTIONS_STATUS.REQUESTED,
 				created_by: { [Op.ne]: userId },
 			},
 			raw: true,
+			limit: pageSize,
+			offset: (page - 1) * pageSize,
 		})
 		return result
 	} catch (error) {
 		return error
 	}
 }
+
 exports.approveRequest = async (userId, friendId, meta) => {
 	try {
 		const requests = await sequelize.transaction(async (t) => {
