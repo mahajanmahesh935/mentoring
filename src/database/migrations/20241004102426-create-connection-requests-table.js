@@ -56,7 +56,7 @@ module.exports = {
 		})
 
 		await queryInterface.addIndex('connection_requests', ['friend_id'], {
-			name: 'index_friend_id_connections',
+			name: 'index_friend_id_connection_requests',
 		})
 		await queryInterface.addIndex('connection_requests', ['status'], {
 			name: 'index_status_connection_requests',
