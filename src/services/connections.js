@@ -16,7 +16,7 @@ module.exports = class ConnectionHelper {
 		return connectionRequest
 	}
 
-	static async initiate(bodyData, decodedToken) {
+	static async initiate(bodyData, userId) {
 		try {
 			const userExists = await menteeQueries.getMenteeExtension(bodyData.user_id)
 			if (!userExists) {
@@ -25,7 +25,7 @@ module.exports = class ConnectionHelper {
 					message: 'USER_NOT_FOUND',
 				})
 			}
-			const connectionExits = await connectionQueries.getConnection(decodedToken.id)
+			const connectionExits = await connectionQueries.getConnection(userId, bodyData.user_id)
 			if (connectionExits) {
 				return responses.successResponse({
 					statusCode: httpStatusCode.ok,
@@ -33,7 +33,7 @@ module.exports = class ConnectionHelper {
 				})
 			}
 			const friendRequestResult = await connectionQueries.addFriendRequest(
-				decodedToken.id,
+				userId,
 				bodyData.user_id,
 				bodyData.message
 			)
@@ -55,9 +55,9 @@ module.exports = class ConnectionHelper {
 		}
 	}
 
-	static async pending(decodedToken) {
+	static async pending(userId) {
 		try {
-			const connections = await connectionQueries.getPendingRequests(decodedToken.id)
+			const connections = await connectionQueries.getPendingRequests(userId)
 			return responses.successResponse({
 				statusCode: httpStatusCode.ok,
 				message: 'CONNECTION_LIST',
@@ -69,13 +69,13 @@ module.exports = class ConnectionHelper {
 		}
 	}
 
-	static async accept(bodyData, decodedToken) {
+	static async accept(bodyData, userId) {
 		try {
-			const connectionRequest = await this.checkConnectionRequestExists(decodedToken.id, bodyData.user_id)
+			const connectionRequest = await this.checkConnectionRequestExists(userId, bodyData.user_id)
 			if (!connectionRequest) return connectionRequest
 
 			const approvedResponse = await connectionQueries.approveRequest(
-				decodedToken.id,
+				userId,
 				bodyData.user_id,
 				connectionRequest.meta
 			)
@@ -90,12 +90,12 @@ module.exports = class ConnectionHelper {
 		}
 	}
 
-	static async reject(bodyData, decodedToken) {
+	static async reject(bodyData, userId) {
 		try {
-			const connectionRequest = await this.checkConnectionRequestExists(decodedToken.id, bodyData.user_id)
+			const connectionRequest = await this.checkConnectionRequestExists(userId, bodyData.user_id)
 			if (!connectionRequest) return connectionRequest
 
-			const rejectedRequest = await connectionQueries.rejectRequest(decodedToken.id, bodyData.user_id)
+			const rejectedRequest = await connectionQueries.rejectRequest(userId, bodyData.user_id)
 			return responses.successResponse({
 				statusCode: httpStatusCode.created,
 				message: 'CONNECTION_REQUEST_REJECTED',

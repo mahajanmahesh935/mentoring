@@ -3,7 +3,7 @@ const connectionsService = require('@services/connections')
 module.exports = class Connection {
 	async initiate(req) {
 		try {
-			return await connectionsService.initiate(req.body, req.decodedToken)
+			return await connectionsService.initiate(req.body, req.decodedToken.id)
 		} catch (error) {
 			throw error
 		}
@@ -11,7 +11,7 @@ module.exports = class Connection {
 
 	async pending(req) {
 		try {
-			return await connectionsService.pending(req.decodedToken)
+			return await connectionsService.pending(req.decodedToken.id)
 		} catch (error) {
 			throw error
 		}
@@ -19,7 +19,7 @@ module.exports = class Connection {
 
 	async accept(req) {
 		try {
-			return await connectionsService.accept(req.body, req.decodedToken)
+			return await connectionsService.accept(req.body, req.decodedToken.id)
 		} catch (error) {
 			throw error
 		}
@@ -27,7 +27,7 @@ module.exports = class Connection {
 
 	async reject(req) {
 		try {
-			return await connectionsService.reject(req.body, req.decodedToken)
+			return await connectionsService.reject(req.body, req.decodedToken.id)
 		} catch (error) {
 			throw error
 		}
