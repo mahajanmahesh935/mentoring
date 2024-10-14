@@ -25,6 +25,7 @@ const { buildSearchFilter } = require('@helpers/search')
 const searchConfig = require('@configs/search.json')
 const emailEncryption = require('@utils/emailEncryption')
 const { defaultRulesFilter, validateDefaultRulesFilter } = require('@helpers/defaultRules')
+const connectionQueries = require('@database/queries/connection')
 
 module.exports = class MentorsHelper {
 	/**
@@ -913,6 +914,9 @@ module.exports = class MentorsHelper {
 
 			const userDetails = await userRequests.getListOfUserDetails(mentorIds, true)
 
+			const connectedUsers = await connectionQueries.getConnectionsByUserIds(userId, mentorIds)
+			const connectedMentorIds = new Set(connectedUsers.map((connectedUser) => connectedUser.friend_id))
+
 			if (extensionDetails.data.length > 0) {
 				const uniqueOrgIds = [...new Set(extensionDetails.data.map((obj) => obj.organization_id))]
 				extensionDetails.data = await entityTypeService.processEntityTypesToAddValueLabels(
@@ -930,10 +934,12 @@ module.exports = class MentorsHelper {
 			extensionDetails.data = extensionDetails.data
 				.map((extensionDetail) => {
 					const user_id = `${extensionDetail.user_id}`
+					const isConnected = connectedMentorIds.has(extensionDetail.user_id)
+
 					if (userDetailsMap.has(user_id)) {
 						let userDetail = userDetailsMap.get(user_id)
 						// Merge userDetail with extensionDetail, prioritize extensionDetail properties
-						userDetail = { ...userDetail, ...extensionDetail }
+						userDetail = { ...userDetail, ...extensionDetail, is_connected: isConnected }
 						delete userDetail.user_id
 						delete userDetail.mentor_visibility
 						delete userDetail.mentee_visibility

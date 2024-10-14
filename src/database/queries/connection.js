@@ -203,3 +203,24 @@ exports.getConnection = async (userId, friendId) => {
 		return error
 	}
 }
+
+exports.getConnectionsByUserIds = async (userId, friendIds, projection) => {
+	try {
+		const defaultProjection = ['user_id', 'friend_id']
+
+		const result = await Connection.findAll({
+			where: {
+				user_id: userId,
+				friend_id: {
+					[Op.in]: friendIds,
+				},
+				status: common.CONNECTIONS_STATUS.ACCEPTED,
+			},
+			attributes: projection || defaultProjection,
+			raw: true,
+		})
+		return result
+	} catch (error) {
+		throw error
+	}
+}
