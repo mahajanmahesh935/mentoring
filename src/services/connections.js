@@ -3,6 +3,7 @@ const connectionQueries = require('@database/queries/connection')
 const responses = require('@helpers/responses')
 const menteeQueries = require('@database/queries/userExtension')
 const { UniqueConstraintError } = require('sequelize')
+const common = require('@constants/common')
 
 module.exports = class ConnectionHelper {
 	static async checkConnectionRequestExists(userId, targetUserId) {
@@ -25,13 +26,22 @@ module.exports = class ConnectionHelper {
 					message: 'USER_NOT_FOUND',
 				})
 			}
-			const connectionExits = await connectionQueries.getConnection(userId, bodyData.user_id)
-			if (connectionExits) {
+			const connectionExists = await connectionQueries.getConnection(userId, bodyData.user_id)
+
+			if (connectionExists?.status == common.CONNECTIONS_STATUS.BLOCKED) {
+				return responses.successResponse({
+					statusCode: httpStatusCode.ok,
+					message: 'USER_NOT_FOUND',
+				})
+			}
+
+			if (connectionExists) {
 				return responses.successResponse({
 					statusCode: httpStatusCode.ok,
 					message: 'CONNECTION_EXITS',
 				})
 			}
+
 			const friendRequestResult = await connectionQueries.addFriendRequest(
 				userId,
 				bodyData.user_id,

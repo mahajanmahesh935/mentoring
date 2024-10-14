@@ -214,5 +214,6 @@ module.exports = {
 		REJECTED: 'REJECTED',
 		PENDING: 'PENDING',
 		REQUESTED: 'REQUESTED',
+		BLOCKED: 'BLOCKED',
 	},
 }

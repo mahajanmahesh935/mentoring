@@ -194,7 +194,9 @@ exports.getConnection = async (userId, friendId) => {
 					{ user_id: userId, friend_id: friendId },
 					{ user_id: friendId, friend_id: userId },
 				],
-				status: common.CONNECTIONS_STATUS.ACCEPTED,
+				status: {
+					[Op.or]: [common.CONNECTIONS_STATUS.ACCEPTED, common.CONNECTIONS_STATUS.BLOCKED],
+				},
 			},
 			raw: true,
 		})
