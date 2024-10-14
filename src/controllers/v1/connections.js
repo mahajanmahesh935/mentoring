@@ -1,6 +1,13 @@
 const connectionsService = require('@services/connections')
 
 module.exports = class Connection {
+	async getInfo(req) {
+		try {
+			return await connectionsService.getInfo(req.body.user_id, req.decodedToken.id)
+		} catch (error) {
+			throw error
+		}
+	}
 	async initiate(req) {
 		try {
 			return await connectionsService.initiate(req.body, req.decodedToken.id)
