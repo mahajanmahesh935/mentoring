@@ -44,21 +44,24 @@ exports.addFriendRequest = async (userId, friendId, message) => {
 	}
 }
 
-exports.getPendingRequests = async (userId) => {
+exports.getPendingRequests = async (userId, page, pageSize) => {
 	try {
-		const result = await ConnectionRequest.findAll({
+		const result = await ConnectionRequest.findAndCountAll({
 			where: {
 				user_id: userId,
 				status: common.CONNECTIONS_STATUS.REQUESTED,
 				created_by: { [Op.ne]: userId },
 			},
 			raw: true,
+			limit: pageSize,
+			offset: (page - 1) * pageSize,
 		})
 		return result
 	} catch (error) {
 		return error
 	}
 }
+
 exports.approveRequest = async (userId, friendId, meta) => {
 	try {
 		const requests = await sequelize.transaction(async (t) => {
@@ -190,10 +193,8 @@ exports.getConnection = async (userId, friendId) => {
 	try {
 		const result = await Connection.findOne({
 			where: {
-				[Op.or]: [
-					{ user_id: userId, friend_id: friendId },
-					{ user_id: friendId, friend_id: userId },
-				],
+				user_id: userId,
+				friend_id: friendId,
 				status: {
 					[Op.or]: [common.CONNECTIONS_STATUS.ACCEPTED, common.CONNECTIONS_STATUS.BLOCKED],
 				},
@@ -203,5 +204,26 @@ exports.getConnection = async (userId, friendId) => {
 		return result
 	} catch (error) {
 		return error
+	}
+}
+
+exports.getConnectionsByUserIds = async (userId, friendIds, projection) => {
+	try {
+		const defaultProjection = ['user_id', 'friend_id']
+
+		const result = await Connection.findAll({
+			where: {
+				user_id: userId,
+				friend_id: {
+					[Op.in]: friendIds,
+				},
+				status: common.CONNECTIONS_STATUS.ACCEPTED,
+			},
+			attributes: projection || defaultProjection,
+			raw: true,
+		})
+		return result
+	} catch (error) {
+		throw error
 	}
 }

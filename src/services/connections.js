@@ -64,14 +64,42 @@ module.exports = class ConnectionHelper {
 			throw error
 		}
 	}
-
-	static async pending(userId) {
+	static async getInfo(friendId, userId) {
 		try {
-			const connections = await connectionQueries.getPendingRequests(userId)
+			const connection = await connectionQueries.getConnection(userId, friendId)
+
+			if (!connection) {
+				return responses.failureResponse({
+					statusCode: httpStatusCode.not_found,
+					message: 'CONNECTION_NOT_FOUND',
+				})
+			}
+
+			if (connection.status === common.CONNECTIONS_STATUS.BLOCKED) {
+				return responses.successResponse({
+					statusCode: httpStatusCode.ok,
+					message: 'USER_NOT_FOUND',
+				})
+			}
+
+			return responses.successResponse({
+				statusCode: httpStatusCode.ok,
+				message: 'CONNECTION_DETAILS',
+				result: connection,
+			})
+		} catch (error) {
+			console.error(error)
+			throw error
+		}
+	}
+
+	static async pending(userId, pageNo, pageSize) {
+		try {
+			const connections = await connectionQueries.getPendingRequests(userId, pageNo, pageSize)
 			return responses.successResponse({
 				statusCode: httpStatusCode.ok,
 				message: 'CONNECTION_LIST',
-				result: connections,
+				result: { data: connections.rows, count: connections.count },
 			})
 		} catch (error) {
 			console.error(error)
