@@ -54,9 +54,23 @@ module.exports = {
 				deleted_at: null,
 			},
 		})
+		await queryInterface.addIndex('connections', ['friend_id'], {
+			name: 'index_friend_id_connections',
+		})
+		await queryInterface.addIndex('connections', ['status'], {
+			name: 'index_status_connections',
+		})
+		await queryInterface.addIndex('connections', ['created_by'], {
+			name: 'index_created_by_connections',
+		})
 	},
 
 	async down(queryInterface, Sequelize) {
+		await queryInterface.removeIndex('connections', 'index_friend_id_connections')
+		await queryInterface.removeIndex('connections', 'index_status_connections')
+		await queryInterface.removeIndex('connections', 'unique_user_id_friend_id_connections')
+		await queryInterface.removeIndex('connections', 'index_created_by_connections')
+
 		await queryInterface.dropTable('connections')
 	},
 }
