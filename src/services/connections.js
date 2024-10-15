@@ -4,6 +4,12 @@ const responses = require('@helpers/responses')
 const menteeQueries = require('@database/queries/userExtension')
 const { UniqueConstraintError } = require('sequelize')
 const common = require('@constants/common')
+const entityTypeService = require('@services/entity-type')
+const entityTypeQueries = require('@database/queries/entityType')
+const { Op } = require('sequelize')
+const { getDefaultOrgId } = require('@helpers/getDefaultOrgId')
+const { removeDefaultOrgEntityTypes } = require('@generics/utils')
+const utils = require('@generics/utils')
 
 module.exports = class ConnectionHelper {
 	static async checkConnectionRequestExists(userId, targetUserId) {
@@ -82,6 +88,31 @@ module.exports = class ConnectionHelper {
 				})
 			}
 
+			const defaultOrgId = await getDefaultOrgId()
+			if (!defaultOrgId)
+				return responses.failureResponse({
+					message: 'DEFAULT_ORG_ID_NOT_SET',
+					statusCode: httpStatusCode.bad_request,
+					responseCode: 'CLIENT_ERROR',
+				})
+			const userExtensionsModelName = await menteeQueries.getModelName()
+			const userDetails = await menteeQueries.getMenteeExtension(connection.friend_id, [
+				'user_id',
+				'name',
+				'designation',
+				'organization_id',
+			])
+			let entityTypes = await entityTypeQueries.findUserEntityTypesAndEntities({
+				status: 'ACTIVE',
+				organization_id: {
+					[Op.in]: [userDetails.organization_id, defaultOrgId],
+				},
+				model_names: { [Op.contains]: [userExtensionsModelName] },
+			})
+			const validationData = removeDefaultOrgEntityTypes(entityTypes, userDetails.organization_id)
+			const processDbResponse = utils.processDbResponse(userDetails, validationData)
+			connection.friend_details = processDbResponse
+
 			return responses.successResponse({
 				statusCode: httpStatusCode.ok,
 				message: 'CONNECTION_DETAILS',
@@ -96,10 +127,47 @@ module.exports = class ConnectionHelper {
 	static async pending(userId, pageNo, pageSize) {
 		try {
 			const connections = await connectionQueries.getPendingRequests(userId, pageNo, pageSize)
+
+			if (connections.count == 0 || connections.data.length == 0) {
+				return responses.successResponse({
+					statusCode: httpStatusCode.ok,
+					message: 'CONNECTION_LIST',
+					result: {
+						data: [],
+						count: connections.count,
+					},
+				})
+			}
+			const friendIds = connections.rows.map((connection) => connection.friend_id)
+			let friendDetails = await menteeQueries.getUsersByUserIds(friendIds, {
+				attributes: ['user_id', 'name', 'designation', 'organization_id'],
+			})
+			const userExtensionsModelName = await menteeQueries.getModelName()
+
+			const uniqueOrgIds = [...new Set(friendDetails.map((obj) => obj.organization_id))]
+			friendDetails = await entityTypeService.processEntityTypesToAddValueLabels(
+				friendDetails,
+				uniqueOrgIds,
+				userExtensionsModelName,
+				'organization_id'
+			)
+
+			const friendDetailsMap = friendDetails.reduce((acc, friend) => {
+				acc[friend.user_id] = friend
+				return acc
+			}, {})
+
+			let connectionsWithDetails = connections.rows.map((connection) => {
+				return {
+					...connection,
+					friend_details: friendDetailsMap[connection.friend_id] || null,
+				}
+			})
+
 			return responses.successResponse({
 				statusCode: httpStatusCode.ok,
 				message: 'CONNECTION_LIST',
-				result: { data: connections.rows, count: connections.count },
+				result: { data: connectionsWithDetails, count: connections.count },
 			})
 		} catch (error) {
 			console.error(error)

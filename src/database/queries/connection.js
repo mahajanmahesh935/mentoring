@@ -58,7 +58,7 @@ exports.getPendingRequests = async (userId, page, pageSize) => {
 		})
 		return result
 	} catch (error) {
-		return error
+		throw error
 	}
 }
 
@@ -133,7 +133,7 @@ exports.rejectRequest = async (userId, friendId) => {
 			individualHooks: true,
 		})
 	} catch (error) {
-		return error
+		throw error
 	}
 }
 exports.findOneRequest = async (userId, friendId) => {
@@ -170,7 +170,7 @@ exports.checkPendingRequest = async (userId, friendId) => {
 		})
 		return result
 	} catch (error) {
-		return error
+		throw error
 	}
 }
 
@@ -185,7 +185,7 @@ exports.getSentAndReceivedRequests = async (userId) => {
 		})
 		return result
 	} catch (error) {
-		return error
+		throw error
 	}
 }
 
@@ -203,7 +203,7 @@ exports.getConnection = async (userId, friendId) => {
 		})
 		return result
 	} catch (error) {
-		return error
+		throw error
 	}
 }
 
