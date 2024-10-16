@@ -72,12 +72,41 @@ module.exports = class ConnectionHelper {
 	}
 	static async getInfo(friendId, userId) {
 		try {
-			const connection = await connectionQueries.getConnection(userId, friendId)
+			let connection = await connectionQueries.getConnection(userId, friendId)
+			if (!connection) {
+				connection = await connectionQueries.checkPendingRequest(userId, friendId)
+			}
+
+			const defaultOrgId = await getDefaultOrgId()
+			if (!defaultOrgId) {
+				return responses.failureResponse({
+					message: 'DEFAULT_ORG_ID_NOT_SET',
+					statusCode: httpStatusCode.bad_request,
+					responseCode: 'CLIENT_ERROR',
+				})
+			}
+
+			const [userExtensionsModelName, userDetails] = await Promise.all([
+				menteeQueries.getModelName(),
+				menteeQueries.getMenteeExtension(friendId, ['user_id', 'name', 'designation', 'organization_id']),
+			])
+
+			let entityTypes = await entityTypeQueries.findUserEntityTypesAndEntities({
+				status: 'ACTIVE',
+				organization_id: {
+					[Op.in]: [userDetails.organization_id, defaultOrgId],
+				},
+				model_names: { [Op.contains]: [userExtensionsModelName] },
+				value: 'designation',
+			})
+			const validationData = removeDefaultOrgEntityTypes(entityTypes, userDetails.organization_id)
+			const processedUserDetails = utils.processDbResponse(userDetails, validationData)
 
 			if (!connection) {
-				return responses.failureResponse({
-					statusCode: httpStatusCode.not_found,
+				return responses.successResponse({
+					statusCode: httpStatusCode.ok,
 					message: 'CONNECTION_NOT_FOUND',
+					result: { user_details: processedUserDetails },
 				})
 			}
 
@@ -88,30 +117,7 @@ module.exports = class ConnectionHelper {
 				})
 			}
 
-			const defaultOrgId = await getDefaultOrgId()
-			if (!defaultOrgId)
-				return responses.failureResponse({
-					message: 'DEFAULT_ORG_ID_NOT_SET',
-					statusCode: httpStatusCode.bad_request,
-					responseCode: 'CLIENT_ERROR',
-				})
-			const userExtensionsModelName = await menteeQueries.getModelName()
-			const userDetails = await menteeQueries.getMenteeExtension(connection.friend_id, [
-				'user_id',
-				'name',
-				'designation',
-				'organization_id',
-			])
-			let entityTypes = await entityTypeQueries.findUserEntityTypesAndEntities({
-				status: 'ACTIVE',
-				organization_id: {
-					[Op.in]: [userDetails.organization_id, defaultOrgId],
-				},
-				model_names: { [Op.contains]: [userExtensionsModelName] },
-			})
-			const validationData = removeDefaultOrgEntityTypes(entityTypes, userDetails.organization_id)
-			const processDbResponse = utils.processDbResponse(userDetails, validationData)
-			connection.friend_details = processDbResponse
+			connection.user_details = processedUserDetails
 
 			return responses.successResponse({
 				statusCode: httpStatusCode.ok,
@@ -128,7 +134,7 @@ module.exports = class ConnectionHelper {
 		try {
 			const connections = await connectionQueries.getPendingRequests(userId, pageNo, pageSize)
 
-			if (connections.count == 0 || connections.data.length == 0) {
+			if (connections.count == 0 || connections.rows.length == 0) {
 				return responses.successResponse({
 					statusCode: httpStatusCode.ok,
 					message: 'CONNECTION_LIST',
@@ -149,7 +155,8 @@ module.exports = class ConnectionHelper {
 				friendDetails,
 				uniqueOrgIds,
 				userExtensionsModelName,
-				'organization_id'
+				'organization_id',
+				['designation']
 			)
 
 			const friendDetailsMap = friendDetails.reduce((acc, friend) => {
@@ -160,7 +167,7 @@ module.exports = class ConnectionHelper {
 			let connectionsWithDetails = connections.rows.map((connection) => {
 				return {
 					...connection,
-					friend_details: friendDetailsMap[connection.friend_id] || null,
+					user_details: friendDetailsMap[connection.friend_id] || null,
 				}
 			})
 
