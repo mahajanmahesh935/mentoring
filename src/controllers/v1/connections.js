@@ -39,4 +39,19 @@ module.exports = class Connection {
 			throw error
 		}
 	}
+
+	async list(req) {
+		try {
+			return await connectionsService.list(
+				req.pageNo,
+				req.pageSize,
+				req.searchText,
+				req.query,
+				req.decodedToken.id,
+				req.decodedToken.organization_id
+			)
+		} catch (error) {
+			throw error
+		}
+	}
 }

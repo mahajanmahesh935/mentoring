@@ -6,6 +6,8 @@ const { Op } = require('sequelize')
 const sequelize = require('@database/models/index').sequelize
 
 const common = require('@constants/common')
+const MenteeExtension = require('@database/models/index').UserExtension
+const { QueryTypes } = require('sequelize')
 
 exports.addFriendRequest = async (userId, friendId, message) => {
 	try {
@@ -221,6 +223,86 @@ exports.getConnectionsByUserIds = async (userId, friendIds, projection) => {
 			raw: true,
 		})
 		return result
+	} catch (error) {
+		throw error
+	}
+}
+
+exports.getConnectionsDetails = async (page, limit, filter, searchText = '', userId, organizationIds = []) => {
+	try {
+		let additionalFilter = ''
+		let orgFilter = ''
+		let filterClause = ''
+
+		if (searchText) {
+			additionalFilter = `AND name ILIKE :search`
+		}
+
+		if (organizationIds.length > 0) {
+			orgFilter = `AND organization_id IN (:organizationIds)`
+		}
+
+		if (filter?.query?.length > 0) {
+			filterClause = filter.query.startsWith('AND') ? filter.query : 'AND ' + filter.query
+		}
+
+		const userFilterClause = `user_id IN (SELECT friend_id FROM ${Connection.tableName} WHERE user_id = :userId)`
+
+		const projectionClause = `
+            user_id,
+            meta,
+            name,
+            organization_id,
+            designation
+        `
+
+		let query = `
+            SELECT ${projectionClause}
+            FROM ${common.materializedViewsPrefix + MenteeExtension.tableName}
+            WHERE ${userFilterClause}
+            ${orgFilter}
+            ${filterClause}
+            ${additionalFilter}
+        `
+
+		const replacements = {
+			...filter?.replacements,
+			search: `%${searchText}%`,
+			userId,
+			organizationIds,
+		}
+
+		if (page !== null && limit !== null) {
+			query += `
+                OFFSET :offset
+                LIMIT :limit;
+            `
+			replacements.offset = limit * (page - 1)
+			replacements.limit = limit
+		}
+
+		const connectedUsers = await sequelize.query(query, {
+			type: QueryTypes.SELECT,
+			replacements: replacements,
+		})
+
+		const countQuery = `
+		    SELECT count(*) AS "count"
+		    FROM ${common.materializedViewsPrefix + MenteeExtension.tableName}
+		    WHERE ${userFilterClause}
+		    ${filterClause}
+		    ${orgFilter}
+		    ${additionalFilter};
+		`
+		const count = await sequelize.query(countQuery, {
+			type: QueryTypes.SELECT,
+			replacements: replacements,
+		})
+
+		return {
+			data: connectedUsers,
+			count: Number(count[0].count),
+		}
 	} catch (error) {
 		throw error
 	}

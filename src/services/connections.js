@@ -219,4 +219,66 @@ module.exports = class ConnectionHelper {
 			throw error
 		}
 	}
+	static async list(pageNo, pageSize, searchText, queryParams, userId, orgId) {
+		try {
+			let organizationIds = []
+
+			if (queryParams.organization_ids) {
+				organizationIds = queryParams.organization_ids.split(',')
+			}
+
+			const query = utils.processQueryParametersWithExclusions(queryParams)
+
+			const userExtensionsModelName = await menteeQueries.getModelName()
+
+			const validationData = await entityTypeQueries.findAllEntityTypesAndEntities({
+				status: 'ACTIVE',
+				allow_filtering: true,
+				model_names: { [Op.contains]: [userExtensionsModelName] },
+			})
+
+			const filteredQuery = utils.validateAndBuildFilters(query, validationData, userExtensionsModelName)
+
+			let extensionDetails = await connectionQueries.getConnectionsDetails(
+				pageNo,
+				pageSize,
+				filteredQuery,
+				searchText,
+				userId,
+				organizationIds
+			)
+
+			if (extensionDetails.count === 0 || extensionDetails.data.length === 0) {
+				return responses.successResponse({
+					statusCode: httpStatusCode.ok,
+					message: 'CONNECTED_USERS_FETCHED',
+					result: {
+						data: [],
+						count: extensionDetails.count,
+					},
+				})
+			}
+
+			if (extensionDetails.data.length > 0) {
+				const uniqueOrgIds = [...new Set(extensionDetails.data.map((obj) => obj.organization_id))]
+
+				extensionDetails.data = await entityTypeService.processEntityTypesToAddValueLabels(
+					extensionDetails.data,
+					uniqueOrgIds,
+					userExtensionsModelName,
+					'organization_id',
+					['designation']
+				)
+			}
+
+			return responses.successResponse({
+				statusCode: httpStatusCode.ok,
+				message: 'CONNECTED_USERS_FETCHED',
+				result: extensionDetails,
+			})
+		} catch (error) {
+			console.error('Error in list function:', error)
+			throw error
+		}
+	}
 }
