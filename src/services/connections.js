@@ -111,7 +111,17 @@ module.exports = class ConnectionHelper {
 
 			const [userExtensionsModelName, userDetails] = await Promise.all([
 				menteeQueries.getModelName(),
-				menteeQueries.getMenteeExtension(friendId, ['user_id', 'name', 'designation', 'organization_id']),
+				menteeQueries.getMenteeExtension(friendId, [
+					'name',
+					'user_id',
+					'mentee_visibility',
+					'organization_id',
+					'designation',
+					'area_of_expertise',
+					'education_qualification',
+					'custom_entity_text',
+					'meta',
+				]),
 			])
 
 			// Fetch entity types associated with the user
@@ -121,7 +131,6 @@ module.exports = class ConnectionHelper {
 					[Op.in]: [userDetails.organization_id, defaultOrgId],
 				},
 				model_names: { [Op.contains]: [userExtensionsModelName] },
-				value: 'designation',
 			})
 			const validationData = removeDefaultOrgEntityTypes(entityTypes, userDetails.organization_id)
 			const processedUserDetails = utils.processDbResponse(userDetails, validationData)
@@ -179,7 +188,17 @@ module.exports = class ConnectionHelper {
 			// Map friend details by user IDs
 			const friendIds = connections.rows.map((connection) => connection.friend_id)
 			let friendDetails = await menteeQueries.getUsersByUserIds(friendIds, {
-				attributes: ['user_id', 'name', 'designation', 'organization_id'],
+				attributes: [
+					'name',
+					'user_id',
+					'mentee_visibility',
+					'organization_id',
+					'designation',
+					'area_of_expertise',
+					'education_qualification',
+					'custom_entity_text',
+					'meta',
+				],
 			})
 			const userExtensionsModelName = await menteeQueries.getModelName()
 
@@ -188,8 +207,7 @@ module.exports = class ConnectionHelper {
 				friendDetails,
 				uniqueOrgIds,
 				userExtensionsModelName,
-				'organization_id',
-				['designation']
+				'organization_id'
 			)
 
 			const friendDetailsMap = friendDetails.reduce((acc, friend) => {
@@ -324,8 +342,7 @@ module.exports = class ConnectionHelper {
 					extensionDetails.data,
 					uniqueOrgIds,
 					userExtensionsModelName,
-					'organization_id',
-					['designation']
+					'organization_id'
 				)
 			}
 

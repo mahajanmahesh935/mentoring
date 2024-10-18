@@ -249,12 +249,15 @@ exports.getConnectionsDetails = async (page, limit, filter, searchText = '', use
 		const userFilterClause = `user_id IN (SELECT friend_id FROM ${Connection.tableName} WHERE user_id = :userId)`
 
 		const projectionClause = `
-            user_id,
-            meta,
-            name,
-            organization_id,
-            designation
-        `
+		user_id,
+		mentee_visibility,
+		organization_id,
+		designation,
+		area_of_expertise,
+		education_qualification,
+		custom_entity_text::JSONB AS custom_entity_text,
+		meta::JSONB AS meta
+	`
 
 		let query = `
             SELECT ${projectionClause}
