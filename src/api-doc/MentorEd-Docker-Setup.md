@@ -1,387 +1,590 @@
-# Mentoring setup with Docker
+## A. Dockerized Services & Dependencies
 
-## System Requirements
+**Expectation**: Run all services and dependencies simultaneously with a common **Docker-Compose** file.
 
-To set up the Elevate application, you'll need to have Docker and Docker Compose installed on your system. If you're using an Ubuntu server, you can follow the instructions in the following documentation to install Docker and Docker Compose: [How To Install and Use Docker Compose on Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04)
+## Prerequisites
+
+To set up the Elevate MentorEd application, ensure you have Docker and Docker Compose installed on your system. For Ubuntu users, detailed installation instructions for both can be found in the documentation here: [How To Install and Use Docker Compose on Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04). For Windows users, you can refer to the Docker documentation for installation instructions: [Docker Compose Installation Guide for Windows](https://docs.docker.com/compose/install/). Once these prerequisites are in place, you're all set to get started with setting up the Elevate MentorEd application.
 
 ## Directory Setup
 
 ### Follow these steps to download the necessary files for the Elevate application:
 
-1.  **Create Folders:** Open your terminal and create a folder named elevate and then a subfolder named backend.
+1.  **Create Directory:** Create a directory named **elevate** with a **backend** sub-directory within it.
+
+    Directory structure:
 
     ```
-    mkdir elevate
-    cd elevate/
-    mkdir backend
-    cd backend
+    ./elevate/
+    └── backend
     ```
 
-2.  **Download Docker Compose File:** Obtain the docker-compose-mentoring.yml file from the Elevate Mentoring repository and place it in the backend folder.
-3.  **Create Subfolders for Services:** Because different services require distinct setup files, create separate folders for the mentoring and user services within the backend directory.
+    > Example Command: `mkdir elevate &&	cd elevate/`
+
+2.  **Download Docker Compose File:** Retrieve the **[docker-compose-mentoring.yml](https://github.com/ELEVATE-Project/mentoring/blob/master/src/scripts/setup/docker-compose-mentoring.yml)** file from the Elevate Mentoring repository and save it to the backend directory.
 
     ```
-    mkdir mentoring
-    mkdir user
+    elevate/backend$ curl -OJL https://github.com/ELEVATE-Project/mentoring/raw/master/src/scripts/setup/docker-compose-mentoring.yml
     ```
 
-4.  **Setup Mentoring Folder:** Navigate into the mentoring folder.
+    Directory structure:
 
     ```
-    cd mentoring
+    ./elevate/
+    └── backend
+        └── docker-compose-mentoring.yml
     ```
 
-5.  **Download the required files for mentoring**
-    Obtain the setup file and distribution column file for the mentoring service and place them in the mentoring folder. - Setup file of mentoring service - distributionColumn file of mentoring service
-6.  **Change File Permissions:** Make the setup file executable.
+3.  **Create Sub-directories For Services:** Since each service requires distinct setup files, create separate sub-directories for the mentoring and user services within the backend directory.
+
+    Directory structure:
+
+    ```
+    ./elevate/
+    └── backend
+        ├── docker-compose-mentoring.yml
+        ├── mentoring
+        └── user
+    ```
+
+    > Example Command: `~/elevate/backend$ mkdir mentoring`
+
+4.  **Set up Mentoring Directory:** Navigate into the mentoring directory and download required files.
+
+    -   **[setup.sh](https://github.com/ELEVATE-Project/mentoring/blob/temp_setup/src/setup.sh)**
+        ```
+        /mentoring$ curl -o setup.sh -L https://github.com/ELEVATE-Project/mentoring/raw/temp_setup/src/setup.sh
+        ```
+    -   **[distributionColumns.psql](https://github.com/ELEVATE-Project/mentoring/blob/temp_setup/src/distributionColumns.psql)**
+        ```
+        /mentoring$ curl -o distributionColumns.psql -L https://github.com/ELEVATE-Project/mentoring/raw/temp_setup/src/distributionColumns.psql
+        ```
+
+    Directory Structure:
+
+        ./elevate/
+        └── backend
+            ├── docker-compose-mentoring.yml
+            ├── mentoring
+            │   ├── distributionColumns.psql
+            │   └── setup.sh
+            └── user
+
+5.  **Make The Setup File Executable:**
 
     -   Ubuntu/Linux/Mac:
-
         ```
-        cd /elevate/backend/mentoring
-        chmod +x setup.sh
+        /mentoring$ chmod +x setup.sh
         ```
-
     -   Windows
         ```
-        cd /elevate/backend/mentoring
-        attrib +x setup.sh
+        /mentoring attrib +x setup.sh
         ```
 
-7.  **Setup User Folder:** Navigate into the user folder.
+6.  **Set Up User Directory:** Navigate into the user directory and repeat steps 4 and 5 with the following files.
+
+    -   **[setup.sh](https://github.com/ELEVATE-Project/user/blob/temp_setup/src/setup.sh)**
+        ```
+        /user$ curl -o setup.sh -L https://github.com/ELEVATE-Project/user/raw/temp_setup/src/setup.sh
+        ```
+    -   **[distributionColumns.sql](https://github.com/ELEVATE-Project/user/blob/temp_setup/src/distributionColumns.sql)**
+        `/user$ curl -o distributionColumns.sql -L https://github.com/ELEVATE-Project/user/raw/temp_setup/src/distributionColumns.sql` > **Note:** The setup.sh file needs to be set as executable.
+
+    Directory Structure:
 
     ```
-    cd ../user
-    ```
-
-8.  **Download the required files for the user**
-    Obtain the setup file and distribution column SQL file for the user service and place them in the user folder. - Setup file of user service - distributionColumn.sql file of user service
-9.  **Change File Permissions:** Make the setup file executable.
-
-    -   Ubuntu/Linux/Mac:
-
-    ```
-    cd /elevate/backend/user
-    chmod +x setup.sh
-    ```
-
-    -   Windows
-
-    ```
-    cd /elevate/backend/user
-    attrib +x setup.sh
+    ./elevate/
+    └── backend
+        ├── docker-compose-mentoring.yml
+        ├── mentoring
+        │   ├── distributionColumns.psql
+        │   └── setup.sh
+        └── user
+            ├── distributionColumns.sql
+            └── setup.sh
     ```
 
 ## Environment File Creation
 
 ### Create an environment file for the Mentoring service by following these steps:
 
-1. Navigate to the elevate/backend directory:
-
-    ```
-    cd elevate/backend
-    ```
-
-2. Create a new file named mentoring_env using a text editor like nano/notepad:
-
-    - Ubuntu/Linux/Mac:
-
-        ```
-        $ nano mentoring_env
-        ```
-
-    - Windows
-        ```
-        $ notepad mentoring_env
-        ```
-
-3. Copy and paste the following environment variables into the mentoring_env file:
-
-4. Save the changes to the file and exit the text editor.
-
-We've included a link to the mentoring repository, allowing you to explore the code at your convenience.
-
-### Create an environment file for the User service by following these steps:
-
-1.  Navigate to the elevate/backend directory:
-
-    ```
-    cd elevate/backend
-    ```
-
-2.  Create a new file named user_env using a text editor like nano/notepad:
-
-    -   Ubuntu/Linux/Mac:
-
-        ```
-        $ nano user_env
-        ```
-
-    -   Windows
-        ```
-        $ notepad user_env
-        ```
-
-3.  Copy and paste the following environment variables into the user_env file:
-
-4.  Save the changes to the file and exit the text editor.
-
-You've now created the user_env file with the necessary environment variables for the user service. You can utilize this file during the setup and configuration of the user service.
-
-Additionally, we've provided a link to the user service repository for your exploration.
-
-### Create an environment file for the Notification service by following these steps:
-
-1. Navigate to the elevate/backend directory:
-
-```
-cd elevate/backend
-```
-
-2. Create a new file named notification_env using a text editor like nano/notepad:
+1. Navigate to the **backend** directory and create a new file named **mentoring_env** using any text editor like nano/notepad:
 
 -   Ubuntu/Linux/Mac:
-
-```
-$ nano notification_env
-```
-
+    ```
+    $ nano mentoring_env
+    ```
 -   Windows
 
-```
-$ notepad notification_env
-```
-
-3. Copy and paste the following environment variables into the notification_env file:
-
-4. Save the changes to the file and exit the text editor.
-
-You've now created the notification_env file with the necessary environment variables for the notification service. You can utilize this file during the setup and configuration of the notification service.
-
-Additionally, we've provided a link to the notification service repository for your exploration.
-
-### Create an environment file for the Scheduler service by following these steps:
-
-1. Navigate to the elevate/backend directory:
-
     ```
-    cd elevate/backend
+    $ notepad mentoring_env
     ```
 
-2. Create a new file named scheduler_env using a text editor like nano/notepad:
+2. Copy and paste the following environment variables into the **mentoring_env** file:
 
-    - Ubuntu/Linux/Mac:
+    File name: **mentoring_env**
+    <details>
+    <summary>mentoring_env content (Click Here)</summary>
 
-        ```
-        $ nano scheduler_env
-        ```
+    ```
+    ACCESS_TOKEN_SECRET=asadsd8as7df9as8df987asdf
+    API_DOC_URL=/api-doc
+    APPLICATION_BASE_URL=/mentoring/
+    APPLICATION_ENV=development
+    APPLICATION_HOST=mentoring
+    APPLICATION_PORT=3000
+    APPLICATION_URL=https://dev.mentoring.shikshalokam.org
+    AWS_ACCESS_KEY_ID=aws-access-key-id
+    AWS_BUCKET_ENDPOINT=s3.ap-south-1.amazonaws.com
+    AWS_BUCKET_REGION=ap-south-1
+    AWS_SECRET_ACCESS_KEY=aws-secret-access-key
+    AZURE_ACCOUNT_KEY=azure-account-key
+    AZURE_ACCOUNT_NAME=account-name
+    BIG_BLUE_BUTTON_BASE_URL=/bigbluebutton/
+    BIG_BLUE_BUTTON_LAST_USER_TIMEOUT_MINUTES=15
+    BIG_BLUE_BUTTON_SECRET_KEY=s90df8g09sd8fg098sdfg
+    BIG_BLUE_BUTTON_SESSION_END_URL=https%3A%2F%2Fdev.some-mentoring.temp.org%2F
+    BIG_BLUE_BUTTON_URL=https://dev.some.temp.org
+    CLOUD_STORAGE=AWS
+    CLEAR_INTERNAL_CACHE=mentoringInternal
+    DEFAULT_AWS_BUCKET_NAME=aws-bucket-storage-name
+    DEFAULT_GCP_BUCKET_NAME=gcp-bucket-storage-name
+    DEFAULT_MEETING_SERVICE=BBB
+    DEFAULT_ORGANISATION_CODE=default_code
+    DEFAULT_ORG_ID=1
+    DEV_DATABASE_URL=postgres://postgres:postgres@localhost:5432/elevate-mentoring
+    DISABLE_LOG=false
+    ENABLE_EMAIL_FOR_REPORT_ISSUE=true
+    ENABLE_LOG=true
+    ERROR_LOG_LEVEL=silly
+    GCP_PATH=gcp.json
+    GCP_PROJECT_ID=project-id
+    INTERNAL_ACCESS_TOKEN=internal_access_token
+    INTERNAL_CACHE_EXP_TIME=86400
+    KAFKA_GROUP_ID=mentoring
+    KAFKA_MENTORING_TOPIC=mentoringtopic
+    KAFKA_RECORDING_TOPIC=recordingtopic
+    KAFKA_URL=kafka:9092
+    MEETING_END_CALLBACK_EVENTS=https%3A%2F%2Fdev.some-apis.temp.org%2Fmentoring%2Fv1%2Fsessions%2Fcompleted
+    MENTEE_SESSION_ENROLLMENT_EMAIL_TEMPLATE=mentee_session_enrollment
+    MENTOR_SESSION_DELETE_EMAIL_TEMPLATE=mentor_session_delete
+    MENTOR_SESSION_RESCHEDULE_EMAIL_TEMPLATE=mentor_session_reschedule
+    NOTIFICATION_KAFKA_TOPIC=develop.notifications
+    RATING_KAFKA_TOPIC=dev.rate
+    REDIS_HOST=redis://redis:6379
+    REFRESH_VIEW_INTERVAL=30000
+    REPORT_ISSUE_EMAIL_TEMPLATE_CODE=user_issue_reported
+    REQUIRED_PACKAGES=elevate-user@1.1.30 elevate-mentoring@1.1.23 elevate-scheduler@1.0.4
+    SCHEDULER_SERVICE_BASE_URL=/scheduler/
+    SCHEDULER_SERVICE_ERROR_REPORTING_EMAIL_ID=rakesh.k@some.com
+    SCHEDULER_SERVICE_HOST=http://scheduler:4000
+    SCHEDULER_SERVICE_URL=http://scheduler:4000/jobs/scheduleJob
+    SESSION_EDIT_WINDOW_MINUTES=0
+    SESSION_KAFKA_TOPIC=session
+    SESSION_MENTEE_LIMIT=5
+    SUPPORT_EMAIL_ID=support@xyz.com,team@xyz.com
+    USER_SERVICE_BASE_URL=/user/
+    USER_SERVICE_HOST=http://user:3001
+    ```
 
-    - Windows
-        ```
-        $ notepad scheduler_env
-        ```
+    </details>
 
-3. Copy and paste the following environment variables into the scheduler_env file:
+3. Save the changes to the file and exit the text editor.
 
-4. Save the changes to the file and exit the text editor.
+    Directory Structure:
 
-You've now created the scheduler_env file with the necessary environment variables for the Scheduler service. You can utilize this file during the setup and configuration of the Scheduler service.
+    ```
+    ./elevate/
+    └── backend
+      ├── docker-compose-mentoring.yml
+      ├── mentoring
+      │   ├── distributionColumns.psql
+      │   └── setup.sh
+      ├── mentoring_env ◀️▶
+      └── user
+          ├── distributionColumns.sql
+          └── setup.sh
+    ```
 
-Additionally, we've provided a link to the scheduler service repository so that you can explore the code for yourself.
+    For Elevate Mentoring Repository, **[Click Here](https://github.com/ELEVATE-Project/mentoring)**.
 
-### Create an environment file for the Interface service by following these steps:
+### Create environment files for other backend services:
 
-1. Navigate to the elevate/backend directory:
+Following the exact same instructions from the previous section, create the following env files with the contents given below:
 
-```
-cd elevate/backend
-```
+-   File name: **user_env**
+    <details>
+      <summary>user_env content (Click Here)</summary>
 
-2. Create a new file named interface_env using a text editor like nano/notepad:
+    ```
+    ACCESS_TOKEN_EXPIRY=1
+    ACCESS_TOKEN_SECRET=asadsd8as7df9as8df987asdf
+    ADMIN_INVITEE_UPLOAD_EMAIL_TEMPLATE_CODE=test
+    ADMIN_SECRET_CODE=a98sd76fasdfasd
+    API_DOC_URL=/user/api-doc
+    APPLICATION_ENV=development
+    APPLICATION_HOST=user
+    APPLICATION_PORT=3001
+    APP_NAME=MentorED
+    AZURE_ACCOUNT_KEY=asd897gfa09sd87f09as8d
+    AZURE_ACCOUNT_NAME=mentoring
+    AWS_ACCESS_KEY_ID=adsfg98a7sdfg
+    AWS_BUCKET_ENDPOINT=s3.ap-south-1.amazonaws.com
+    AWS_BUCKET_REGION=ap-south-1
+    AWS_SECRET_ACCESS_KEY=asd9786fg9a8sd/asdfg9a8sd7fg
+    CLEAR_INTERNAL_CACHE=userinternal
+    CLOUD_STORAGE=AWS
+    DEFAULT_AWS_BUCKET_NAME=mentoring-dev-storage
+    DEFAULT_AZURE_CONTAINER_NAME=mentoring-images
+    DEFAULT_GCP_BUCKET_NAME=mentoring-dev-storage
+    DEFAULT_OCI_BUCKET_NAME=dev-mentoring
+    DEFAULT_ORGANISATION_CODE=default_code
+    DEFAULT_ORG_ID=1
+    DEFAULT_ROLE=mentee
+    DEFAULT_QUEUE=test
+    DEV_DATABASE_URL=postgres://postgres:postgres@localhost:5432/elevate-user
+    DISABLE_LOG=false
+    ENABLE_EMAIL_OTP_VERIFICATION=false
+    ENABLE_LOG=true
+    ERROR_LOG_LEVEL=silly
+    GCP_PATH=gcp.json
+    GCP_PROJECT_ID=sl-dev-project
+    INTERNAL_ACCESS_TOKEN=internal_access_token
+    INTERNAL_CACHE_EXP_TIME=86400
+    INVITEE_EMAIL_TEMPLATE_CODE=test
+    IV=09sdf8g098sdf/Q==
+    KAFKA_GROUP_ID=mentoring
+    KAFKA_TOPIC=
+    KAFKA_URL=kafka:9092
+    KEY=fasd98fg9a8sydg98a7usd89fg
+    MENTEE_INVITATION_EMAIL_TEMPLATE_CODE=test
+    MENTOR_INVITATION_EMAIL_TEMPLATE_CODE=test
+    MENTOR_REQUEST_ACCEPTED_EMAIL_TEMPLATE_CODE=mentor_request_accepted
+    MENTOR_REQUEST_REJECTED_EMAIL_TEMPLATE_CODE=mentor_request_rejected
+    MENTORING_SERVICE_URL=http://mentoring:3000
+    NOTIFICATION_KAFKA_TOPIC=dev.notifications
+    OCI_ACCESS_KEY_ID=asdgf6a0s98d76g9a8sasdasd7df987as98df
+    OCI_BUCKET_ENDPOINT=https://as98d7asdasdf.compat.objectstorage.ap-hyderabad-1.oraclecloud.com
+    OCI_BUCKET_REGION=ap-hyderabad-1
+    OCI_SECRET_ACCESS_KEY=as09d7f8/as0d7f09as7d8f=
+    OTP_EMAIL_TEMPLATE_CODE=emailotp
+    OTP_EXP_TIME=86400
+    PORTAL_URL=https://mentored.some.org/auth/login
+    REFRESH_TOKEN_EXPIRY=183
+    REFRESH_TOKEN_SECRET=as9d87fa9s87df98as7d9f87a9sd87f98as7dg987asf
+    REFRESH_VIEW_INTERVAL=540000
+    REDIS_HOST=redis://redis:6379
+    REGISTRATION_EMAIL_TEMPLATE_CODE=registration
+    REGISTRATION_OTP_EMAIL_TEMPLATE_CODE=registrationotp
+    SAMPLE_CSV_FILE_PATH=sample/bulk_user_creation.csv
+    SCHEDULER_SERVICE_BASE_URL= /scheduler/
+    SCHEDULER_SERVICE_ERROR_REPORTING_EMAIL_ID=rakesh.k@some.com
+    SCHEDULER_SERVICE_HOST=http://scheduler:4000
+    SCHEDULER_SERVICE_URL=http://scheduler:4000/jobs/scheduleJob
+    ```
 
--   Ubuntu/Linux/Mac:
+    </details>
 
-```
-$ nano interface_env
-```
+    For Elevate User Repository, **[Click Here](https://github.com/ELEVATE-Project/user)**.
 
--   Windows
+-   File name: **notification_env**
+    <details>
+      <summary>notification_env content</summary>
 
-```
-$ notepad interface_env
-```
+    ```
+    API_DOC_URL=/api-doc
+    APPLICATION_BASE_URL=/notification/
+    APPLICATION_ENV=development
+    APPLICATION_PORT=3002
+    DEV_DATABASE_URL=postgres://postgres:postgres@localhost:5432/elevate-notification
+    DISABLE_LOG=false
+    ENABLE_LOG=true
+    ERROR_LOG_LEVEL=silly
+    INTERNAL_ACCESS_TOKEN=internal_access_token
+    KAFKA_GROUP_ID=notification
+    KAFKA_HOST=kafka:9092
+    KAFKA_TOPIC=develop.notifications
+    SENDGRID_API_KEY=SG.asd9f87a9s8d7f.
+    SENDGRID_FROM_MAIL=no-reply@some.org
+    ```
 
-3. Copy and paste the following environment variables into the interface_env file:
+    </details>
 
-4. Save the changes to the file and exit the text editor.
+    For Elevate Notification Repository, **[Click Here](https://github.com/ELEVATE-Project/notification)**.
 
-You've now created the interface_env file with the necessary environment variables for the interface service. You can utilize this file during the setup and configuration of the Interface service.
+-   File name: **scheduler_env**
+    <details>
+      <summary>scheduler_env content</summary>
 
-Additionally, we've provided a [link](https://github.com/ELEVATE-Project/interface-service) to the interface service repository so that you can explore the code for yourself.
+    ```
+    API_DOC_URL=/api-doc
+    APPLICATION_BASE_URL=/scheduler/
+    APPLICATION_ENV=development
+    APPLICATION_PORT=4000
+    DEFAULT_QUEUE=email
+    DISABLE_LOG=false
+    ENABLE_LOG=true
+    ERROR_LOG_LEVEL=silly
+    KAFKA_URL=kafka:9092
+    NOTIFICATION_KAFKA_TOPIC=develop.notifications
+    REDIS_HOST=redis
+    REDIS_PORT=6379
+    ```
 
-### Create an environment file for the Interface service by following these steps:
+    </details>
 
-1. Navigate to the elevate/backend directory:
+    For Elevate Scheduler Repository, **[Click Here](https://github.com/ELEVATE-Project/scheduler)**.
 
-    cd elevate/backend
+-   File name: **interface_env**
+    <details>
+      <summary>interface_env content</summary>
 
-2. Create a new file named `environment.ts`
+    ```
+    API_DOC_URL=http://localhost:3569/apidoc
+    APPLICATION_ENV=development
+    APPLICATION_PORT=3569
+    INSTALLED_PACKAGES=elevate-user elevate-mentoring elevate-scheduler
+    MENTORING_SERVICE_BASE_URL=http://mentoring:3000
+    NOTIFICATION_SERVICE_BASE_URL=http://notification:3002
+    REQUIRED_PACKAGES=elevate-user@1.1.30 elevate-mentoring@1.1.23 elevate-scheduler@1.0.4
+    SCHEDULER_SERVICE_BASE_URL=http://scheduler:4000
+    SUPPORTED_HTTP_TYPES=GET POST PUT PATCH DELETE
+    USER_SERVICE_BASE_URL=http://user:3001
 
-3. Copy and paste the following environment variables into the `environment.ts` file:
+    ```
 
+    </details>
+
+    For Elevate Scheduler Repository, **[Click Here](https://github.com/ELEVATE-Project/interface-service)**.
+
+    Directory Structure:
+
+    ```
+    ./elevate/
+    └── backend
+        ├── docker-compose-mentoring.yml
+        ├── interface_env ◀️▶
+        ├── mentoring
+        │   ├── distributionColumns.psql
+        │   └── setup.sh
+        ├── mentoring_env ◀️▶
+        ├── notification_env ◀️▶
+        ├── scheduler_env ◀️▶
+        ├── user
+        │   ├── distributionColumns.sql
+        │   └── setup.sh
+        └── user_env ◀️▶
+    ```
+
+### Create an environment file for the mobile-portal-app service by following these steps:
+
+1. Navigate to the elevate/backend directory and create a new file named `environment.ts`.
+
+2. Copy and paste the following environment variables into the `environment.ts` file:
     ```typescript
     export const environment = {
-    	production: true,
-    	name: 'debug environment',
-    	staging: false,
-    	dev: false,
     	baseUrl: 'http://localhost:3569',
-    	sqliteDBName: 'mentoring.db',
     	deepLinkUrl: 'https://mentored.shikshalokam.org',
+    	dev: false,
+    	name: 'debug environment',
     	privacyPolicyUrl: 'https://shikshalokam.org/mentoring/privacy-policy',
+    	production: true,
+    	sqliteDBName: 'mentoring.db',
+    	staging: false,
     	termsOfServiceUrl: 'https://shikshalokam.org/mentoring/term-of-use',
     }
     ```
-
-4. Update Docker Compose Configuration
+3. Update Docker Compose Configuration
 
     Open the `docker-compose-mentoring.yml` file and update the path of the `environment.ts` file under the portal docker image (refer to Line 160). Change `/home/priyanka/workspace/docker/environment.ts` to your exact path to the `environment.ts` file.
 
+    > Note: Use pwd command to obtain the exact path (Linux).
+
+    Directory Structure:
+
+    ```
+    ./elevate/
+    └── backend
+        ├── docker-compose-mentoring.yml
+        ├── environment.ts ◀️▶
+        ├── interface_env
+        ├── mentoring
+        │   ├── distributionColumns.psql
+        │   └── setup.sh
+        ├── mentoring_env
+        ├── notification_env
+        ├── scheduler_env
+        ├── user
+        │   ├── distributionColumns.sql
+        │   └── setup.sh
+        └── user_env
+    ```
+
 ### To update all services with the latest image, follow these steps **(Optional)**:
 
-Check the latest image in the Shikshalokam [Docker hub](https://hub.docker.com/r/shikshalokamqa/elevate-user/tags) repository. Note that the master branch typically has the latest published image.
+Please refer to the Shikshalokam [Docker Hub repository](https://hub.docker.com/r/shikshalokamqa/elevate-user/tags) for the latest available images. Note that the master branch typically hosts the most recent published image.
 
-## Run Docker Compose for Backend Services
+## Run/Stop/Remove Docker Compose Containers
 
-1. Navigate to the elevate/backend directory:
+-   **Ubuntu/Linux/Mac:**
 
-    ```
-    cd elevate/backend
-    ```
+    1. Navigate to backend directory and download `docker-compose-up.sh` and `docker-compose-down.sh` files.
+       **docker-compose-up.sh**
 
-2. Determine the exact location where the environment variables are stored by running the following command:
-
-    ```
-    pwd
-    ```
-
-3. Modify the file path before executing the command
-
-    - **Ubuntu/Linux/Mac:**
-
-        Replace `<exact_path_to_environment_files>` with the actual path you obtained.
-
-        ```typescript
-        notification_env="<exact_path_to_environment_files>/notification_env" \
-        scheduler_env="<exact_path_to_environment_files>/scheduler_env" \
-        mentoring_env="<exact_path_to_environment_files>/mentoring_env" \
-        users_env="<exact_path_to_environment_files>/user_env" \
-        interface_env="<exact_path_to_environment_files>/interface_env" \
-        docker-compose -f docker-compose-mentoring.yml up
+        ```
+        elevate/backend$ curl -OJL https://github.com/ELEVATE-Project/mentoring/raw/master/src/scripts/setup/docker-compose-up.sh
         ```
 
-    - **Windows:**
+        **docker-compose-down.sh**
 
-        Use the exact location where the environment variables are stored before executing the command
-
-        ```typescript
-        $env:users_env = ".\user_env.txt";
-        $env:interface_env = ".\interface_env.txt";
-        $env:scheduler_env ="./scheduler_env.txt";
-        $env:notification_env ="./notification_env.txt";
-        $env:mentoring_env ="./mentoring_env.txt" ;
-        docker-compose -f docker-compose-mentoring.yml up
+        ```
+        elevate/backend$ curl -OJL https://github.com/ELEVATE-Project/mentoring/raw/master/src/scripts/setup/docker-compose-down.sh
         ```
 
-        During the Docker run, the database, migration seeder files, and the script to establish the default organization will also execute automatically.
+    2. Make the files executable by running the following commands.
 
-### Enable Citus Extension
+        **docker-compose-up.sh**
+
+        ```
+        elevate/backend$ chmod +x docker-compose-up.sh
+        ```
+
+        **docker-compose-down.sh**
+
+        ```
+        elevate/backend$ chmod +x docker-compose-down.sh
+        ```
+
+    3. Follow the steps given below to execute associated Docker-Compose operations.
+
+        - **To run all services and dependencies**:
+            ```
+            elevate/backend$ ./docker-compose-up.sh
+            ```
+        - **To gracefully stop all the service and dependency containers**:
+
+            Press `Ctrl + c`
+
+        - **To stop and remove all the running service and dependency containers**:
+            ```
+            elevate/backend$ ./docker-compose-down.sh
+            ```
+
+-   **Windows:**
+
+    1.  Navigate to backend directory and download `docker-compose-up.bat` and `docker-compose-down.bat` files.
+
+        **docker-compose-up.bat**
+
+        ```
+        elevate\backend>curl -OJL https://github.com/ELEVATE-Project/mentoring/raw/master/src/scripts/setup/docker-compose-up.bat
+        ```
+
+        **docker-compose-down.bat**
+
+        ```
+        elevate\backend>curl -OJL https://github.com/ELEVATE-Project/mentoring/raw/master/src/scripts/setup/docker-compose-down.bat
+        ```
+
+    2.  Follow the steps given below to execute associated Docker-Compose operations.
+
+        -   **To run all services and dependencies, run**:
+
+            ```
+            elevate\backend>docker-compose-up.bat
+            ```
+
+        -   **To gracefully stop all the service and dependency containers**:
+
+            Press `Ctrl + c`
+
+        -   **To stop and remove all the running service and dependency containers, run**:
+            ```
+            elevate\backend>docker-compose-down.bat
+            ```
+
+> **Note:** During the first Docker Compose run, the database, migration seeder files, and the script to establish the default organization will also be executed automatically.
+
+## Enable Citus Extension
 
 ### To enable the Citus extension for mentoring and user services, follow these steps:
 
-1. Open a new terminal tab or window.
-
-2. Navigate to the elevate/backend directory:
-
+1. Create a sub-directory named `mentoring` and download `distributionColumns.sql` into it.
     ```
-    cd /elevate/backend
+    elevate/backend$ mkdir -p mentoring && curl -o ./mentoring/distributionColumns.sql -L https://github.com/ELEVATE-Project/mentoring/raw/master/src/scripts/setup/distribution-columns/mentoring/distributionColumns.sql
     ```
-
-3. Run the following command to enable the Citus extension for the user service:
-
+2. Create a sub-directory named `user` and download `distributionColumns.sql` into it.
     ```
-    ./setup.sh postgres://postgres:postgres@localhost:5432/elevate-user
+    mkdir -p user && curl -o ./user/distributionColumns.sql -JL https://github.com/ELEVATE-Project/mentoring/raw/master/src/scripts/setup/distribution-columns/user/distributionColumns.sql
     ```
+3. Set up the citus_setup file by following the steps given below.
 
-4. Run the following command to enable the Citus extension for the mentoring service:
+    - **Ubuntu/Linux/Mac:**
 
-    ```
-    ./setup.sh postgres://postgres:postgres@localhost:5432/elevate-mentoring
-    ```
+        1. Navigate to the elevate/backend directory and download the `citus_setup.sh` file:
 
-## Stop Docker Containers
+            ```
+            elevate/backend$ curl -OJL https://github.com/ELEVATE-Project/mentoring/raw/master/src/scripts/setup/citus_setup.sh
+            ```
 
-To stop the Docker containers, execute the following commands:
+        2. Make the setup file executable by running the following command:
 
-**Ubuntu/Linux/Mac:**
+            ```
+            elevate/backend$ chmod +x citus_setup.sh
+            ```
 
-    notification_env="<exact_path_to_environment_files>/notification_env" \
-    scheduler_env="<exact_path_to_environment_files>/scheduler_env" \
-    mentoring_env="<exact_path_to_environment_files>/mentoring_env" \
-    users_env="<exact_path_to_environment_files>/user_env" \
-    interface_env="<exact_path_to_environment_files>/interface_env" \
-    docker-compose -f docker-compose-mentoring.yml down
+        3. Enable Citus and set distribution columns for `elevate-mentoring` database by running the `citus_setup.sh`with the following arguments:
+            ```
+            elevate/backend$ ./citus_setup.sh mentoring postgres://postgres:postgres@citus_master:5432/elevate-mentoring
+            ```
+        4. Enable Citus and set distribution columns for `elevate-user` database by running the `citus_setup.sh`with the following arguments:
+            ```
+            elevate/backend$ ./citus_setup.sh user postgres://postgres:postgres@citus_master:5432/elevate-user
+            ```
 
-**Windows:**
+    - **Windows:**
+        1. Navigate to the elevate/backend directory and download the `citus_setup.bat` file:
+            ```
+             elevate\backend>curl -OJL https://github.com/ELEVATE-Project/mentoring/raw/master/src/scripts/setup/citus_setup.bat
+            ```
+        2. Enable Citus and set distribution columns for `elevate-mentoring` database by running the `citus_setup.bat`with the following arguments:
+            ```
+            elevate\backend>citus_setup.bat mentoring postgres://postgres:postgres@citus_master:5432/elevate-mentoring
+            ```
+        3. Enable Citus and set distribution columns for `elevate-user` database by running the `citus_setup.bat`with the following arguments:
+            ```
+            elevate\backend>citus_setup.bat user postgres://postgres:postgres@citus_master:5432/elevate-user
+            ```
 
-       $env:users_env = ".\user_env.txt";
-       $env:interface_env = ".\interface_env.txt";
-       $env:scheduler_env ="./scheduler_env.txt";
-       $env:notification_env ="./notification_env.txt";
-       $env:mentoring_env ="./mentoring_env.txt" ; docker-compose -f docker-compose-mentoring.yml down
+## Persistence of Database Data in Docker Container
 
-## View Running Containers
+To ensure the persistence of database data when downing database docker container, it is necessary to modify the `docker-compose-mentoring.yml` file according to the steps given below:
 
-To view the running containers, use the command:
+1. **Modification of the `docker-compose-mentoring.yml` File:**
 
-```
-docker container ls
-```
+    Begin by opening the `docker-compose-mentoring.yml` file. Locate the section pertaining to the Citus container and proceed to uncomment the volume specification. This action is demonstrated in the snippet provided below:
 
-Login to the container:
-
-```
-docker exec -it ${container_id} bash
-```
-
-## Persist Database Data
-
-**To persist the database data when bringing down the Docker containers, follow these steps to adjust the `docker-compose-mentoring.yml` file:**
-
-Define a volume for each service in the volumes section of the `docker-compose-mentoring.yml` file. Adjust the path `/path/to/postgres/data` to your desired host machine path where you want to store the data. For example:
-
-```yaml
-services:
-    user:
+    ```yaml
+    citus:
+        image: citusdata/citus:11.2.0
+        container_name: 'citus_master'
+        ports:
+            - 5432:5432
         volumes:
-            - user_postgres_data:/path/to/postgres/data
-    mentoring:
-        volumes:
-            - mentoring_postgres_data:/path/to/postgres/data
-    notification:
-        volumes:
-            - notification_postgres_data:/path/to/postgres/data
-```
+            - citus-data:/var/lib/postgresql/data
+    ```
 
-List each volume separately under the volumes section:
+2. **Uncommenting Volume Names Under the Volumes Section:**
 
-```yaml
-volumes:
-    user_postgres_data:
-    mentoring_postgres_data:
-    notification_postgres_data:
-```
+    Next, navigate to the volumes section of the file and proceed to uncomment the volume names as illustrated in the subsequent snippet:
 
-With this setup, when you run `docker-compose down`, the data will be stored in the volumes, and it will persist even if you bring the containers down and then back up again using `docker-compose up`.
+    ```yaml
+    networks:
+        elevate_net:
+            external: false
 
-Make sure to replace `user` and `notification` with the actual service names from your `docker-compose-mentoring.yml` file. Adjust the volume names and paths according to your requirements.
+    volumes:
+        citus-data:
+    ```
+
+By implementing these adjustments, the configuration ensures that when the `docker-compose down` command is executed, the database data is securely stored within the specified volumes. Consequently, this data will be retained and remain accessible, even after the containers are terminated and subsequently reinstated using the `docker-compose up` command.
