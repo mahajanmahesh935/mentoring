@@ -267,6 +267,7 @@ exports.getConnectionsDetails = async (
 		const userFilterClause = `user_id IN (SELECT friend_id FROM ${Connection.tableName} WHERE user_id = :userId)`
 
 		const projectionClause = `
+		name,
 		user_id,
 		mentee_visibility,
 		organization_id,
