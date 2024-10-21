@@ -306,7 +306,7 @@ module.exports = class ConnectionHelper {
 			const query = utils.processQueryParametersWithExclusions(queryParams)
 			const userExtensionsModelName = await menteeQueries.getModelName()
 
-			// Fetch validation data for filtering connections
+			// Fetch validation data for filtering connections (excluding roles)
 			const validationData = await entityTypeQueries.findAllEntityTypesAndEntities({
 				status: 'ACTIVE',
 				allow_filtering: true,
@@ -315,13 +315,19 @@ module.exports = class ConnectionHelper {
 
 			const filteredQuery = utils.validateAndBuildFilters(query, validationData, userExtensionsModelName)
 
+			let roles = []
+			if (queryParams.roles) {
+				roles = queryParams.roles.split(',')
+			}
+
 			let extensionDetails = await connectionQueries.getConnectionsDetails(
 				pageNo,
 				pageSize,
 				filteredQuery,
 				searchText,
 				userId,
-				organizationIds
+				organizationIds,
+				roles
 			)
 
 			if (extensionDetails.count === 0 || extensionDetails.data.length === 0) {

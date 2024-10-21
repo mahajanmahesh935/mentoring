@@ -228,11 +228,20 @@ exports.getConnectionsByUserIds = async (userId, friendIds, projection) => {
 	}
 }
 
-exports.getConnectionsDetails = async (page, limit, filter, searchText = '', userId, organizationIds = []) => {
+exports.getConnectionsDetails = async (
+	page,
+	limit,
+	filter,
+	searchText = '',
+	userId,
+	organizationIds = [],
+	roles = []
+) => {
 	try {
 		let additionalFilter = ''
 		let orgFilter = ''
 		let filterClause = ''
+		let rolesFilter = ''
 
 		if (searchText) {
 			additionalFilter = `AND name ILIKE :search`
@@ -246,6 +255,15 @@ exports.getConnectionsDetails = async (page, limit, filter, searchText = '', use
 			filterClause = filter.query.startsWith('AND') ? filter.query : 'AND ' + filter.query
 		}
 
+		// Add the roles filter
+		if (roles.includes('mentor') && roles.includes('mentee')) {
+			// Show both mentors and mentees, no additional filter needed
+		} else if (roles.includes('mentor')) {
+			rolesFilter = `AND is_mentor = true`
+		} else if (roles.includes('mentee')) {
+			rolesFilter = `AND is_mentor = false`
+		}
+
 		const userFilterClause = `user_id IN (SELECT friend_id FROM ${Connection.tableName} WHERE user_id = :userId)`
 
 		const projectionClause = `
@@ -257,7 +275,7 @@ exports.getConnectionsDetails = async (page, limit, filter, searchText = '', use
 		education_qualification,
 		custom_entity_text::JSONB AS custom_entity_text,
 		meta::JSONB AS meta
-	`
+		`
 
 		let query = `
             SELECT ${projectionClause}
@@ -265,6 +283,7 @@ exports.getConnectionsDetails = async (page, limit, filter, searchText = '', use
             WHERE ${userFilterClause}
             ${orgFilter}
             ${filterClause}
+            ${rolesFilter}
             ${additionalFilter}
         `
 
@@ -294,6 +313,7 @@ exports.getConnectionsDetails = async (page, limit, filter, searchText = '', use
 		    FROM ${common.materializedViewsPrefix + MenteeExtension.tableName}
 		    WHERE ${userFilterClause}
 		    ${filterClause}
+		    ${rolesFilter}
 		    ${orgFilter}
 		    ${additionalFilter};
 		`
