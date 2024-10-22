@@ -199,5 +199,6 @@
 	"CONNECTION_EXITS": "You are already connected with this user.",
 	"CONNECTION_NOT_FOUND": "Connection not found.",
 	"CONNECTION_DETAILS": "Connection details fetched successfully.",
-	"CONNECTED_USERS_FETCHED": "Connections retrieved successfully."
+	"CONNECTED_USERS_FETCHED": "Connections retrieved successfully.",
+	"CONNECTION_REQUEST_NOT_FOUND_OR_ALREADY_PROCESSED": "Connection request not found!"
 }
