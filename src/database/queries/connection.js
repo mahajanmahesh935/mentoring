@@ -71,6 +71,7 @@ exports.getRejectedRequest = async (userId, friendId) => {
 				user_id: userId,
 				friend_id: friendId,
 				status: common.CONNECTIONS_STATUS.REJECTED,
+				created_by: friendId,
 			},
 			paranoid: false,
 			order: [['deleted_at', 'DESC']], // Order by the deleted_at field in descending order to get the latest
