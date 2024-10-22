@@ -129,6 +129,13 @@ module.exports = class ConnectionHelper {
 				]),
 			])
 
+			if (connection?.status === common.CONNECTIONS_STATUS.BLOCKED || !userDetails) {
+				return responses.successResponse({
+					statusCode: httpStatusCode.ok,
+					message: 'USER_NOT_FOUND',
+				})
+			}
+
 			// Fetch entity types associated with the user
 			let entityTypes = await entityTypeQueries.findUserEntityTypesAndEntities({
 				status: 'ACTIVE',
@@ -140,12 +147,6 @@ module.exports = class ConnectionHelper {
 			const validationData = removeDefaultOrgEntityTypes(entityTypes, userDetails.organization_id)
 			const processedUserDetails = utils.processDbResponse(userDetails, validationData)
 
-			if (connection?.status === common.CONNECTIONS_STATUS.BLOCKED) {
-				return responses.successResponse({
-					statusCode: httpStatusCode.ok,
-					message: 'USER_NOT_FOUND',
-				})
-			}
 			if (!connection) {
 				return responses.successResponse({
 					statusCode: httpStatusCode.ok,
