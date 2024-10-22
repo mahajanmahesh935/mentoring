@@ -64,6 +64,25 @@ exports.getPendingRequests = async (userId, page, pageSize) => {
 	}
 }
 
+exports.getRejectedRequest = async (userId, friendId) => {
+	try {
+		const result = await ConnectionRequest.findOne({
+			where: {
+				user_id: userId,
+				friend_id: friendId,
+				status: common.CONNECTIONS_STATUS.REJECTED,
+			},
+			paranoid: false,
+			order: [['deleted_at', 'DESC']], // Order by the deleted_at field in descending order to get the latest
+			raw: true,
+		})
+		return result
+	} catch (error) {
+		console.log(error)
+		throw error
+	}
+}
+
 exports.approveRequest = async (userId, friendId, meta) => {
 	try {
 		const requests = await sequelize.transaction(async (t) => {

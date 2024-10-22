@@ -21,10 +21,7 @@ module.exports = class ConnectionHelper {
 	static async checkConnectionRequestExists(userId, targetUserId) {
 		const connectionRequest = await connectionQueries.findOneRequest(userId, targetUserId)
 		if (!connectionRequest) {
-			return responses.failureResponse({
-				statusCode: httpStatusCode.not_found,
-				message: 'CONNECTION_REQUEST_NOT_FOUND',
-			})
+			return false
 		}
 		return connectionRequest
 	}
@@ -96,8 +93,15 @@ module.exports = class ConnectionHelper {
 	static async getInfo(friendId, userId) {
 		try {
 			let connection = await connectionQueries.getConnection(userId, friendId)
+
 			if (!connection) {
+				// If no connection is found, check for pending requests
 				connection = await connectionQueries.checkPendingRequest(userId, friendId)
+			}
+
+			if (!connection) {
+				// If still no connection, check for the deleted request
+				connection = await connectionQueries.getRejectedRequest(userId, friendId)
 			}
 
 			const defaultOrgId = await getDefaultOrgId()
@@ -121,6 +125,7 @@ module.exports = class ConnectionHelper {
 					'education_qualification',
 					'custom_entity_text',
 					'meta',
+					'is_mentor',
 				]),
 			])
 
@@ -135,18 +140,17 @@ module.exports = class ConnectionHelper {
 			const validationData = removeDefaultOrgEntityTypes(entityTypes, userDetails.organization_id)
 			const processedUserDetails = utils.processDbResponse(userDetails, validationData)
 
+			if (connection?.status === common.CONNECTIONS_STATUS.BLOCKED) {
+				return responses.successResponse({
+					statusCode: httpStatusCode.ok,
+					message: 'USER_NOT_FOUND',
+				})
+			}
 			if (!connection) {
 				return responses.successResponse({
 					statusCode: httpStatusCode.ok,
 					message: 'CONNECTION_NOT_FOUND',
 					result: { user_details: processedUserDetails },
-				})
-			}
-
-			if (connection.status === common.CONNECTIONS_STATUS.BLOCKED) {
-				return responses.successResponse({
-					statusCode: httpStatusCode.ok,
-					message: 'USER_NOT_FOUND',
 				})
 			}
 
@@ -243,7 +247,12 @@ module.exports = class ConnectionHelper {
 	static async accept(bodyData, userId) {
 		try {
 			const connectionRequest = await this.checkConnectionRequestExists(userId, bodyData.user_id)
-			if (!connectionRequest) return connectionRequest
+			if (!connectionRequest)
+				return responses.failureResponse({
+					message: 'CONNECTION_REQUEST_NOT_FOUND_OR_ALREADY_PROCESSED',
+					statusCode: httpStatusCode.not_found,
+					responseCode: 'CLIENT_ERROR',
+				})
 
 			const approvedResponse = await connectionQueries.approveRequest(
 				userId,
@@ -253,7 +262,7 @@ module.exports = class ConnectionHelper {
 			return responses.successResponse({
 				statusCode: httpStatusCode.created,
 				message: 'CONNECTION_REQUEST_APPROVED',
-				result: approvedResponse,
+				result: approvedResponse[0],
 			})
 		} catch (error) {
 			console.error(error)
@@ -271,13 +280,25 @@ module.exports = class ConnectionHelper {
 	static async reject(bodyData, userId) {
 		try {
 			const connectionRequest = await this.checkConnectionRequestExists(userId, bodyData.user_id)
-			if (!connectionRequest) return connectionRequest
+			if (!connectionRequest)
+				return responses.failureResponse({
+					message: 'CONNECTION_REQUEST_NOT_FOUND_OR_ALREADY_PROCESSED',
+					statusCode: httpStatusCode.not_found,
+					responseCode: 'CLIENT_ERROR',
+				})
 
-			const rejectedRequest = await connectionQueries.rejectRequest(userId, bodyData.user_id)
+			const [rejectedCount, rejectedData] = await connectionQueries.rejectRequest(userId, bodyData.user_id)
+
+			if (rejectedCount == 0) {
+				return responses.failureResponse({
+					message: 'CONNECTION_REQUEST_NOT_FOUND_OR_ALREADY_PROCESSED',
+					statusCode: httpStatusCode.not_found,
+					responseCode: 'CLIENT_ERROR',
+				})
+			}
 			return responses.successResponse({
 				statusCode: httpStatusCode.created,
 				message: 'CONNECTION_REQUEST_REJECTED',
-				result: rejectedRequest,
 			})
 		} catch (error) {
 			console.error(error)
