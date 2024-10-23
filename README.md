@@ -972,13 +972,13 @@ After successfully running the script mentioned above, the following user accoun
 
 </details>
 
-    ```sql
-    postgres=# select citus_version();
-                                           citus_version
-    ----------------------------------------------------------------------------------------------------
-     Citus 12.1.1 on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0, 64-bit
-    (1 row)
-    ```
+```sql
+postgres=# select citus_version();
+                                       citus_version
+----------------------------------------------------------------------------------------------------
+ Citus 12.1.1 on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0, 64-bit
+(1 row)
+```
 
 ### Install PM2
 
@@ -1002,6 +1002,7 @@ opt/backend$ git clone -b develop-2.5 --single-branch "https://github.com/ELEVAT
 
 ```bash
 backend/mentoring/src$ sudo npm i
+```
 
 BigBlueButton™ Service (Optional) can be setup using the following method:
 
