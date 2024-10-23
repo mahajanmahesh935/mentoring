@@ -48,11 +48,12 @@ exports.addFriendRequest = async (userId, friendId, message) => {
 
 exports.getPendingRequests = async (userId, page, pageSize) => {
 	try {
+		// This will retrieve send and received request
+
 		const result = await ConnectionRequest.findAndCountAll({
 			where: {
 				user_id: userId,
 				status: common.CONNECTIONS_STATUS.REQUESTED,
-				created_by: { [Op.ne]: userId },
 			},
 			raw: true,
 			limit: pageSize,

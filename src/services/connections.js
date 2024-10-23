@@ -129,6 +129,13 @@ module.exports = class ConnectionHelper {
 				]),
 			])
 
+			if (connection?.status === common.CONNECTIONS_STATUS.BLOCKED || !userDetails) {
+				return responses.successResponse({
+					statusCode: httpStatusCode.ok,
+					message: 'USER_NOT_FOUND',
+				})
+			}
+
 			// Fetch entity types associated with the user
 			let entityTypes = await entityTypeQueries.findUserEntityTypesAndEntities({
 				status: 'ACTIVE',
@@ -140,12 +147,9 @@ module.exports = class ConnectionHelper {
 			const validationData = removeDefaultOrgEntityTypes(entityTypes, userDetails.organization_id)
 			const processedUserDetails = utils.processDbResponse(userDetails, validationData)
 
-			if (connection?.status === common.CONNECTIONS_STATUS.BLOCKED) {
-				return responses.successResponse({
-					statusCode: httpStatusCode.ok,
-					message: 'USER_NOT_FOUND',
-				})
-			}
+			//To be removed later.
+			processedUserDetails.image = 'https://picsum.photos/200'
+
 			if (!connection) {
 				return responses.successResponse({
 					statusCode: httpStatusCode.ok,
@@ -204,6 +208,7 @@ module.exports = class ConnectionHelper {
 					'meta',
 				],
 			})
+
 			const userExtensionsModelName = await menteeQueries.getModelName()
 
 			const uniqueOrgIds = [...new Set(friendDetails.map((obj) => obj.organization_id))]
@@ -224,6 +229,11 @@ module.exports = class ConnectionHelper {
 					...connection,
 					user_details: friendDetailsMap[connection.friend_id] || null,
 				}
+			})
+
+			//To be removed later
+			connectionsWithDetails.forEach((detail) => {
+				detail.user_details.image = 'https://picsum.photos/200'
 			})
 
 			return responses.successResponse({
@@ -372,6 +382,11 @@ module.exports = class ConnectionHelper {
 					'organization_id'
 				)
 			}
+
+			//To be removed later
+			extensionDetails.data.forEach((detail) => {
+				detail.image = 'https://picsum.photos/200'
+			})
 
 			return responses.successResponse({
 				statusCode: httpStatusCode.ok,
