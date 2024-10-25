@@ -126,6 +126,7 @@ module.exports = class ConnectionHelper {
 					'custom_entity_text',
 					'meta',
 					'is_mentor',
+					'experience',
 				]),
 			])
 
@@ -206,6 +207,7 @@ module.exports = class ConnectionHelper {
 					'education_qualification',
 					'custom_entity_text',
 					'meta',
+					'experience',
 				],
 			})
 

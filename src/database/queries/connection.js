@@ -293,6 +293,7 @@ exports.getConnectionsDetails = async (
 		mentee_visibility,
 		organization_id,
 		designation,
+		experience,
 		area_of_expertise,
 		education_qualification,
 		custom_entity_text::JSONB AS custom_entity_text,
