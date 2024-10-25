@@ -1,0 +1,4862 @@
+{
+	"info": {
+		"_postman_id": "a3642561-838c-4ce7-99d5-4c1a13b6652d",
+		"name": "MentorED-Mentoring",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "24204448",
+		"_collection_link": "https://dark-astronaut-764227.postman.co/workspace/Elevate-Workspace~39b977d8-9e5b-4232-87f3-3da4bed3a67c/collection/24204448-a3642561-838c-4ce7-99d5-4c1a13b6652d?action=share&source=collection_link&creator=24204448"
+	},
+	"item": [
+		{
+			"name": "Entity",
+			"item": [
+				{
+					"name": "Create Entity",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"value\": \"ml\",\n    \"label\": \"Malayalam\",\n    \"status\": \"ACTIVE\",\n    \"type\": \"SYSTEM\",\n    \"entity_type_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/entity/create",
+						"description": "NOTE: Pass type as roles/designation/expertise etc. whatever types needs to be created"
+					},
+					"response": []
+				},
+				{
+					"name": "Read Entity",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/entity/read?value=deo",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"entity",
+								"read"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2",
+									"description": "id of the entity",
+									"disabled": true
+								},
+								{
+									"key": "value",
+									"value": "deo",
+									"description": "value of the entity"
+								}
+							]
+						},
+						"description": "NOTE: Pass type as roles/designation/expertise etc. whatever types needs to be created"
+					},
+					"response": []
+				},
+				{
+					"name": "List Entity",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/entity/read?value=deo",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"entity",
+								"read"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2",
+									"description": "id of the entity",
+									"disabled": true
+								},
+								{
+									"key": "value",
+									"value": "deo",
+									"description": "value of the entity"
+								}
+							]
+						},
+						"description": "NOTE: Pass type as roles/designation/expertise etc. whatever types needs to be created"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Entity",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"value\": \"english\",\n    \"label\": \"English\",\n    \"status\": \"ACTIVE\",\n    \"type\": \"SYSTEM\",\n    \"entity_type_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/entity/update/1",
+						"description": "NOET: All body req parameters are optional to update."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Entity",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{MentoringBaseUrl}}mentoring/v1/entity/delete/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Form",
+			"item": [
+				{
+					"name": "Create Form",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"session\",\n    \"sub_type\": \"createSessions\",\n    \"data\": {\n        \"template_name\": \"defaultTemplate\",\n        \"fields\": {\n            \"controls\": [\n                {\n                    \"name\": \"title\",\n                    \"label\": \"title\",\n                    \"value\": \"\",\n                    \"class\": \"ion-margin\",\n                    \"type\": \"text\",\n                    \"position\": \"floating\",\n                    \"validators\": {\n                        \"required\": true,\n                        \"min_length\": 5\n                    }\n                },\n                {\n                    \"name\": \"categories\",\n                    \"label\": \"Select categories\",\n                    \"value\": \"\",\n                    \"class\": \"ion-margin\",\n                    \"type\": \"chip\",\n                    \"position\": \"\",\n                    \"disabled\": false,\n                    \"show_select_all\": true,\n                    \"validators\": {\n                        \"required\": true\n                    }\n                },\n                {\n                    \"name\": \"ages\",\n                    \"label\": \"Select age\",\n                    \"value\": \"\",\n                    \"class\": \"ion-margin\",\n                    \"type\": \"chip\",\n                    \"position\": \"\",\n                    \"disabled\": false,\n                    \"show_select_all\": true,\n                    \"validators\": {\n                        \"required\": true\n                    }\n                }\n            ]\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/form/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Read Form",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"session\",\n    \"sub_type\": \"createSessionsNew\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/form/read/16"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Form",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"session\",\n    \"sub_type\": \"createSessionsNew\",\n    \"data\": {\n        \"template_name\": \"Test\",\n        \"fields\": {\n            \"controls\": [\n                {\n                    \"name\": \"title\",\n                    \"label\": \"title\",\n                    \"value\": \"\",\n                    \"class\": \"ion-margin\",\n                    \"type\": \"text\",\n                    \"position\": \"floating\",\n                    \"validators\": {\n                        \"required\": true,\n                        \"min_length\": 5\n                    }\n                },\n                {\n                    \"name\": \"categories\",\n                    \"label\": \"Select categories\",\n                    \"value\": \"\",\n                    \"class\": \"ion-margin\",\n                    \"type\": \"chip\",\n                    \"position\": \"\",\n                    \"disabled\": false,\n                    \"show_select_all\": true,\n                    \"validators\": {\n                        \"required\": true\n                    }\n                },\n                {\n                    \"name\": \"ages\",\n                    \"label\": \"Select age\",\n                    \"value\": \"\",\n                    \"class\": \"ion-margin\",\n                    \"type\": \"chip\",\n                    \"position\": \"\",\n                    \"disabled\": false,\n                    \"show_select_all\": true,\n                    \"validators\": {\n                        \"required\": true\n                    }\n                }\n            ]\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/form/update/16",
+						"description": "NOTE: Id is required in params and that should be objectId"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Entity Type",
+			"item": [
+				{
+					"name": "Create Entity Type",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"value\": \"ln\",\n    \"label\": \"Languages\",\n    \"status\": \"ACTIVE\",\n    \"type\": \"SYSTEM\",\n    \"data_type\": \"STRING\",\n    \"allow_filtering\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/entity-type/create",
+						"description": "NOTE: Pass type as roles/designation/expertise etc. whatever types needs to be created"
+					},
+					"response": []
+				},
+				{
+					"name": "Read All System Entity Type",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{MentoringBaseUrl}}mentoring/v1/entity-type/read",
+						"description": "NOTE: Query Parmas\n1). type is mandatory\n2). deleted is optional\n3). status is optional"
+					},
+					"response": []
+				},
+				{
+					"name": "Read Entity Types with entities",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"value\": [\n        \"medium\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/entity-type/read",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"entity-type",
+								"read"
+							],
+							"query": [
+								{
+									"key": "value",
+									"value": "role_one",
+									"disabled": true
+								},
+								{
+									"key": "deleted",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "ACTIVE",
+									"disabled": true
+								}
+							]
+						},
+						"description": "NOTE: Query Parmas\n1). type is mandatory\n2). deleted is optional\n3). status is optional"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Entity Type",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"value\": \"roles\",\n    \"label\": \"RolesV\",\n    \"status\": \"ACTIVE\",\n    \"type\": \"SYSTEM\",\n    \"data_type\": \"STRING\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/entity-type/update/1",
+						"description": "NOET: All body req parameters are optional to update."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Entity Type",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{MentoringBaseUrl}}mentoring/v1/entity-type/delete/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Default Rules",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"session\",\n    \"target_field\": \"gender\",\n    \"is_target_from_sessions_mentor\": true,\n    \"requester_field\": \"gender\",\n    \"operator\": \"equals\",\n    \"requester_roles\": [\n        \"session_manager\"\n    ],\n    \"requester_roles_config\": {\n        \"exclude\": true\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/default-rule/create",
+						"description": "### Create Default Rule\n\nThis endpoint allows the creation of a default rule for mentoring.\n\n#### Request Body\n\n- `type` (string): The type of the rule.\n- `target_field` (string): The target field for the rule.\n- `is_target_from_sessions_mentor` (boolean): Indicates if the target is from sessions mentor.\n- `requester_field` (string): The requester field for the rule.\n- `field_configs` (null): Field configurations (if any).\n- `matching_operator` (string): The matching operator for the rule.\n- `requester_roles` (array of strings): The roles of the requester.\n- `role_config.exclude` (boolean): Indicates if the role should be excluded.\n    \n\n#### Response\n\nThe response is in JSON format with the following schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"responseCode\": {\"type\": \"string\"},\n    \"message\": {\"type\": \"string\"},\n    \"result\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"created_at\": {\"type\": \"string\"},\n        \"updated_at\": {\"type\": \"string\"},\n        \"id\": {\"type\": \"integer\"},\n        \"type\": {\"type\": \"string\"},\n        \"target_field\": {\"type\": \"string\"},\n        \"is_target_from_sessions_mentor\": {\"type\": \"boolean\"},\n        \"requester_field\": {\"type\": \"string\"},\n        \"field_configs\": {\"type\": \"null\"},\n        \"matching_operator\": {\"type\": \"string\"},\n        \"requester_roles\": {\n          \"type\": \"array\",\n          \"items\": {\"type\": \"string\"}\n        },\n        \"role_config\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"exclude\": {\"type\": \"boolean\"}\n          }\n        },\n        \"created_by\": {\"type\": \"integer\"},\n        \"updated_by\": {\"type\": \"integer\"},\n        \"organization_id\": {\"type\": \"integer\"},\n        \"deleted_at\": {\"type\": [\"string\", \"null\"]}\n      }\n    },\n    \"meta\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"formsVersion\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"id\": {\"type\": \"integer\"},\n              \"type\": {\"type\": \"string\"},\n              \"version\": {\"type\": \"integer\"}\n            }\n          }\n        },\n        \"correlation\": {\"type\": \"string\"},\n        \"meetingPlatform\": {\"type\": \"string\"}\n      }\n    }\n  }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Read",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/default-rule/read/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"default-rule",
+								"read",
+								":id"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Optional"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read All",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/default-rule/read",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"default-rule",
+								"read"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"session\",\n    \"target_field\": \"gender\",\n    \"is_target_from_sessions_mentor\": true,\n    \"requester_field\": \"gender\",\n    \"operator\": \"equals\",\n    \"requester_roles\": [\n        \"session_manager\"\n    ],\n    \"requester_roles_config\": {\n        \"exclude\": true\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/default-rule/update/2"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/default-rule/delete/4"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Session",
+			"item": [
+				{
+					"name": "Create Session",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Calculate the current timestamp in seconds",
+									"const currentTimestamp = Math.floor(Date.now() / 1000);",
+									"",
+									"// Generate a random number of seconds (up to 7 days) to add to the current timestamp",
+									"const randomSeconds = Math.floor(Math.random() * 604800); // 7 days in seconds",
+									"",
+									"// Set the start date to be a random time in the future (up to 7 days)",
+									"pm.variables.set(\"startDate\", currentTimestamp + randomSeconds);",
+									"",
+									"// Set the end date to be 30 minutes after the start date",
+									"pm.variables.set(\"endDate\", pm.variables.get(\"startDate\") + 1800);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Python Male\",\n    \"description\": \"Python is a widely used general-purpose, high level programming language. It was created by Guido van Rossum in 1991 and further developed by the Python Software Foundation. It was designed with an emphasis on code readability, and its syntax allows programmers to express their concepts in fewer lines of code.\",\n    \"start_date\": {{startDate}},\n    \"end_date\": {{endDate}},\n    \"recommended_for\": [\n        \"beo\",\n        \"co\"\n    ],\n    \"categories\": [\n        \"communication\",\n        \"educational_leadership\"\n    ],\n    \"medium\": [\n        \"en_in\"\n    ],\n    \"image\": [\n        \"session/undefined-1701770609877-3720230404141603_webp\"\n    ],\n    \"time_zone\": \"Asia/Calcutta\",\n    \"meeting_info\": {\n        \"platform\": \"Google meet\",\n        \"link\": \"https://meet.google.com/xxx-yyyy-zzz\",\n        \"value\": \"Gmeet\",\n        \"meta\": {}\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/sessions/update"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Session",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Calculate the current timestamp in seconds",
+									"const currentTimestamp = Math.floor(Date.now() / 1000);",
+									"",
+									"// Set the start date to be 30 minutes from now",
+									"pm.variables.set(\"startDate\", currentTimestamp + 1800);",
+									"",
+									"// Set the end date to be 30 minutes after the start date",
+									"pm.variables.set(\"endDate\", pm.variables.get(\"startDate\") + 1800);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Python\",\n    \"description\": \"Python is a widely used general-purpose, high level programming language. It was created by Guido van Rossum in 1991 and further developed by the Python Software Foundation. It was designed with an emphasis on code readability, and its syntax allows programmers to express their concepts in fewer lines of code.\",\n    \"start_date\": \"1701774006\",\n    \"end_date\": \"1701777618\",\n    \"recommended_for\": [\n        \"beo\",\n        \"co\"\n    ],\n    \"categories\": [\n        \"communication\",\n        \"educational_leadership\"\n    ],\n    \"medium\": [\n        \"en_in\"\n    ],\n    \"image\": [\n        \"session/undefined-1701770609877-3720230404141603_webp\"\n    ],\n    \"time_zone\": \"Asia/Calcutta\",\n    \"meeting_info\": {\n        \"platform\": \"Google meet\",\n        \"link\": \"https://meet.google.com/xxx-yyyy-zzz\",\n        \"value\": \"Gmeet\",\n        \"meta\": {}\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/sessions/update/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"sessions",
+								"update",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Session ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Session",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/sessions/update/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"sessions",
+								"update",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Session ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Session Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/sessions/details/:id?get_mentees=true",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"sessions",
+								"details",
+								":id"
+							],
+							"query": [
+								{
+									"key": "get_mentees",
+									"value": "true"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Session ID"
+								}
+							]
+						},
+						"description": "NOTE: Get session by session id or session link"
+					},
+					"response": []
+				},
+				{
+					"name": "List Sessions",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/sessions/list?page=1&limit=2&search=aW50cm8=&recommended_for=hm,deo&categories=school_process,sqaa",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"sessions",
+								"list"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number"
+								},
+								{
+									"key": "limit",
+									"value": "2",
+									"description": "Limit"
+								},
+								{
+									"key": "search",
+									"value": "aW50cm8=",
+									"description": "Base64 encoded search text"
+								},
+								{
+									"key": "recommended_for",
+									"value": "hm,deo",
+									"description": "Filters to be applied should be passed like this"
+								},
+								{
+									"key": "categories",
+									"value": "school_process,sqaa",
+									"description": "Filters to be applied should be passed like this"
+								}
+							]
+						},
+						"description": "NOTE: All query parameters are optional."
+					},
+					"response": []
+				},
+				{
+					"name": "Share Session",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/sessions/share/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"sessions",
+								"share",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Session ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enroll into a Session",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "timeZone",
+								"value": "Asia/Calcutta",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/sessions/enroll/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"sessions",
+								"enroll",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Session ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UnEnroll from Session",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/sessions/unEnroll/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"sessions",
+								"unEnroll",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Session ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Start Session",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "string"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/sessions/start/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"sessions",
+								"start",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Session ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Session Feedback",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ratings\": [\n        {\n            \"qid\": \"5fa28382fc1570691e4aa3e1\",\n            \"rating\": 4,\n            \"Label\": \"How would you rate the engagement in the session\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/sessions/feedback/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Recording Url",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "recording_url",
+									"value": "https://www.google.comm",
+									"type": "string"
+								}
+							]
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/sessions/updateRecordingUrl/2e9975b5251b6ba94ad96267268da55660cb619a-1683007926764"
+					},
+					"response": []
+				},
+				{
+					"name": "Complete session",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/sessions/completed/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"sessions",
+								"completed",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Session ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Recording Url",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/sessions/getRecording/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"sessions",
+								"getRecording",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Session ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enrolled Mentees",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/sessions/enrolledMentees/:id?csv=true",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"sessions",
+								"enrolledMentees",
+								":id"
+							],
+							"query": [
+								{
+									"key": "csv",
+									"value": "true"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6",
+									"description": "Session ID"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Enrolled Mentees CSV response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{MentoringBaseUrl}}mentoring/v1/sessions/enrolledMentees/:id?csv=true",
+									"host": [
+										"{{MentoringBaseUrl}}mentoring"
+									],
+									"path": [
+										"v1",
+										"sessions",
+										"enrolledMentees",
+										":id"
+									],
+									"query": [
+										{
+											"key": "csv",
+											"value": "true"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6",
+											"description": "Session ID"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "raw",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Language",
+									"value": "en"
+								},
+								{
+									"key": "X-Request-Ids",
+									"value": "d7a2a60d-2018-45cb-8817-1ba304808c13"
+								},
+								{
+									"key": "Content-disposition",
+									"value": "attachment; filename=session_list_6_1705405428558.csv"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/octet-stream; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "284"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"11c-iS4MjnTqdBA2EHU7ogpgtKJht1c\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 16 Jan 2024 11:43:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "\"Name\",\"Designation\",\"Organization\",\"E-mail ID\",\"Enrollment Type\"\n\"priyanka\",\"Block education officer, District education officer\",\"Default Organization\",\"f9359474815816b30fcb515a2e935322c7e6a376367bb9792d1f1a11c78181be\",\n\"Nevil M\",\"test\",\"Default Organization\",\"nevil@tunerlabs.com\","
+						}
+					]
+				},
+				{
+					"name": "SessionSampleCSV",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{MentoringBaseUrl}}mentoring/v1/sessions/getSampleCSV"
+					},
+					"response": []
+				},
+				{
+					"name": "BulkSessionCreate",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"file_path\" : \"15/BulkSessionMentorCheck.csv\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/sessions/bulkSessionCreate"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mentee",
+			"item": [
+				{
+					"name": "Mentees Enrolled Sessions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/mentees/sessions?search=aW50cm8=&page=1&limit=20",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"mentees",
+								"sessions"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "aW50cm8=",
+									"description": "Base64 encoded search text."
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number."
+								},
+								{
+									"key": "limit",
+									"value": "20",
+									"description": "Limit."
+								}
+							]
+						},
+						"description": "NOTE:\n\nReturns all the sessions enrolled by a user.  \nQuery parameters are optional."
+					},
+					"response": []
+				},
+				{
+					"name": "Join Session",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "string"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/mentees/joinSession/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"mentees",
+								"joinSession",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Session ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mentees Home Feed",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/mentees/homeFeed?page=1&limit=100",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"mentees",
+								"homeFeed"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "my data",
+									"description": "Base64 encoded search text",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number"
+								},
+								{
+									"key": "limit",
+									"value": "100",
+									"description": "Limit"
+								},
+								{
+									"key": "recommended_for",
+									"value": "hm,deo",
+									"description": "Filters to be applied should be passed like this.Only to be applied on \"all_sessions\" in response.",
+									"disabled": true
+								},
+								{
+									"key": "categories",
+									"value": "school_process,sqaa",
+									"description": "Filters to be applied should be passed like this.Only to be applied on \"all_sessions\" in response.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mentees Report Dashboard",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/mentees/reports?filterType=QUARTERLY",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"mentees",
+								"reports"
+							],
+							"query": [
+								{
+									"key": "filterType",
+									"value": "QUARTERLY",
+									"description": "Accepted values : MONTHLY,WEEKLY and QUARTERLY"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mentees list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/mentees/list?search=searchText&designation=deo&organization_ids=1,2&session_id=4",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"mentees",
+								"list"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "searchText",
+									"description": "search with full/partial name or full email"
+								},
+								{
+									"key": "designation",
+									"value": "deo",
+									"description": "designation code. comma separated, if multiple"
+								},
+								{
+									"key": "organization_ids",
+									"value": "1,2",
+									"description": "organization ids. comma separated, if multiple"
+								},
+								{
+									"key": "session_id",
+									"value": "4",
+									"description": "To get is_enrolled flag."
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mentor",
+			"item": [
+				{
+					"name": "Mentors Report Dashboard",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/mentors/reports?filterType=MONTHLY",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"mentors",
+								"reports"
+							],
+							"query": [
+								{
+									"key": "filterType",
+									"value": "MONTHLY",
+									"description": "Accepted values : MONTHLY,WEEKLY and QUARTERLY"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mentor Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/mentors/details/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"mentors",
+								"details",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "22",
+									"description": "Mentors ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upcoming Sessions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/mentors/upcomingSessions/1?page=1&limit=5&search=aW50cm8=&recommended_for=hm,deo&categories=school_process,sqaa",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"mentors",
+								"upcomingSessions",
+								"1"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number"
+								},
+								{
+									"key": "limit",
+									"value": "5",
+									"description": "Limit"
+								},
+								{
+									"key": "search",
+									"value": "aW50cm8=",
+									"description": "Base64 encoded search text"
+								},
+								{
+									"key": "recommended_for",
+									"value": "hm,deo",
+									"description": "Filters to be applied should be passed like this"
+								},
+								{
+									"key": "categories",
+									"value": "school_process,sqaa",
+									"description": "Filters to be applied should be passed like this"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Share Mentor Profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/mentors/share/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"mentors",
+								"share",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2",
+									"description": "Mentors ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mentor List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/mentors/list?page=1&limit=50",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"mentors",
+								"list"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number"
+								},
+								{
+									"key": "limit",
+									"value": "50",
+									"description": "Limit"
+								},
+								{
+									"key": "search",
+									"value": "aW50cm8=",
+									"description": "Base64 encoded search text",
+									"disabled": true
+								},
+								{
+									"key": "area_of_expertise",
+									"value": "school_process,sqaa",
+									"description": "Filters to be applied should be passed like this",
+									"disabled": true
+								},
+								{
+									"key": "designation",
+									"value": "deo,beo",
+									"description": "Filters to be applied should be passed like this",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crearted Sessions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/mentors/createdSessions?status=PUBLISHED,COMPLETED",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"mentors",
+								"createdSessions"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "PUBLISHED,COMPLETED",
+									"description": "Values in:PUBLISHED,COMPLETED and LIVE"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Feedback",
+			"item": [
+				{
+					"name": "Create Feedback",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"feedbacks\": [\n        {\n            \"question_id\": \"1\",\n            \"value\": 4,\n            \"question\": \"How would you rate the host of the session?\"\n        }\n    ],\n    \"feedback_as\": \"mentee\"\n}"
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/feedback/submit/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"feedback",
+								"submit",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Session ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get feedback form",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/feedback/forms/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"feedback",
+								"forms",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Session ID"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Question",
+			"item": [
+				{
+					"name": "Create Question",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"keyvalue\",\n    \"question\": \"To what extent did you feel comfortable sharing your thoughts in the session?\",\n    \"type\": \"rating\",\n    \"options\": null,\n    \"no_of_stars\": 5,\n    \"status\": \"active\",\n    \"category\": null,\n    \"rendering_data\": {\n        \"value\": \"\",\n        \"class\": \"ion-margin\",\n        \"disabled\": false,\n        \"noOfstars\": \"5\",\n        \"position\": \"floating\",\n        \"validation\": {\n            \"required\": false\n        }\n    },\n    \"meta\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/questions/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Question",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"keyvalue\",\n    \"question\": \"To what extent did you feel comfortable sharing your thoughts in the session?\",\n    \"type\": \"rating\",\n    \"options\": null,\n    \"no_of_stars\": 5,\n    \"status\": \"active\",\n    \"category\": null,\n    \"rendering_data\": {\n        \"noOfstars\": \"10\",\n        \"position\": \"floating\",\n        \"validation\": {\n            \"required\": false\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/questions/update/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"questions",
+								"update",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Question ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Question",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/questions/read/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"questions",
+								"read",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Question ID"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Question ID"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Question Set",
+			"item": [
+				{
+					"name": "Create Question Set",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"questions\": [\n        1,\n        2,\n        9\n    ],\n    \"code\": \"feedback\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/question-set/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Question Set",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"questions\": [\n        1,\n        9\n    ],\n    \"code\": \"feedback\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/question-set/update/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"question-set",
+								"update",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Question Set ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Question Set",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"code\": \"mentorQS2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/question-set/read/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"question-set",
+								"read",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Question Set ID"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get Pending Feedback",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{MentoringBaseUrl}}mentoring/v1/users/pendingFeedbacks"
+					},
+					"response": []
+				},
+				{
+					"name": "List User Accounts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/users/list?type=mentee&page=1&limit=5&search=YQ==",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"users",
+								"list"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "mentee",
+									"description": "type of user mentee or mentor"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page No"
+								},
+								{
+									"key": "limit",
+									"value": "5",
+									"description": "Limit of data per page"
+								},
+								{
+									"key": "search",
+									"value": "YQ==",
+									"description": "search text in base64 code"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "bearer {{token}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Issue",
+			"item": [
+				{
+					"name": "Create an issue",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In hendrerit gravida rutrum quisque non tellus. Faucibus interdum posuere lorem ipsum dolor sit amet consectetur adipiscing. Accumsan sit amet nulla facilisi morbi tempus iaculis. Lobortis scelerisque fermentum dui faucibus in.\",\n    \"meta_data\": {\n        \"request_type\": \"Report an issue\",\n        \"browserName\": \"Chrome\",\n        \"browserVersion\": \"114.0.0.0\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/issues/create"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Config",
+			"item": [
+				{
+					"name": "Get config",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{MentoringBaseUrl}}mentoring/v1/platform/config"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin APIs",
+			"item": [
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/admin/userDelete?userId=9",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"userDelete"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Build views",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{MentoringBaseUrl}}mentoring/v1/admin/triggerViewRebuild"
+					},
+					"response": []
+				},
+				{
+					"name": "Build views (Internal)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "internal_access_token",
+								"value": "{{internal_access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "{{MentoringBaseUrl}}mentoring/v1/admin/triggerViewRebuildInternal"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Views",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "internal_access_token",
+								"value": "{{internal_access_token}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{MentoringBaseUrl}}mentoring/v1/admin/triggerPeriodicViewRefresh"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Views (Internal)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "internal_access_token",
+								"value": "{{internal_access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/admin/triggerPeriodicViewRefreshInternal?model_name=Session",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"triggerPeriodicViewRefreshInternal"
+							],
+							"query": [
+								{
+									"key": "model_name",
+									"value": "Session",
+									"description": "Model name of the views table"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "Create Profile",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"designation\": [\n        \"beo\",\n        \"deo\"\n    ],\n  \"area_of_expertise\": [\n        \"educational_leadership\",\n        \"sqaa\"\n    ],\n  \"education_qualification\": \"mba\",\n  \"experience\": 10,\n  \"tags\": [\n    \"Experienced\",\n    \"Technical\"\n  ],\n  \"configs\": {\n    \"notification\": true,\n    \"visibility\": \"public\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/profile/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Read Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{MentoringBaseUrl}}mentoring/v1/profile/read"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"designation\": [\n        \"beo\",\n        \"deo\"\n    ],\n  \"area_of_expertise\": [\n        \"educational_leadership\",\n        \"sqaa\"\n    ],\n  \"education_qualification\": \"mba\",\n  \"experience\": 10,\n  \"tags\": [\n    \"Experienced\",\n    \"Technical\"\n  ],\n  \"configs\": {\n    \"notification\": true,\n    \"visibility\": \"public\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/profile/update"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/profile/filterList?entity_types=designation",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"profile",
+								"filterList"
+							],
+							"query": [
+								{
+									"key": "organization",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "entity_types",
+									"value": "designation"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Organization Admin",
+			"item": [
+				{
+					"name": "roleChange (Internal api)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "internal_access_token",
+								"value": "{{internal_access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": 1,\n    \"current_roles\": [\n        \"mentee\"\n    ],\n    \"new_roles\": [\n        \"mentor\"\n    ]\n}"
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/org-admin/roleChange"
+					},
+					"response": []
+				},
+				{
+					"name": "Inherit  Entity Type",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"entity_type_value\": \"categories\",\n\t\"target_entity_type_label\": \"training\"\n}"
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/org-admin/inheritEntityType"
+					},
+					"response": []
+				},
+				{
+					"name": "Set Org Policies",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"session_visibility_policy\": \"ALL\",\n    \"mentor_visibility_policy\": \"ALL\",\n    \"external_session_visibility_policy\": \"ALL\",\n    \"external_mentor_visibility_policy\": \"ALL\",\n    \"allow_mentor_override\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/org-admin/setOrgPolicies"
+					},
+					"response": []
+				},
+				{
+					"name": "Read Org Policies",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}"
+							}
+						],
+						"url": "{{MentoringBaseUrl}}mentoring/v1/org-admin/getOrgPolicies"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Realated Orgs",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"disabled": true
+							},
+							{
+								"key": "internal_access_token",
+								"value": "{{internal_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"delta_organization_ids\": [ 1 ],\n    \"action\":\"PUSH\",\n    \"organization_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/org-admin/updateRelatedOrgs"
+					},
+					"response": []
+				},
+				{
+					"name": "UploadSampleCSV",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/org-admin/uploadCustomCSV?fileName=BulkSessionMentorCheck.csv",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"org-admin",
+								"uploadCustomCSV"
+							],
+							"query": [
+								{
+									"key": "fileName",
+									"value": "BulkSessionMentorCheck.csv"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "notification",
+			"item": [
+				{
+					"name": "emailCronJob (Internal api)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "internal_access_token",
+								"value": "{{internal_access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"jobId\": \"mentoring_session_one_hour_1\",\n\t\"emailTemplateCode\": \"mentor_one_hour_before_session_reminder\"\n}"
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/notifications/emailCronJob"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orchestrated",
+			"item": [
+				{
+					"name": "Profile Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"sore\",\n  \"email\": \"sorefa6947@unbiex.com\",\n  \"password\": \"passwordofuser\",\n  \"otp\": \"593398\",\n  \"has_accepted_terms_and_conditions\": true\n}"
+						},
+						"url": "{{MentoringBaseUrl}}interface/v1/account/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Profile Create Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"value\": [\n        \"medium\",\n        \"languages\"\n    ]\n}"
+						},
+						"url": "{{MentoringBaseUrl}}/interface/v1/entity-type/read"
+					},
+					"response": []
+				},
+				{
+					"name": "Profile Update",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Nevil\",\n    \"location\": [\n        \"ap\"\n    ],\n    \"about\": \"This is teswt\",\n    \"has_accepted_terms_and_conditions\": true,\n    \"image\": \"https://cloudstorage.com/container/abc.png\",\n    \"languages\": [\n        \"en_in\",\n        \"en_in\"\n    ],\n    \"designation\": [\n        \"beo\",\n        \"deo\",\n        \"test\"\n    ],\n    \"area_of_expertise\": [\n        \"educational_leadership\",\n        \"sqaa\"\n    ],\n    \"education_qualification\": \"MBA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}interface/v1/account/update"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Permissions",
+			"item": [
+				{
+					"name": "Create Permissions",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"code\": \"delete_entity_permissions\", \n\"module\": \"manage_user\", \n\"request_type\": [\"POST\"],\n\"api_path\" : \"/mentoring/v1/entity/delete\",\n\"status\": \"ACTIVE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/permissions/create"
+					},
+					"response": []
+				},
+				{
+					"name": "List Permissions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/permissions/list?page=1&limit=10",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"permissions",
+								"list"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "search",
+									"value": "s",
+									"disabled": true
+								},
+								{
+									"key": "actions",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Permissions",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"code\": \"ssss\", \n\"module\": \"read_permissions_listttt\", \n\"request_type\": [\"POST\"],\n\"api_path\": \"/mentoring/v1/sessions/sections\",\n\"status\": \"ACTIVE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/permissions/update/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"permissions",
+								"update",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "28",
+									"description": "update id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Permissions",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/permissions/delete/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"permissions",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "28",
+									"description": "Delete id"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Module",
+			"item": [
+				{
+					"name": "Create Module",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"code\" : \"SystemAdmin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/modules/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Module",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"code\" : \"AllSessionss\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/modules/update/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"modules",
+								"update",
+								":id"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "update Id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Module",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/modules/list?page=1&limit=10&search=cw==",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"modules",
+								"list"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "search",
+									"value": "cw=="
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Module",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/modules/delete/:id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"modules",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Delete Id"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Session Manager",
+			"item": [
+				{
+					"name": "List as CSV",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/manage-sessions/downloadSessions",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"manage-sessions",
+								"downloadSessions"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "PRIVATE",
+									"description": "Accepted values are PUBLIC and PRiVATE",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "PUBLISHED",
+									"description": "Accepted values are  PUBLISHED , ",
+									"disabled": true
+								},
+								{
+									"key": "sort_by",
+									"value": "title",
+									"description": "Field to be sorted by, accepted values are title, start_date etc",
+									"disabled": true
+								},
+								{
+									"key": "order",
+									"value": "DESC",
+									"description": "ASC or DESC",
+									"disabled": true
+								}
+							]
+						},
+						"description": "NOTE: All query parameters are optional."
+					},
+					"response": [
+						{
+							"name": "List as CSV",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{MentoringBaseUrl}}mentoring/v1/manage-sessions/download?type=PRIVATE&status=PUBLISHED",
+									"host": [
+										"{{MentoringBaseUrl}}mentoring"
+									],
+									"path": [
+										"v1",
+										"manage-sessions",
+										"download"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "PRIVATE",
+											"description": "Accepted values are PUBLIC and PRiVATE"
+										},
+										{
+											"key": "status",
+											"value": "PUBLISHED",
+											"description": "Accepted values are  PUBLISHED , "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "raw",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Language",
+									"value": "en"
+								},
+								{
+									"key": "X-Request-Ids",
+									"value": "15eb7f71-50f3-4e7e-bec1-737adc077f2e"
+								},
+								{
+									"key": "Content-disposition",
+									"value": "attachment; filename=session_list1704298070470.csv"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/octet-stream; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "161"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"a1-eqCbz1CrK3sFhpMOKlGtc4w1MQk\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 03 Jan 2024 16:07:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "\"No.\",\"Session Name\",\"Type\",\"Mentors\",\"Date\",\"Time\",\"Duration (Min)\",\"Mentee Count\",\"Status\"\n1,\"Test 2\",\"Private\",\"nikhil\",\"06-Jan-2024\",\"09:51 PM\",60,0,\"Active\""
+						}
+					]
+				},
+				{
+					"name": "Created Sessions",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/manage-sessions/createdSessions?page=1&limit=100",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"manage-sessions",
+								"createdSessions"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page Number"
+								},
+								{
+									"key": "limit",
+									"value": "100",
+									"description": "Limit per page"
+								},
+								{
+									"key": "status",
+									"value": "PUBLISHED",
+									"description": "Accepted values are  PUBLISHED , ",
+									"disabled": true
+								},
+								{
+									"key": "sort_by",
+									"value": "title",
+									"description": "Field to be sorted by, accepted values are title, start_date,",
+									"disabled": true
+								},
+								{
+									"key": "order",
+									"value": "DESC",
+									"description": "ASC or DESC",
+									"disabled": true
+								},
+								{
+									"key": "type",
+									"value": "PRIVATE,PUBLIC",
+									"description": "Accepted values are PUBLIC and PRiVATE",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "TmV2aWw=",
+									"description": "Base64 encoded string",
+									"disabled": true
+								}
+							]
+						},
+						"description": "NOTE: All query parameters are optional."
+					},
+					"response": [
+						{
+							"name": "Created Sessions",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{MentoringBaseUrl}}mentoring/v1/manage-sessions/sessionList?page=1&limit=100",
+									"host": [
+										"{{MentoringBaseUrl}}mentoring"
+									],
+									"path": [
+										"v1",
+										"manage-sessions",
+										"sessionList"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "100"
+										},
+										{
+											"key": "status",
+											"value": "PUBLISHED",
+											"description": "Accepted values are  PUBLISHED , ",
+											"disabled": true
+										},
+										{
+											"key": "sort_by",
+											"value": "title",
+											"description": "Field to be sorted by, accepted values are title, start_date,",
+											"disabled": true
+										},
+										{
+											"key": "order",
+											"value": "DESC",
+											"description": "ASC or DESC",
+											"disabled": true
+										},
+										{
+											"key": "type",
+											"value": "PRIVATE",
+											"description": "Accepted values are PUBLIC and PRiVATE",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Language",
+									"value": "en"
+								},
+								{
+									"key": "X-Request-Ids",
+									"value": "257c4cc0-f3d8-4ac6-b8e7-04643ea28b9a"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1063"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"427-1Fmo7+aX6pd4OKOyej+3Zy6jMSo\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 03 Jan 2024 16:06:08 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"responseCode\": \"OK\",\n    \"message\": \"LIST_FETCHED\",\n    \"result\": {\n        \"data\": [\n            {\n                \"id\": 9,\n                \"index_number\": 1,\n                \"title\": \"Introduction to Python\",\n                \"type\": \"Private\",\n                \"mentor_name\": \"Nevil\",\n                \"start_date\": \"05-Dec-2023\",\n                \"start_time\": \"04:30 PM\",\n                \"duration_in_minutes\": 60.2,\n                \"status\": \"Active\",\n                \"mentee_count\": 0,\n                \"mentor_organization_id\": 1\n            },\n            {\n                \"id\": 7,\n                \"index_number\": 2,\n                \"title\": \"Test 3\",\n                \"type\": \"Private\",\n                \"mentor_name\": \"nikhil\",\n                \"start_date\": \"06-Jan-2024\",\n                \"start_time\": \"09:51 PM\",\n                \"duration_in_minutes\": 60,\n                \"status\": \"Active\",\n                \"mentee_count\": 0,\n                \"mentor_organization_id\": 1\n            },\n            {\n                \"id\": 8,\n                \"index_number\": 3,\n                \"title\": \"Test 2\",\n                \"type\": \"Private\",\n                \"mentor_name\": \"nikhil\",\n                \"start_date\": \"06-Jan-2024\",\n                \"start_time\": \"09:51 PM\",\n                \"duration_in_minutes\": 60,\n                \"status\": \"Active\",\n                \"mentee_count\": 0,\n                \"mentor_organization_id\": 1\n            },\n            {\n                \"id\": 6,\n                \"index_number\": 4,\n                \"title\": \"Test 1\",\n                \"type\": \"Private\",\n                \"mentor_name\": \"nikhil\",\n                \"start_date\": \"06-Jan-2024\",\n                \"start_time\": \"09:51 PM\",\n                \"duration_in_minutes\": 60,\n                \"status\": \"Active\",\n                \"mentee_count\": 0,\n                \"mentor_organization_id\": 1\n            }\n        ],\n        \"count\": 4\n    },\n    \"meta\": {\n        \"correlation\": \"257c4cc0-f3d8-4ac6-b8e7-04643ea28b9a\",\n        \"meetingPlatform\": \"BBB\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "AssignRolePermission",
+			"item": [
+				{
+					"name": "Create RolePermission",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"permission_id\" : 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/role-permission-mapping/create/:role_id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"role-permission-mapping",
+								"create",
+								":role_id"
+							],
+							"variable": [
+								{
+									"key": "role_id",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete RolePermission",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"permission_id\" : 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/role-permission-mapping/delete/:role_id",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"role-permission-mapping",
+								"delete",
+								":role_id"
+							],
+							"variable": [
+								{
+									"key": "role_id",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List RolePermission",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{MentoringBaseUrl}}mentoring/v1/role-permission-mapping/list"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "File-upload",
+			"item": [
+				{
+					"name": "Get Signed Url",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/cloud-services/getSignedUrl?fileName=laptop1.jpg",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"cloud-services",
+								"getSignedUrl"
+							],
+							"query": [
+								{
+									"key": "fileName",
+									"value": "laptop1.jpg"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Downloable Url",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/cloud-services/getDownloadableUrl?filePath=users/2-1695710833829-user_creation.csv",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"cloud-services",
+								"getDownloadableUrl"
+							],
+							"query": [
+								{
+									"key": "filePath",
+									"value": "users/2-1695710833829-user_creation.csv"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Availability",
+			"item": [
+				{
+					"name": "Create",
+					"item": [
+						{
+							"name": "Daily",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"event_name\": \"Daily from 9 to 10 PM, till Friday, 14 June 2024 12:00:00 AM IST\",\n    \"start_time\": 1713195000,\n    \"end_time\": 1713198600,\n    \"expiration_date\": 1718303400,\n    \"repeat_unit\": \"DAY\",\n    \"repeat_increment\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{MentoringBaseUrl}}mentoring/v1/availability/create"
+							},
+							"response": [
+								{
+									"name": "Create Daily",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-auth-token",
+												"value": "bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"event_name\": \"Daily from 9 to 10 PM\",\n    \"start_time\": 1713195000,\n    \"end_time\": 1713198600,\n    \"expiration_date\": 1718303400,\n    \"repeat_unit\": \"DAY\",\n    \"repeat_increment\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{MentoringBaseUrl}}mentoring/v1/availability/create"
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "fromservice"
+										},
+										{
+											"key": "Content-Language",
+											"value": "en"
+										},
+										{
+											"key": "X-Request-Ids",
+											"value": "ddeedf77-fdd4-4435-8283-0fa1e71c3a48"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1023"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"3ff-2pmR8CmuUSa7heZZ+zGYbVBZmTY\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 17 Apr 2024 19:32:44 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"responseCode\": \"OK\",\n    \"message\": \"availability_CREATED_SUCCESSFULLY\",\n    \"result\": {\n        \"repeat_on\": null,\n        \"exceptions\": null,\n        \"organization_id\": 0,\n        \"id\": 30,\n        \"event_name\": \"Daily from 9 to 10 PM\",\n        \"start_time\": \"1713195000\",\n        \"end_time\": \"1713198600\",\n        \"expiration_date\": \"1718303400\",\n        \"repeat_unit\": \"DAY\",\n        \"repeat_increment\": 1,\n        \"created_by\": 133,\n        \"updated_by\": 133,\n        \"user_id\": 133,\n        \"updated_at\": \"2024-04-17T19:32:43.996Z\",\n        \"created_at\": \"2024-04-17T19:32:43.996Z\",\n        \"occurrence_in_month\": null,\n        \"session_id\": null,\n        \"deleted_at\": null\n    },\n    \"meta\": {\n        \"formsVersion\": [\n            {\n                \"id\": 4,\n                \"type\": \"termsAndConditions\",\n                \"version\": 0\n            },\n            {\n                \"id\": 5,\n                \"type\": \"faq\",\n                \"version\": 0\n            },\n            {\n                \"id\": 6,\n                \"type\": \"helpVideos\",\n                \"version\": 0\n            },\n            {\n                \"id\": 7,\n                \"type\": \"platformApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 9,\n                \"type\": \"sampleCsvDownload\",\n                \"version\": 0\n            },\n            {\n                \"id\": 2,\n                \"type\": \"editProfile\",\n                \"version\": 0\n            },\n            {\n                \"id\": 3,\n                \"type\": \"session\",\n                \"version\": 0\n            },\n            {\n                \"id\": 8,\n                \"type\": \"helpApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 10,\n                \"type\": \"mentorQuestionnaire\",\n                \"version\": 0\n            },\n            {\n                \"id\": 1,\n                \"type\": \"managersSession\",\n                \"version\": 0\n            }\n        ],\n        \"correlation\": \"ddeedf77-fdd4-4435-8283-0fa1e71c3a48\",\n        \"meetingPlatform\": \"OFF\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Daily w exceptions",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user_id\": 133,\n    \"event_name\": \"Daily from 4 to 5 PM till 16th, except on 14th\",\n    \"start_time\": 1712921400,\n    \"end_time\": 1712925000,\n    \"expiration_date\": 1713249000,\n    \"repeat_unit\": \"DAY\",\n    \"repeat_increment\": 1,\n    \"organization_id\": 456,\n    \"exceptions\": {\n        \"1713052800\": {\n            \"end_time\": \"1713072600\",\n            \"start_time\": \"1713069000\"\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{MentoringBaseUrl}}mentoring/v1/availability/create"
+							},
+							"response": [
+								{
+									"name": "Create Daily w exceptions",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-auth-token",
+												"value": "bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"user_id\": 133,\n    \"event_name\": \"Daily from 4 to 5 PM till 16th, except on 14th\",\n    \"start_time\": 1712921400,\n    \"end_time\": 1712925000,\n    \"expiration_date\": 1713249000,\n    \"repeat_unit\": \"DAY\",\n    \"repeat_increment\": 1,\n    \"organization_id\": 456,\n    \"exceptions\": {\n        \"1713052800\": {\n            \"end_time\": \"1713072600\",\n            \"start_time\": \"1713069000\"\n        }\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{MentoringBaseUrl}}mentoring/v1/availability/create"
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "fromservice"
+										},
+										{
+											"key": "Content-Language",
+											"value": "en"
+										},
+										{
+											"key": "X-Request-Ids",
+											"value": "e5b1a061-cdc1-4c63-adeb-c1e1a9f45f20"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1112"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"458-A4TxVPAFVBKDjTGJ6C7Z7SkkBGo\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 17 Apr 2024 19:33:13 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"responseCode\": \"OK\",\n    \"message\": \"availability_CREATED_SUCCESSFULLY\",\n    \"result\": {\n        \"repeat_on\": null,\n        \"id\": 31,\n        \"user_id\": 133,\n        \"event_name\": \"Daily from 4 to 5 PM till 16th, except on 14th\",\n        \"start_time\": \"1712921400\",\n        \"end_time\": \"1712925000\",\n        \"expiration_date\": \"1713249000\",\n        \"repeat_unit\": \"DAY\",\n        \"repeat_increment\": 1,\n        \"organization_id\": 456,\n        \"exceptions\": {\n            \"1713052800\": {\n                \"end_time\": \"1713072600\",\n                \"start_time\": \"1713069000\"\n            }\n        },\n        \"created_by\": 133,\n        \"updated_by\": 133,\n        \"updated_at\": \"2024-04-17T19:33:13.442Z\",\n        \"created_at\": \"2024-04-17T19:33:13.442Z\",\n        \"occurrence_in_month\": null,\n        \"session_id\": null,\n        \"deleted_at\": null\n    },\n    \"meta\": {\n        \"formsVersion\": [\n            {\n                \"id\": 4,\n                \"type\": \"termsAndConditions\",\n                \"version\": 0\n            },\n            {\n                \"id\": 5,\n                \"type\": \"faq\",\n                \"version\": 0\n            },\n            {\n                \"id\": 6,\n                \"type\": \"helpVideos\",\n                \"version\": 0\n            },\n            {\n                \"id\": 7,\n                \"type\": \"platformApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 9,\n                \"type\": \"sampleCsvDownload\",\n                \"version\": 0\n            },\n            {\n                \"id\": 2,\n                \"type\": \"editProfile\",\n                \"version\": 0\n            },\n            {\n                \"id\": 3,\n                \"type\": \"session\",\n                \"version\": 0\n            },\n            {\n                \"id\": 8,\n                \"type\": \"helpApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 10,\n                \"type\": \"mentorQuestionnaire\",\n                \"version\": 0\n            },\n            {\n                \"id\": 1,\n                \"type\": \"managersSession\",\n                \"version\": 0\n            }\n        ],\n        \"correlation\": \"e5b1a061-cdc1-4c63-adeb-c1e1a9f45f20\",\n        \"meetingPlatform\": \"OFF\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Weekly",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user_id\": 133,\n    \"event_name\": \"Weekly on specific weekdays\",\n    \"start_time\": 1713162600,\n    \"end_time\": 1713166200,\n    \"repeat_on\": [\n        \"Saturday\"\n    ],\n    \"repeat_unit\": \"DAY\",\n    \"repeat_increment\": 1,\n    \"organization_id\": 456\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{MentoringBaseUrl}}mentoring/v1/availability/create"
+							},
+							"response": [
+								{
+									"name": "Create Weekly",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-auth-token",
+												"value": "bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"user_id\": 133,\n    \"event_name\": \"Weekly on specific weekdays\",\n    \"start_time\": 1713162600,\n    \"end_time\": 1713166200,\n    \"expiration_date\": 1714242600,\n    \"repeat_on\": [\n        \"Saturday\"\n    ],\n    \"repeat_unit\": \"DAY\",\n    \"repeat_increment\": 1,\n    \"organization_id\": 456\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{MentoringBaseUrl}}mentoring/v1/availability/create"
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "fromservice"
+										},
+										{
+											"key": "Content-Language",
+											"value": "en"
+										},
+										{
+											"key": "X-Request-Ids",
+											"value": "b9d9f3b1-5e6c-4d27-959d-9ffc82644c0c"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1039"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"40f-hVVKfXi1KxJk+KASTrHTq2QdmOw\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 17 Apr 2024 19:33:25 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"responseCode\": \"OK\",\n    \"message\": \"availability_CREATED_SUCCESSFULLY\",\n    \"result\": {\n        \"exceptions\": null,\n        \"id\": 32,\n        \"user_id\": 133,\n        \"event_name\": \"Weekly on specific weekdays\",\n        \"start_time\": \"1713162600\",\n        \"end_time\": \"1713166200\",\n        \"expiration_date\": \"1714242600\",\n        \"repeat_on\": [\n            \"Saturday\"\n        ],\n        \"repeat_unit\": \"DAY\",\n        \"repeat_increment\": 1,\n        \"organization_id\": 456,\n        \"created_by\": 133,\n        \"updated_by\": 133,\n        \"updated_at\": \"2024-04-17T19:33:25.801Z\",\n        \"created_at\": \"2024-04-17T19:33:25.801Z\",\n        \"occurrence_in_month\": null,\n        \"session_id\": null,\n        \"deleted_at\": null\n    },\n    \"meta\": {\n        \"formsVersion\": [\n            {\n                \"id\": 4,\n                \"type\": \"termsAndConditions\",\n                \"version\": 0\n            },\n            {\n                \"id\": 5,\n                \"type\": \"faq\",\n                \"version\": 0\n            },\n            {\n                \"id\": 6,\n                \"type\": \"helpVideos\",\n                \"version\": 0\n            },\n            {\n                \"id\": 7,\n                \"type\": \"platformApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 9,\n                \"type\": \"sampleCsvDownload\",\n                \"version\": 0\n            },\n            {\n                \"id\": 2,\n                \"type\": \"editProfile\",\n                \"version\": 0\n            },\n            {\n                \"id\": 3,\n                \"type\": \"session\",\n                \"version\": 0\n            },\n            {\n                \"id\": 8,\n                \"type\": \"helpApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 10,\n                \"type\": \"mentorQuestionnaire\",\n                \"version\": 0\n            },\n            {\n                \"id\": 1,\n                \"type\": \"managersSession\",\n                \"version\": 0\n            }\n        ],\n        \"correlation\": \"b9d9f3b1-5e6c-4d27-959d-9ffc82644c0c\",\n        \"meetingPlatform\": \"OFF\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Monthly",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user_id\": 133,\n    \"event_name\": \"Monthly on second monday\",\n    \"start_time\": 1713155400,\n    \"end_time\": 1713159000,\n    \"repeat_on\": [\n        \"Monday\"\n    ],\n    \"repeat_unit\": \"MONTH\",\n    \"occurrence_in_month\": 2,\n    \"repeat_increment\": 1,\n    \"organization_id\": 456\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{MentoringBaseUrl}}mentoring/v1/availability/create"
+							},
+							"response": [
+								{
+									"name": "Create Monthly",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-auth-token",
+												"value": "bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"user_id\": 133,\n    \"event_name\": \"Monthly on second monday\",\n    \"start_time\": 1713155400,\n    \"end_time\": 1713159000,\n    \"repeat_on\": [\n        \"Monday\"\n    ],\n    \"repeat_unit\": \"MONTH\",\n    \"occurrence_in_month\": 3,\n    \"repeat_increment\": 1,\n    \"organization_id\": 456\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{MentoringBaseUrl}}mentoring/v1/availability/create"
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "fromservice"
+										},
+										{
+											"key": "Content-Language",
+											"value": "en"
+										},
+										{
+											"key": "X-Request-Ids",
+											"value": "e8c809ce-232b-4f39-ad84-0f85318a65a8"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1025"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"401-6ycJJDMG4fI2End4ijTVVih72yA\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 17 Apr 2024 19:33:51 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"responseCode\": \"OK\",\n    \"message\": \"availability_CREATED_SUCCESSFULLY\",\n    \"result\": {\n        \"exceptions\": null,\n        \"id\": 33,\n        \"user_id\": 133,\n        \"event_name\": \"Monthly on second monday\",\n        \"start_time\": \"1713155400\",\n        \"end_time\": \"1713159000\",\n        \"repeat_on\": [\n            \"Monday\"\n        ],\n        \"repeat_unit\": \"MONTH\",\n        \"occurrence_in_month\": 3,\n        \"repeat_increment\": 1,\n        \"organization_id\": 456,\n        \"created_by\": 133,\n        \"updated_by\": 133,\n        \"updated_at\": \"2024-04-17T19:33:51.607Z\",\n        \"created_at\": \"2024-04-17T19:33:51.607Z\",\n        \"expiration_date\": null,\n        \"session_id\": null,\n        \"deleted_at\": null\n    },\n    \"meta\": {\n        \"formsVersion\": [\n            {\n                \"id\": 4,\n                \"type\": \"termsAndConditions\",\n                \"version\": 0\n            },\n            {\n                \"id\": 5,\n                \"type\": \"faq\",\n                \"version\": 0\n            },\n            {\n                \"id\": 6,\n                \"type\": \"helpVideos\",\n                \"version\": 0\n            },\n            {\n                \"id\": 7,\n                \"type\": \"platformApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 9,\n                \"type\": \"sampleCsvDownload\",\n                \"version\": 0\n            },\n            {\n                \"id\": 2,\n                \"type\": \"editProfile\",\n                \"version\": 0\n            },\n            {\n                \"id\": 3,\n                \"type\": \"session\",\n                \"version\": 0\n            },\n            {\n                \"id\": 8,\n                \"type\": \"helpApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 10,\n                \"type\": \"mentorQuestionnaire\",\n                \"version\": 0\n            },\n            {\n                \"id\": 1,\n                \"type\": \"managersSession\",\n                \"version\": 0\n            }\n        ],\n        \"correlation\": \"e8c809ce-232b-4f39-ad84-0f85318a65a8\",\n        \"meetingPlatform\": \"OFF\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Monthly On Same Date",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user_id\": 133,\n    \"event_name\": \"Monthly on same date\",\n    \"start_time\": 1713155400,\n    \"end_time\": 1713159000,\n    \"repeat_unit\": \"MONTH\",\n    \"repeat_increment\": 1,\n    \"organization_id\": 456\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{MentoringBaseUrl}}mentoring/v1/availability/create"
+							},
+							"response": [
+								{
+									"name": "Create Monthly On Same Date",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-auth-token",
+												"value": "bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"user_id\": 133,\n    \"event_name\": \"Monthly on same date\",\n    \"start_time\": 1713155400,\n    \"end_time\": 1713159000,\n    \"repeat_unit\": \"MONTH\",\n    \"repeat_increment\": 1,\n    \"organization_id\": 456\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{MentoringBaseUrl}}mentoring/v1/availability/create"
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "fromservice"
+										},
+										{
+											"key": "Content-Language",
+											"value": "en"
+										},
+										{
+											"key": "X-Request-Ids",
+											"value": "6241ef1f-0954-47d6-ae96-41c1f68b7b41"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1018"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"3fa-HGWhyBWPX9I3mjPOItzV/bZO/34\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 17 Apr 2024 19:34:03 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"responseCode\": \"OK\",\n    \"message\": \"availability_CREATED_SUCCESSFULLY\",\n    \"result\": {\n        \"repeat_on\": null,\n        \"exceptions\": null,\n        \"id\": 34,\n        \"user_id\": 133,\n        \"event_name\": \"Monthly on same date\",\n        \"start_time\": \"1713155400\",\n        \"end_time\": \"1713159000\",\n        \"repeat_unit\": \"MONTH\",\n        \"repeat_increment\": 1,\n        \"organization_id\": 456,\n        \"created_by\": 133,\n        \"updated_by\": 133,\n        \"updated_at\": \"2024-04-17T19:34:03.938Z\",\n        \"created_at\": \"2024-04-17T19:34:03.938Z\",\n        \"expiration_date\": null,\n        \"occurrence_in_month\": null,\n        \"session_id\": null,\n        \"deleted_at\": null\n    },\n    \"meta\": {\n        \"formsVersion\": [\n            {\n                \"id\": 4,\n                \"type\": \"termsAndConditions\",\n                \"version\": 0\n            },\n            {\n                \"id\": 5,\n                \"type\": \"faq\",\n                \"version\": 0\n            },\n            {\n                \"id\": 6,\n                \"type\": \"helpVideos\",\n                \"version\": 0\n            },\n            {\n                \"id\": 7,\n                \"type\": \"platformApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 9,\n                \"type\": \"sampleCsvDownload\",\n                \"version\": 0\n            },\n            {\n                \"id\": 2,\n                \"type\": \"editProfile\",\n                \"version\": 0\n            },\n            {\n                \"id\": 3,\n                \"type\": \"session\",\n                \"version\": 0\n            },\n            {\n                \"id\": 8,\n                \"type\": \"helpApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 10,\n                \"type\": \"mentorQuestionnaire\",\n                \"version\": 0\n            },\n            {\n                \"id\": 1,\n                \"type\": \"managersSession\",\n                \"version\": 0\n            }\n        ],\n        \"correlation\": \"6241ef1f-0954-47d6-ae96-41c1f68b7b41\",\n        \"meetingPlatform\": \"OFF\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Yearly",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user_id\": 133,\n    \"event_name\": \"Yealy Once Event\",\n    \"start_time\": 1713155400,\n    \"end_time\": 1713159000,\n    \"repeat_unit\": \"YEAR\",\n    \"repeat_increment\": 1,\n    \"organization_id\": 456\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{MentoringBaseUrl}}mentoring/v1/availability/create"
+							},
+							"response": [
+								{
+									"name": "Create Yearly",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-auth-token",
+												"value": "bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"user_id\": 133,\n    \"event_name\": \"Yealy Once Event\",\n    \"start_time\": 1713155400,\n    \"end_time\": 1713159000,\n    \"repeat_unit\": \"YEAR\",\n    \"repeat_increment\": 1,\n    \"organization_id\": 456\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{MentoringBaseUrl}}mentoring/v1/availability/create"
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "fromservice"
+										},
+										{
+											"key": "Content-Language",
+											"value": "en"
+										},
+										{
+											"key": "X-Request-Ids",
+											"value": "9e018e62-73ef-4857-87bc-220c4437b4ec"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1013"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"3f5-3bETlsyt9ehYxp+Us5pU7T9T4xk\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 17 Apr 2024 19:34:18 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"responseCode\": \"OK\",\n    \"message\": \"availability_CREATED_SUCCESSFULLY\",\n    \"result\": {\n        \"repeat_on\": null,\n        \"exceptions\": null,\n        \"id\": 35,\n        \"user_id\": 133,\n        \"event_name\": \"Yealy Once Event\",\n        \"start_time\": \"1713155400\",\n        \"end_time\": \"1713159000\",\n        \"repeat_unit\": \"YEAR\",\n        \"repeat_increment\": 1,\n        \"organization_id\": 456,\n        \"created_by\": 133,\n        \"updated_by\": 133,\n        \"updated_at\": \"2024-04-17T19:34:18.489Z\",\n        \"created_at\": \"2024-04-17T19:34:18.489Z\",\n        \"expiration_date\": null,\n        \"occurrence_in_month\": null,\n        \"session_id\": null,\n        \"deleted_at\": null\n    },\n    \"meta\": {\n        \"formsVersion\": [\n            {\n                \"id\": 4,\n                \"type\": \"termsAndConditions\",\n                \"version\": 0\n            },\n            {\n                \"id\": 5,\n                \"type\": \"faq\",\n                \"version\": 0\n            },\n            {\n                \"id\": 6,\n                \"type\": \"helpVideos\",\n                \"version\": 0\n            },\n            {\n                \"id\": 7,\n                \"type\": \"platformApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 9,\n                \"type\": \"sampleCsvDownload\",\n                \"version\": 0\n            },\n            {\n                \"id\": 2,\n                \"type\": \"editProfile\",\n                \"version\": 0\n            },\n            {\n                \"id\": 3,\n                \"type\": \"session\",\n                \"version\": 0\n            },\n            {\n                \"id\": 8,\n                \"type\": \"helpApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 10,\n                \"type\": \"mentorQuestionnaire\",\n                \"version\": 0\n            },\n            {\n                \"id\": 1,\n                \"type\": \"managersSession\",\n                \"version\": 0\n            }\n        ],\n        \"correlation\": \"9e018e62-73ef-4857-87bc-220c4437b4ec\",\n        \"meetingPlatform\": \"OFF\"\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"item": [
+						{
+							"name": "availability",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"event_name\": \"Daily from 9 to 10 PM\",\n    \"start_time\": 1713195000,\n    \"end_time\": 1713198600,\n    \"repeat_unit\": \"DAY\",\n    \"repeat_increment\": 1,\n    \"expiration_date\": null\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{MentoringBaseUrl}}mentoring/v1/availability/update/:id",
+									"host": [
+										"{{MentoringBaseUrl}}mentoring"
+									],
+									"path": [
+										"v1",
+										"availability",
+										"update",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "time for a single day",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"exceptions\": {\n        \"1718236800\": {\n            \"start_time\": \"1718285400\",\n            \"end_time\": \"1718289000\"\n        },\n        \"1718323200\": {}\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{MentoringBaseUrl}}mentoring/v1/availability/update/:id",
+									"host": [
+										"{{MentoringBaseUrl}}mentoring"
+									],
+									"path": [
+										"v1",
+										"availability",
+										"update",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"item": [
+						{
+							"name": "All Recurring Availabilities",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{MentoringBaseUrl}}mentoring/v1/availability/delete/:id",
+									"host": [
+										"{{MentoringBaseUrl}}mentoring"
+									],
+									"path": [
+										"v1",
+										"availability",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "id of the availability that needs to be deleted."
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GET",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "x-auth-token",
+												"value": "bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{MentoringBaseUrl}}mentoring/v1/avail/read/:id?startEpoch=1713139200&endEpoch=1713657600",
+											"host": [
+												"{{MentoringBaseUrl}}mentoring"
+											],
+											"path": [
+												"v1",
+												"avail",
+												"read",
+												":id"
+											],
+											"query": [
+												{
+													"key": "startEpoch",
+													"value": "1713139200"
+												},
+												{
+													"key": "endEpoch",
+													"value": "1713657600"
+												}
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "fromservice"
+										},
+										{
+											"key": "Content-Language",
+											"value": "en"
+										},
+										{
+											"key": "X-Request-Ids",
+											"value": "7bf027bd-74d0-48f9-ab23-ce5e04ec45e8"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "2020"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"7e4-2/UCVCTddFjKGppaDv69W5+i5XY\""
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 12 Apr 2024 09:35:11 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"responseCode\": \"OK\",\n    \"message\": \"Events fetched\",\n    \"result\": {\n        \"1713139200\": [\n            {\n                \"id\": 8,\n                \"user_id\": 133,\n                \"event_name\": \"Weekly on specific weekdays\",\n                \"start_time\": 1713155400,\n                \"end_time\": \"1713159000\",\n                \"expiration_date\": null,\n                \"repeat_on\": [\n                    \"Monday\",\n                    \"Tuesday\",\n                    \"Wednesday\"\n                ],\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-12T09:35:04.542Z\",\n                \"updated_at\": \"2024-04-12T09:35:04.542Z\",\n                \"deleted_at\": null\n            }\n        ],\n        \"1713225600\": [\n            {\n                \"id\": 8,\n                \"user_id\": 133,\n                \"event_name\": \"Weekly on specific weekdays\",\n                \"start_time\": 1713241800,\n                \"end_time\": \"1713159000\",\n                \"expiration_date\": null,\n                \"repeat_on\": [\n                    \"Monday\",\n                    \"Tuesday\",\n                    \"Wednesday\"\n                ],\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-12T09:35:04.542Z\",\n                \"updated_at\": \"2024-04-12T09:35:04.542Z\",\n                \"deleted_at\": null\n            }\n        ],\n        \"1713312000\": [\n            {\n                \"id\": 8,\n                \"user_id\": 133,\n                \"event_name\": \"Weekly on specific weekdays\",\n                \"start_time\": 1713328200,\n                \"end_time\": \"1713159000\",\n                \"expiration_date\": null,\n                \"repeat_on\": [\n                    \"Monday\",\n                    \"Tuesday\",\n                    \"Wednesday\"\n                ],\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-12T09:35:04.542Z\",\n                \"updated_at\": \"2024-04-12T09:35:04.542Z\",\n                \"deleted_at\": null\n            }\n        ],\n        \"1713398400\": [],\n        \"1713484800\": [],\n        \"1713571200\": [],\n        \"1713657600\": []\n    },\n    \"meta\": {\n        \"formsVersion\": [\n            {\n                \"id\": 4,\n                \"type\": \"termsAndConditions\",\n                \"version\": 0\n            },\n            {\n                \"id\": 5,\n                \"type\": \"faq\",\n                \"version\": 0\n            },\n            {\n                \"id\": 6,\n                \"type\": \"helpVideos\",\n                \"version\": 0\n            },\n            {\n                \"id\": 7,\n                \"type\": \"platformApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 9,\n                \"type\": \"sampleCsvDownload\",\n                \"version\": 0\n            },\n            {\n                \"id\": 2,\n                \"type\": \"editProfile\",\n                \"version\": 0\n            },\n            {\n                \"id\": 3,\n                \"type\": \"session\",\n                \"version\": 0\n            },\n            {\n                \"id\": 8,\n                \"type\": \"helpApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 10,\n                \"type\": \"mentorQuestionnaire\",\n                \"version\": 0\n            },\n            {\n                \"id\": 1,\n                \"type\": \"managersSession\",\n                \"version\": 0\n            }\n        ],\n        \"correlation\": \"7bf027bd-74d0-48f9-ab23-ce5e04ec45e8\",\n        \"meetingPlatform\": \"BBB\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Single Day Availability",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"exceptions\": {\n        \"1713052800\": {}\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{MentoringBaseUrl}}mentoring/v1/availability/update/:id",
+									"host": [
+										"{{MentoringBaseUrl}}mentoring"
+									],
+									"path": [
+										"v1",
+										"availability",
+										"update",
+										":id"
+									],
+									"query": [
+										{
+											"key": "startEpoch",
+											"value": "1713205860",
+											"disabled": true
+										},
+										{
+											"key": "endEpoch",
+											"value": "1713292140",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "20",
+											"description": "id of the availability that needs to be deleted."
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GET",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "x-auth-token",
+												"value": "bearer {{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{MentoringBaseUrl}}mentoring/v1/avail/read/:id?startEpoch=1713139200&endEpoch=1713657600",
+											"host": [
+												"{{MentoringBaseUrl}}mentoring"
+											],
+											"path": [
+												"v1",
+												"avail",
+												"read",
+												":id"
+											],
+											"query": [
+												{
+													"key": "startEpoch",
+													"value": "1713139200"
+												},
+												{
+													"key": "endEpoch",
+													"value": "1713657600"
+												}
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "fromservice"
+										},
+										{
+											"key": "Content-Language",
+											"value": "en"
+										},
+										{
+											"key": "X-Request-Ids",
+											"value": "7bf027bd-74d0-48f9-ab23-ce5e04ec45e8"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "2020"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"7e4-2/UCVCTddFjKGppaDv69W5+i5XY\""
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 12 Apr 2024 09:35:11 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"responseCode\": \"OK\",\n    \"message\": \"Events fetched\",\n    \"result\": {\n        \"1713139200\": [\n            {\n                \"id\": 8,\n                \"user_id\": 133,\n                \"event_name\": \"Weekly on specific weekdays\",\n                \"start_time\": 1713155400,\n                \"end_time\": \"1713159000\",\n                \"expiration_date\": null,\n                \"repeat_on\": [\n                    \"Monday\",\n                    \"Tuesday\",\n                    \"Wednesday\"\n                ],\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-12T09:35:04.542Z\",\n                \"updated_at\": \"2024-04-12T09:35:04.542Z\",\n                \"deleted_at\": null\n            }\n        ],\n        \"1713225600\": [\n            {\n                \"id\": 8,\n                \"user_id\": 133,\n                \"event_name\": \"Weekly on specific weekdays\",\n                \"start_time\": 1713241800,\n                \"end_time\": \"1713159000\",\n                \"expiration_date\": null,\n                \"repeat_on\": [\n                    \"Monday\",\n                    \"Tuesday\",\n                    \"Wednesday\"\n                ],\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-12T09:35:04.542Z\",\n                \"updated_at\": \"2024-04-12T09:35:04.542Z\",\n                \"deleted_at\": null\n            }\n        ],\n        \"1713312000\": [\n            {\n                \"id\": 8,\n                \"user_id\": 133,\n                \"event_name\": \"Weekly on specific weekdays\",\n                \"start_time\": 1713328200,\n                \"end_time\": \"1713159000\",\n                \"expiration_date\": null,\n                \"repeat_on\": [\n                    \"Monday\",\n                    \"Tuesday\",\n                    \"Wednesday\"\n                ],\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-12T09:35:04.542Z\",\n                \"updated_at\": \"2024-04-12T09:35:04.542Z\",\n                \"deleted_at\": null\n            }\n        ],\n        \"1713398400\": [],\n        \"1713484800\": [],\n        \"1713571200\": [],\n        \"1713657600\": []\n    },\n    \"meta\": {\n        \"formsVersion\": [\n            {\n                \"id\": 4,\n                \"type\": \"termsAndConditions\",\n                \"version\": 0\n            },\n            {\n                \"id\": 5,\n                \"type\": \"faq\",\n                \"version\": 0\n            },\n            {\n                \"id\": 6,\n                \"type\": \"helpVideos\",\n                \"version\": 0\n            },\n            {\n                \"id\": 7,\n                \"type\": \"platformApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 9,\n                \"type\": \"sampleCsvDownload\",\n                \"version\": 0\n            },\n            {\n                \"id\": 2,\n                \"type\": \"editProfile\",\n                \"version\": 0\n            },\n            {\n                \"id\": 3,\n                \"type\": \"session\",\n                \"version\": 0\n            },\n            {\n                \"id\": 8,\n                \"type\": \"helpApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 10,\n                \"type\": \"mentorQuestionnaire\",\n                \"version\": 0\n            },\n            {\n                \"id\": 1,\n                \"type\": \"managersSession\",\n                \"version\": 0\n            }\n        ],\n        \"correlation\": \"7bf027bd-74d0-48f9-ab23-ce5e04ec45e8\",\n        \"meetingPlatform\": \"BBB\"\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "availability",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/availability/read/:id?startEpoch=1713515398&endEpoch=1718496000",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"availability",
+								"read",
+								":id"
+							],
+							"query": [
+								{
+									"key": "startEpoch",
+									"value": "1713515398"
+								},
+								{
+									"key": "endEpoch",
+									"value": "1718496000"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "availability",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{MentoringBaseUrl}}mentoring/v1/availability/read/:id?startEpoch=1713205860&endEpoch=1713292140",
+									"host": [
+										"{{MentoringBaseUrl}}mentoring"
+									],
+									"path": [
+										"v1",
+										"availability",
+										"read",
+										":id"
+									],
+									"query": [
+										{
+											"key": "startEpoch",
+											"value": "1713205860"
+										},
+										{
+											"key": "endEpoch",
+											"value": "1713292140"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "133"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "fromservice"
+								},
+								{
+									"key": "Content-Language",
+									"value": "en"
+								},
+								{
+									"key": "X-Request-Ids",
+									"value": "e3b21bcf-30b0-4965-baf9-f3fd80850e6a"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "8821"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2275-IeituxOXkL2gOReKwAzdAdZnvNU\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 17 Apr 2024 19:35:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"responseCode\": \"OK\",\n    \"message\": \"Events fetched\",\n    \"result\": {\n        \"1713139200\": [\n            {\n                \"id\": 21,\n                \"user_id\": 133,\n                \"event_name\": \"Daily from 4 to 5 PM till 16th, except on 14th\",\n                \"start_time\": 1713139200,\n                \"end_time\": 1713184200,\n                \"expiration_date\": \"1713249000\",\n                \"repeat_on\": null,\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": {\n                    \"1713052800\": {}\n                },\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-17T05:28:49.135Z\",\n                \"updated_at\": \"2024-04-17T05:28:49.135Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 22,\n                \"user_id\": 133,\n                \"event_name\": \"Daily from 4 to 5 PM till 16th, except on 14th\",\n                \"start_time\": 1713139200,\n                \"end_time\": 1713184200,\n                \"expiration_date\": \"1713249000\",\n                \"repeat_on\": null,\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": {\n                    \"1713052800\": {\n                        \"end_time\": \"1713072600\",\n                        \"start_time\": \"1713069000\"\n                    }\n                },\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-17T09:44:21.131Z\",\n                \"updated_at\": \"2024-04-17T09:44:21.131Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 31,\n                \"user_id\": 133,\n                \"event_name\": \"Daily from 4 to 5 PM till 16th, except on 14th\",\n                \"start_time\": 1713139200,\n                \"end_time\": 1713184200,\n                \"expiration_date\": \"1713249000\",\n                \"repeat_on\": null,\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": {\n                    \"1713052800\": {\n                        \"end_time\": \"1713072600\",\n                        \"start_time\": \"1713069000\"\n                    }\n                },\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-17T19:33:13.442Z\",\n                \"updated_at\": \"2024-04-17T19:33:13.442Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 26,\n                \"user_id\": 133,\n                \"event_name\": \"Monthly on second monday\",\n                \"start_time\": 1713155400,\n                \"end_time\": 1713159000,\n                \"expiration_date\": null,\n                \"repeat_on\": [\n                    \"Monday\"\n                ],\n                \"repeat_unit\": \"MONTH\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": 2,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-17T14:57:45.224Z\",\n                \"updated_at\": \"2024-04-17T14:57:45.224Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 27,\n                \"user_id\": 133,\n                \"event_name\": \"Monthly on second monday\",\n                \"start_time\": 1713155400,\n                \"end_time\": 1713159000,\n                \"expiration_date\": null,\n                \"repeat_on\": [\n                    \"Monday\"\n                ],\n                \"repeat_unit\": \"MONTH\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": 3,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-17T14:58:03.342Z\",\n                \"updated_at\": \"2024-04-17T14:58:03.342Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 33,\n                \"user_id\": 133,\n                \"event_name\": \"Monthly on second monday\",\n                \"start_time\": 1713155400,\n                \"end_time\": 1713159000,\n                \"expiration_date\": null,\n                \"repeat_on\": [\n                    \"Monday\"\n                ],\n                \"repeat_unit\": \"MONTH\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": 3,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-17T19:33:51.607Z\",\n                \"updated_at\": \"2024-04-17T19:33:51.607Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 34,\n                \"user_id\": 133,\n                \"event_name\": \"Monthly on same date\",\n                \"start_time\": 1713155400,\n                \"end_time\": 1713159000,\n                \"expiration_date\": null,\n                \"repeat_on\": null,\n                \"repeat_unit\": \"MONTH\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-17T19:34:03.938Z\",\n                \"updated_at\": \"2024-04-17T19:34:03.938Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 35,\n                \"user_id\": 133,\n                \"event_name\": \"Yealy Once Event\",\n                \"start_time\": 1713155400,\n                \"end_time\": 1713159000,\n                \"expiration_date\": null,\n                \"repeat_on\": null,\n                \"repeat_unit\": \"YEAR\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-17T19:34:18.489Z\",\n                \"updated_at\": \"2024-04-17T19:34:18.489Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 23,\n                \"user_id\": 133,\n                \"event_name\": \"Daily from 9 to 10 PM\",\n                \"start_time\": 1713195000,\n                \"end_time\": 1713198600,\n                \"expiration_date\": null,\n                \"repeat_on\": null,\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-17T14:44:44.228Z\",\n                \"updated_at\": \"2024-04-17T14:44:44.228Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 25,\n                \"user_id\": 133,\n                \"event_name\": \"Daily from 9 to 10 PM\",\n                \"start_time\": 1713195000,\n                \"end_time\": 1713198600,\n                \"expiration_date\": null,\n                \"repeat_on\": null,\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-17T14:56:14.421Z\",\n                \"updated_at\": \"2024-04-17T14:56:14.421Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 30,\n                \"user_id\": 133,\n                \"event_name\": \"Daily from 9 to 10 PM\",\n                \"start_time\": 1713195000,\n                \"end_time\": 1713198600,\n                \"expiration_date\": \"1718303400\",\n                \"repeat_on\": null,\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 0,\n                \"created_at\": \"2024-04-17T19:32:43.996Z\",\n                \"updated_at\": \"2024-04-17T19:34:48.510Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 24,\n                \"user_id\": 133,\n                \"event_name\": \"Daily from 9 to 10 PM\",\n                \"start_time\": 1713195000,\n                \"end_time\": 1713198600,\n                \"expiration_date\": null,\n                \"repeat_on\": null,\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-17T14:56:06.903Z\",\n                \"updated_at\": \"2024-04-17T14:56:06.903Z\",\n                \"deleted_at\": null\n            }\n        ],\n        \"1713225600\": [\n            {\n                \"id\": 21,\n                \"user_id\": 133,\n                \"event_name\": \"Daily from 4 to 5 PM till 16th, except on 14th\",\n                \"start_time\": 1713225600,\n                \"end_time\": 1713270600,\n                \"expiration_date\": \"1713249000\",\n                \"repeat_on\": null,\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": {\n                    \"1713052800\": {}\n                },\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-17T05:28:49.135Z\",\n                \"updated_at\": \"2024-04-17T05:28:49.135Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 22,\n                \"user_id\": 133,\n                \"event_name\": \"Daily from 4 to 5 PM till 16th, except on 14th\",\n                \"start_time\": 1713225600,\n                \"end_time\": 1713270600,\n                \"expiration_date\": \"1713249000\",\n                \"repeat_on\": null,\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": {\n                    \"1713052800\": {\n                        \"end_time\": \"1713072600\",\n                        \"start_time\": \"1713069000\"\n                    }\n                },\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-17T09:44:21.131Z\",\n                \"updated_at\": \"2024-04-17T09:44:21.131Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 31,\n                \"user_id\": 133,\n                \"event_name\": \"Daily from 4 to 5 PM till 16th, except on 14th\",\n                \"start_time\": 1713225600,\n                \"end_time\": 1713270600,\n                \"expiration_date\": \"1713249000\",\n                \"repeat_on\": null,\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": {\n                    \"1713052800\": {\n                        \"end_time\": \"1713072600\",\n                        \"start_time\": \"1713069000\"\n                    }\n                },\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-17T19:33:13.442Z\",\n                \"updated_at\": \"2024-04-17T19:33:13.442Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 23,\n                \"user_id\": 133,\n                \"event_name\": \"Daily from 9 to 10 PM\",\n                \"start_time\": 1713281400,\n                \"end_time\": 1713285000,\n                \"expiration_date\": null,\n                \"repeat_on\": null,\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-17T14:44:44.228Z\",\n                \"updated_at\": \"2024-04-17T14:44:44.228Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 25,\n                \"user_id\": 133,\n                \"event_name\": \"Daily from 9 to 10 PM\",\n                \"start_time\": 1713281400,\n                \"end_time\": 1713285000,\n                \"expiration_date\": null,\n                \"repeat_on\": null,\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-17T14:56:14.421Z\",\n                \"updated_at\": \"2024-04-17T14:56:14.421Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 30,\n                \"user_id\": 133,\n                \"event_name\": \"Daily from 9 to 10 PM\",\n                \"start_time\": 1713281400,\n                \"end_time\": 1713285000,\n                \"expiration_date\": \"1718303400\",\n                \"repeat_on\": null,\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 0,\n                \"created_at\": \"2024-04-17T19:32:43.996Z\",\n                \"updated_at\": \"2024-04-17T19:34:48.510Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 24,\n                \"user_id\": 133,\n                \"event_name\": \"Daily from 9 to 10 PM\",\n                \"start_time\": 1713281400,\n                \"end_time\": 1713285000,\n                \"expiration_date\": null,\n                \"repeat_on\": null,\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-17T14:56:06.903Z\",\n                \"updated_at\": \"2024-04-17T14:56:06.903Z\",\n                \"deleted_at\": null\n            }\n        ]\n    },\n    \"meta\": {\n        \"formsVersion\": [\n            {\n                \"id\": 4,\n                \"type\": \"termsAndConditions\",\n                \"version\": 0\n            },\n            {\n                \"id\": 5,\n                \"type\": \"faq\",\n                \"version\": 0\n            },\n            {\n                \"id\": 6,\n                \"type\": \"helpVideos\",\n                \"version\": 0\n            },\n            {\n                \"id\": 7,\n                \"type\": \"platformApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 9,\n                \"type\": \"sampleCsvDownload\",\n                \"version\": 0\n            },\n            {\n                \"id\": 2,\n                \"type\": \"editProfile\",\n                \"version\": 0\n            },\n            {\n                \"id\": 3,\n                \"type\": \"session\",\n                \"version\": 0\n            },\n            {\n                \"id\": 8,\n                \"type\": \"helpApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 10,\n                \"type\": \"mentorQuestionnaire\",\n                \"version\": 0\n            },\n            {\n                \"id\": 1,\n                \"type\": \"managersSession\",\n                \"version\": 0\n            }\n        ],\n        \"correlation\": \"e3b21bcf-30b0-4965-baf9-f3fd80850e6a\",\n        \"meetingPlatform\": \"OFF\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Is Available",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/availability/isAvailable/:id?startEpoch=1713328200&endEpoch=1713331800",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"availability",
+								"isAvailable",
+								":id"
+							],
+							"query": [
+								{
+									"key": "startEpoch",
+									"value": "1713328200"
+								},
+								{
+									"key": "endEpoch",
+									"value": "1713331800"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "133"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "GET",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{MentoringBaseUrl}}mentoring/v1/avail/read/:id?startEpoch=1713139200&endEpoch=1713657600",
+									"host": [
+										"{{MentoringBaseUrl}}mentoring"
+									],
+									"path": [
+										"v1",
+										"avail",
+										"read",
+										":id"
+									],
+									"query": [
+										{
+											"key": "startEpoch",
+											"value": "1713139200"
+										},
+										{
+											"key": "endEpoch",
+											"value": "1713657600"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "fromservice"
+								},
+								{
+									"key": "Content-Language",
+									"value": "en"
+								},
+								{
+									"key": "X-Request-Ids",
+									"value": "7bf027bd-74d0-48f9-ab23-ce5e04ec45e8"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2020"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"7e4-2/UCVCTddFjKGppaDv69W5+i5XY\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 12 Apr 2024 09:35:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"responseCode\": \"OK\",\n    \"message\": \"Events fetched\",\n    \"result\": {\n        \"1713139200\": [\n            {\n                \"id\": 8,\n                \"user_id\": 133,\n                \"event_name\": \"Weekly on specific weekdays\",\n                \"start_time\": 1713155400,\n                \"end_time\": \"1713159000\",\n                \"expiration_date\": null,\n                \"repeat_on\": [\n                    \"Monday\",\n                    \"Tuesday\",\n                    \"Wednesday\"\n                ],\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-12T09:35:04.542Z\",\n                \"updated_at\": \"2024-04-12T09:35:04.542Z\",\n                \"deleted_at\": null\n            }\n        ],\n        \"1713225600\": [\n            {\n                \"id\": 8,\n                \"user_id\": 133,\n                \"event_name\": \"Weekly on specific weekdays\",\n                \"start_time\": 1713241800,\n                \"end_time\": \"1713159000\",\n                \"expiration_date\": null,\n                \"repeat_on\": [\n                    \"Monday\",\n                    \"Tuesday\",\n                    \"Wednesday\"\n                ],\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-12T09:35:04.542Z\",\n                \"updated_at\": \"2024-04-12T09:35:04.542Z\",\n                \"deleted_at\": null\n            }\n        ],\n        \"1713312000\": [\n            {\n                \"id\": 8,\n                \"user_id\": 133,\n                \"event_name\": \"Weekly on specific weekdays\",\n                \"start_time\": 1713328200,\n                \"end_time\": \"1713159000\",\n                \"expiration_date\": null,\n                \"repeat_on\": [\n                    \"Monday\",\n                    \"Tuesday\",\n                    \"Wednesday\"\n                ],\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-12T09:35:04.542Z\",\n                \"updated_at\": \"2024-04-12T09:35:04.542Z\",\n                \"deleted_at\": null\n            }\n        ],\n        \"1713398400\": [],\n        \"1713484800\": [],\n        \"1713571200\": [],\n        \"1713657600\": []\n    },\n    \"meta\": {\n        \"formsVersion\": [\n            {\n                \"id\": 4,\n                \"type\": \"termsAndConditions\",\n                \"version\": 0\n            },\n            {\n                \"id\": 5,\n                \"type\": \"faq\",\n                \"version\": 0\n            },\n            {\n                \"id\": 6,\n                \"type\": \"helpVideos\",\n                \"version\": 0\n            },\n            {\n                \"id\": 7,\n                \"type\": \"platformApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 9,\n                \"type\": \"sampleCsvDownload\",\n                \"version\": 0\n            },\n            {\n                \"id\": 2,\n                \"type\": \"editProfile\",\n                \"version\": 0\n            },\n            {\n                \"id\": 3,\n                \"type\": \"session\",\n                \"version\": 0\n            },\n            {\n                \"id\": 8,\n                \"type\": \"helpApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 10,\n                \"type\": \"mentorQuestionnaire\",\n                \"version\": 0\n            },\n            {\n                \"id\": 1,\n                \"type\": \"managersSession\",\n                \"version\": 0\n            }\n        ],\n        \"correlation\": \"7bf027bd-74d0-48f9-ab23-ce5e04ec45e8\",\n        \"meetingPlatform\": \"BBB\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Available users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MentoringBaseUrl}}mentoring/v1/availability/users/:id?startEpoch=1713196800&endEpoch=1713198600",
+							"host": [
+								"{{MentoringBaseUrl}}mentoring"
+							],
+							"path": [
+								"v1",
+								"availability",
+								"users",
+								":id"
+							],
+							"query": [
+								{
+									"key": "startEpoch",
+									"value": "1713196800"
+								},
+								{
+									"key": "endEpoch",
+									"value": "1713198600"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "133"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "GET",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{MentoringBaseUrl}}mentoring/v1/avail/read/:id?startEpoch=1713139200&endEpoch=1713657600",
+									"host": [
+										"{{MentoringBaseUrl}}mentoring"
+									],
+									"path": [
+										"v1",
+										"avail",
+										"read",
+										":id"
+									],
+									"query": [
+										{
+											"key": "startEpoch",
+											"value": "1713139200"
+										},
+										{
+											"key": "endEpoch",
+											"value": "1713657600"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "fromservice"
+								},
+								{
+									"key": "Content-Language",
+									"value": "en"
+								},
+								{
+									"key": "X-Request-Ids",
+									"value": "7bf027bd-74d0-48f9-ab23-ce5e04ec45e8"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2020"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"7e4-2/UCVCTddFjKGppaDv69W5+i5XY\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 12 Apr 2024 09:35:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"responseCode\": \"OK\",\n    \"message\": \"Events fetched\",\n    \"result\": {\n        \"1713139200\": [\n            {\n                \"id\": 8,\n                \"user_id\": 133,\n                \"event_name\": \"Weekly on specific weekdays\",\n                \"start_time\": 1713155400,\n                \"end_time\": \"1713159000\",\n                \"expiration_date\": null,\n                \"repeat_on\": [\n                    \"Monday\",\n                    \"Tuesday\",\n                    \"Wednesday\"\n                ],\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-12T09:35:04.542Z\",\n                \"updated_at\": \"2024-04-12T09:35:04.542Z\",\n                \"deleted_at\": null\n            }\n        ],\n        \"1713225600\": [\n            {\n                \"id\": 8,\n                \"user_id\": 133,\n                \"event_name\": \"Weekly on specific weekdays\",\n                \"start_time\": 1713241800,\n                \"end_time\": \"1713159000\",\n                \"expiration_date\": null,\n                \"repeat_on\": [\n                    \"Monday\",\n                    \"Tuesday\",\n                    \"Wednesday\"\n                ],\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-12T09:35:04.542Z\",\n                \"updated_at\": \"2024-04-12T09:35:04.542Z\",\n                \"deleted_at\": null\n            }\n        ],\n        \"1713312000\": [\n            {\n                \"id\": 8,\n                \"user_id\": 133,\n                \"event_name\": \"Weekly on specific weekdays\",\n                \"start_time\": 1713328200,\n                \"end_time\": \"1713159000\",\n                \"expiration_date\": null,\n                \"repeat_on\": [\n                    \"Monday\",\n                    \"Tuesday\",\n                    \"Wednesday\"\n                ],\n                \"repeat_unit\": \"DAY\",\n                \"exceptions\": null,\n                \"occurrence_in_month\": null,\n                \"repeat_increment\": 1,\n                \"session_id\": null,\n                \"updated_by\": 133,\n                \"created_by\": 133,\n                \"organization_id\": 456,\n                \"created_at\": \"2024-04-12T09:35:04.542Z\",\n                \"updated_at\": \"2024-04-12T09:35:04.542Z\",\n                \"deleted_at\": null\n            }\n        ],\n        \"1713398400\": [],\n        \"1713484800\": [],\n        \"1713571200\": [],\n        \"1713657600\": []\n    },\n    \"meta\": {\n        \"formsVersion\": [\n            {\n                \"id\": 4,\n                \"type\": \"termsAndConditions\",\n                \"version\": 0\n            },\n            {\n                \"id\": 5,\n                \"type\": \"faq\",\n                \"version\": 0\n            },\n            {\n                \"id\": 6,\n                \"type\": \"helpVideos\",\n                \"version\": 0\n            },\n            {\n                \"id\": 7,\n                \"type\": \"platformApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 9,\n                \"type\": \"sampleCsvDownload\",\n                \"version\": 0\n            },\n            {\n                \"id\": 2,\n                \"type\": \"editProfile\",\n                \"version\": 0\n            },\n            {\n                \"id\": 3,\n                \"type\": \"session\",\n                \"version\": 0\n            },\n            {\n                \"id\": 8,\n                \"type\": \"helpApp\",\n                \"version\": 0\n            },\n            {\n                \"id\": 10,\n                \"type\": \"mentorQuestionnaire\",\n                \"version\": 0\n            },\n            {\n                \"id\": 1,\n                \"type\": \"managersSession\",\n                \"version\": 0\n            }\n        ],\n        \"correlation\": \"7bf027bd-74d0-48f9-ab23-ce5e04ec45e8\",\n        \"meetingPlatform\": \"BBB\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Notification Templates",
+			"item": [
+				{
+					"name": "Create Notification Templates",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\" : \"email\",\n    \"code\": \"tl-email-invite\",\n    \"subject\": \"Hi Welcome Backk\",\n    \"body\": \"<p>Dear User,</p> Welcome back to mentorEd\",\n    \"email_header\": \"email_header\",\n    \"email_footer\":\"email_footer\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/notification/template"
+					},
+					"response": []
+				},
+				{
+					"name": "Read Notification Templates",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/notification/template"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Notification Templates",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-auth-token",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\" : \"email\",\n    \"code\": \"tl-email-invite\",\n    \"subject\": \"Hi Welcome Back We missed You\" ,\n    \"body\": \"<p>Dear User,</p> Welcome back to mentorEd\",\n    \"email_header\": \"email_header\",\n    \"email_footer\":\"email_footer\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{MentoringBaseUrl}}mentoring/v1/notification/template/14"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
