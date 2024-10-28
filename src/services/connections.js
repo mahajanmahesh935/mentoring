@@ -208,6 +208,7 @@ module.exports = class ConnectionHelper {
 					'custom_entity_text',
 					'meta',
 					'experience',
+					'is_mentor',
 				],
 			})
 

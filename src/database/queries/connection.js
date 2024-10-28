@@ -294,6 +294,7 @@ exports.getConnectionsDetails = async (
 		organization_id,
 		designation,
 		experience,
+		is_mentor,
 		area_of_expertise,
 		education_qualification,
 		custom_entity_text::JSONB AS custom_entity_text,
