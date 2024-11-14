@@ -348,6 +348,11 @@ let enviromentVariables = {
 		optional: true,
 		default: false,
 	},
+	COMMUNICATION_BASE_URL: {
+		message: 'Required Default External Mentee Visibility Policy',
+		optional: process.env.SYSTEM_CHAT_ENABLED === 'true' ? false : true,
+		default: false,
+	},
 }
 
 let success = true
