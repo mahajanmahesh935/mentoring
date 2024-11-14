@@ -354,3 +354,28 @@ exports.getConnectionsDetails = async (
 		throw error
 	}
 }
+
+exports.updateConnection = async (userId, friendId, updateBody) => {
+	try {
+		const [rowsUpdated, updatedConnections] = await Connection.update(updateBody, {
+			where: {
+				[Op.or]: [
+					{ user_id: userId, friend_id: friendId },
+					{ user_id: friendId, friend_id: userId },
+				],
+				status: common.CONNECTIONS_STATUS.ACCEPTED,
+			},
+			returning: true,
+			raw: true,
+		})
+
+		// Find and return the specific row
+		const targetConnection = updatedConnections.find(
+			(connection) => connection.user_id === userId && connection.friend_id === friendId
+		)
+
+		return targetConnection
+	} catch (error) {
+		throw error
+	}
+}
