@@ -30,6 +30,7 @@ const { defaultRulesFilter } = require('@helpers/defaultRules')
 
 const searchConfig = require('@configs/search.json')
 const emailEncryption = require('@utils/emailEncryption')
+const communicationHelper = require('@helpers/communications')
 
 module.exports = class MenteesHelper {
 	/**
@@ -76,6 +77,22 @@ module.exports = class MenteesHelper {
 
 		const profileMandatoryFields = await utils.validateProfileData(processDbResponse, validationData)
 		menteeDetails.data.result.profile_mandatory_fields = profileMandatoryFields
+
+		let communications = null
+
+		if (mentee?.meta?.communications_user_id) {
+			try {
+				const chat = await communicationHelper.login(id)
+				communications = chat
+			} catch (error) {
+				console.error('Failed to log in to communication service:', error)
+			}
+		}
+
+		processDbResponse.meta = {
+			...processDbResponse.meta,
+			communications,
+		}
 
 		return responses.successResponse({
 			statusCode: httpStatusCode.ok,
@@ -1502,6 +1519,92 @@ module.exports = class MenteesHelper {
 			return isAccessible
 		} catch (error) {
 			return error
+		}
+	}
+
+	/**
+	 * Retrieves a communication token for the logged in user.
+	 *
+	 * This asynchronous method logs in a user using their unique identifier (`id`)
+	 * to obtain a communication token and other relevant details, then returns a
+	 * standardized success response with the token, user ID, and metadata.
+	 *
+	 * @async
+	 * @function getCommunicationToken
+	 * @param {string} id - The unique identifier of the user for whom the communication token is to be retrieved.
+	 * @returns {Promise<Object>} A promise that resolves to an object containing the response code, message, result data,
+	 * and additional metadata.
+	 *
+	 * @throws {Error} If the communicationHelper login process fails, this method may throw an error.
+	 *
+	 * @example
+	 * const response = await getCommunicationToken(123);
+	 * console.log(response);
+	 * // {
+	 * //   responseCode: "OK",
+	 * //   message: "Communication token fetched successfully!",
+	 * //   result: {
+	 * //     auth_token: "_GTFHENH422lGlLcgYQfu2GnnWO8bg6zY8ZHrXkcNmN",
+	 * //     user_id: "Q9hz3jbPXkk3fXQoL"
+	 * //   },
+	 * //   meta: {
+	 * //     correlation: "69893cb9-8b0c-44f9-945e-1bff2174af0d",
+	 * //     meetingPlatform: "BBB"
+	 * //   }
+	 * // }
+	 */
+	static async getCommunicationToken(id) {
+		try {
+			const token = await communicationHelper.login(id)
+
+			return responses.successResponse({
+				statusCode: httpStatusCode.ok,
+				message: 'COMMUNICATION_TOKEN_FETCHED_SUCCESSFULLY',
+				result: token,
+			})
+		} catch (error) {
+			if (error.message == 'unauthorized') {
+				return responses.failureResponse({
+					statusCode: httpStatusCode.not_found,
+					message: 'COMMUNICATION_TOKEN_NOT_FOUND',
+					responseCode: 'CLIENT_ERROR',
+				})
+			}
+		}
+	}
+
+	/**
+	 * Logs out a user by invoking the `communicationHelper.logout` function and
+	 * returns a success response upon successful logout. If the logout fails due to
+	 * an unauthorized error, returns a failure response indicating that the communication
+	 * token was not found.
+	 *
+	 * @async
+	 * @function logout
+	 * @param {string} id - The ID of the user to be logged out.
+	 * @returns {Promise<Object>} Resolves with a success response object if the logout is successful,
+	 * or a failure response object if an unauthorized error occurs.
+	 *
+	 * @throws {Error} If an error other than 'unauthorized' occurs, it will not be caught here and may be handled upstream.
+	 */
+	static async logout(id) {
+		try {
+			const response = await communicationHelper.logout(id)
+
+			return responses.successResponse({
+				statusCode: httpStatusCode.ok,
+				message: 'USER_LOGGED_OUT',
+				result: response,
+			})
+		} catch (error) {
+			if (error.message === 'unauthorized') {
+				return responses.failureResponse({
+					statusCode: httpStatusCode.not_found,
+					message: 'COMMUNICATION_TOKEN_NOT_FOUND',
+					responseCode: 'CLIENT_ERROR',
+				})
+			}
+			throw error // rethrow other errors to be handled by a higher-level error handler
 		}
 	}
 }
