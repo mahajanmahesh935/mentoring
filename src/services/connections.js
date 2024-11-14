@@ -10,6 +10,7 @@ const { Op } = require('sequelize')
 const { getDefaultOrgId } = require('@helpers/getDefaultOrgId')
 const { removeDefaultOrgEntityTypes } = require('@generics/utils')
 const utils = require('@generics/utils')
+const communicationHelper = require('@helpers/communications')
 
 module.exports = class ConnectionHelper {
 	/**
@@ -267,15 +268,27 @@ module.exports = class ConnectionHelper {
 					responseCode: 'CLIENT_ERROR',
 				})
 
-			const approvedResponse = await connectionQueries.approveRequest(
+			await connectionQueries.approveRequest(userId, bodyData.user_id, connectionRequest.meta)
+
+			// Create the chat room between two users
+			let chatRoom = await communicationHelper.createChatRoom(
 				userId,
 				bodyData.user_id,
-				connectionRequest.meta
+				connectionRequest.meta.message
 			)
+
+			// Add room info to the connection details
+			const updateConnection = await connectionQueries.updateConnection(userId, bodyData.user_id, {
+				meta: {
+					...connectionRequest.meta,
+					room_id: chatRoom.result.room.room_id,
+				},
+			})
+
 			return responses.successResponse({
 				statusCode: httpStatusCode.created,
 				message: 'CONNECTION_REQUEST_APPROVED',
-				result: approvedResponse[0],
+				result: updateConnection,
 			})
 		} catch (error) {
 			console.error(error)
