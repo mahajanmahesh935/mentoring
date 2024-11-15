@@ -343,15 +343,20 @@ let enviromentVariables = {
 		optional: true,
 		default: 'CURRENT',
 	},
-	SYSTEM_CHAT_ENABLED: {
+	ENABLE_CHAT: {
 		message: 'Required Default External Mentee Visibility Policy',
 		optional: true,
 		default: false,
 	},
-	COMMUNICATION_BASE_URL: {
-		message: 'Required Default External Mentee Visibility Policy',
-		optional: process.env.SYSTEM_CHAT_ENABLED === 'true' ? false : true,
+	COMMUNICATION_SERVICE_HOST: {
+		message: 'Communication service host',
+		optional: process.env.ENABLE_CHAT === 'true' ? false : true,
 		default: false,
+	},
+	COMMUNICATION_SERVICE_BASE_URL: {
+		message: 'Communication service host',
+		optional: true,
+		default: '/communications/',
 	},
 }
 

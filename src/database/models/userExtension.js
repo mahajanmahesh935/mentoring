@@ -1,7 +1,7 @@
 'use strict'
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
-const defaultChatEnabled = process.env.SYSTEM_CHAT_ENABLED === 'true'
+const defaultChatEnabled = process.env.ENABLE_CHAT === 'true'
 
 module.exports = (sequelize, DataTypes) => {
 	const UserExtension = sequelize.define(

@@ -19,8 +19,8 @@ module.exports = {
 	ORGANIZATION_LIST: 'v1/organization/list',
 	VALIDATE_SESSIONS: 'v1/account/validateUserSession',
 	//Communication apis
-	SIGNUP: '/communications/v1/communication/signup',
-	LOGIN: '/communications/v1/communication/login',
-	LOGOUT: '/communications/v1/communication/logout',
-	CREATE_CHAT_ROOM: '/communications/v1/communication/createRoom',
+	COMMUNICATION_SIGNUP: 'v1/communication/signup',
+	COMMUNICATION_LOGIN: 'v1/communication/login',
+	COMMUNICATION_LOGOUT: 'v1/communication/logout',
+	COMMUNICATION_CREATE_CHAT_ROOM: 'v1/communication/createRoom',
 }

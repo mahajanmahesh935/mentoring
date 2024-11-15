@@ -3,7 +3,7 @@
 const axios = require('axios')
 const apiEndpoints = require('@constants/endpoints')
 
-const baseUrl = process.env.COMMUNICATION_BASE_URL || 'http://communications:3123'
+const baseUrl = process.env.COMMUNICATION_SERVICE_HOST + process.env.COMMUNICATION_SERVICE_BASE_URL
 const internalAccessToken = process.env.INTERNAL_ACCESS_TOKEN
 
 // Create Axios instance with default configurations for base URL and headers
@@ -22,10 +22,6 @@ apiClient.interceptors.response.use(
 			console.error('Unauthorized: 401 error')
 			return Promise.reject(new Error('unauthorized'))
 		}
-		if (error.response && error.response.status === 400 && error.response.data.message === 'invalid-users') {
-			console.error('Unauthorized: Invalid users error')
-			return Promise.reject(new Error('invalid-users'))
-		}
 		return Promise.reject(error)
 	}
 )
@@ -43,7 +39,7 @@ apiClient.interceptors.response.use(
  */
 exports.signup = async ({ userId, name, email, image }) => {
 	try {
-		const url = apiEndpoints.SIGNUP
+		const url = apiEndpoints.COMMUNICATION_SIGNUP
 		const body = { user_id: userId, name, email, image_url: image }
 
 		const response = await apiClient.post(url, body)
@@ -64,7 +60,7 @@ exports.signup = async ({ userId, name, email, image }) => {
  */
 exports.login = async ({ userId }) => {
 	try {
-		const url = apiEndpoints.LOGIN
+		const url = apiEndpoints.COMMUNICATION_LOGIN
 		const body = { user_id: userId }
 
 		const response = await apiClient.post(url, body)
@@ -85,7 +81,7 @@ exports.login = async ({ userId }) => {
  */
 exports.logout = async ({ userId }) => {
 	try {
-		const url = apiEndpoints.LOGOUT
+		const url = apiEndpoints.COMMUNICATION_LOGOUT
 		const body = { user_id: userId }
 
 		const response = await apiClient.post(url, body)
@@ -107,7 +103,7 @@ exports.logout = async ({ userId }) => {
  */
 exports.createChatRoom = async ({ userIds, initialMessage }) => {
 	try {
-		const url = apiEndpoints.CREATE_CHAT_ROOM
+		const url = apiEndpoints.COMMUNICATION_CREATE_CHAT_ROOM
 		const body = { usernames: userIds, initial_message: initialMessage }
 
 		const response = await apiClient.post(url, body)

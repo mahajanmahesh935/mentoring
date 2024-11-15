@@ -1,6 +1,6 @@
 'use strict'
 
-const defaultChatEnabled = process.env.SYSTEM_CHAT_ENABLED === 'true'
+const defaultChatEnabled = process.env.ENABLE_CHAT === 'true'
 
 module.exports = {
 	up: async (queryInterface, Sequelize) => {

@@ -2,7 +2,7 @@
 const communicationRequests = require('@requests/communications')
 const userExtensionQueries = require('@database/queries/userExtension')
 const emailEncryption = require('@utils/emailEncryption')
-
+const common = require('@constants/common')
 /**
  * Logs in a user and retrieves authentication token and user ID.
  * @async
@@ -18,12 +18,10 @@ exports.login = async (userId) => {
 			user_id: login.result.user_id,
 		}
 	} catch (error) {
-		if (error.message === 'Unauthorized') {
-			console.error('Error: Unauthorized access during login. Please check your credentials.')
-			return { success: false, message: 'Unauthorized access. Please try again later.' }
-		} else {
-			throw error
+		if (error.message === common.COMMUNICATION.UNAUTHORIZED) {
+			console.error('Error: Unauthorized access during login. Please check your tokens.')
 		}
+		throw error
 	}
 }
 
@@ -39,12 +37,10 @@ exports.logout = async (userId) => {
 		const logout = await communicationRequests.logout({ userId })
 		return logout.result.status
 	} catch (error) {
-		if (error.message === 'Unauthorized') {
-			console.error('Error: Unauthorized access during logout. Please check your credentials.')
-			return { success: false, message: 'Unauthorized access. Please try again later.' }
-		} else {
-			throw error
+		if (error.message === common.COMMUNICATION.UNAUTHORIZED) {
+			console.error('Error: Unauthorized access during logout. Please check your tokens.')
 		}
+		throw error
 	}
 }
 
@@ -77,13 +73,10 @@ exports.create = async (userId, name, email, image) => {
 			user_id: signup.result.user_id,
 		}
 	} catch (error) {
-		if (error.message === 'Unauthorized') {
-			console.error('Error: Unauthorized access during signup. Please check your credentials.')
-			return { success: false, message: 'Unauthorized access. Please try again later.' }
-		} else {
-			console.error('Signup failed:', error.message)
-			throw error
+		if (error.message === common.COMMUNICATION.UNAUTHORIZED) {
+			console.error('Error: Unauthorized access during signup. Please check your tokens.')
 		}
+		throw error
 	}
 }
 

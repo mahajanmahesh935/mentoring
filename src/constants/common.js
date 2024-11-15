@@ -216,4 +216,7 @@ module.exports = {
 		REQUESTED: 'REQUESTED',
 		BLOCKED: 'BLOCKED',
 	},
+	COMMUNICATION: {
+		UNAUTHORIZED: 'Unauthorized',
+	},
 }
