@@ -344,7 +344,7 @@ let enviromentVariables = {
 		default: 'CURRENT',
 	},
 	ENABLE_CHAT: {
-		message: 'Required Default External Mentee Visibility Policy',
+		message: 'Enable or Disable Chat Capabilities',
 		optional: true,
 		default: false,
 	},
@@ -354,7 +354,7 @@ let enviromentVariables = {
 		default: false,
 	},
 	COMMUNICATION_SERVICE_BASE_URL: {
-		message: 'Communication service host',
+		message: 'Base URL for the Communication Service',
 		optional: true,
 		default: '/communications/',
 	},
