@@ -93,7 +93,7 @@ exports.createChatRoom = async (recipientUserId, initiatorUserId, initialMessage
 	try {
 		// Retrieve user details, ensuring each has a `communications_user_id`
 		let userDetails = await userExtensionQueries.getUsersByUserIds(
-			[recipientUserId, initiatorUserId],
+			[initiatorUserId, recipientUserId],
 			{
 				attributes: ['name', 'user_id', 'email', 'meta'],
 			},
@@ -111,7 +111,7 @@ exports.createChatRoom = async (recipientUserId, initiatorUserId, initialMessage
 
 		// Create the chat room after ensuring all users have `communications_user_id`
 		const chatRoom = await communicationRequests.createChatRoom({
-			userIds: [recipientUserId, initiatorUserId],
+			userIds: [initiatorUserId, recipientUserId],
 			initialMessage: initialMessage,
 		})
 		return chatRoom
