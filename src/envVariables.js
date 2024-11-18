@@ -343,6 +343,21 @@ let enviromentVariables = {
 		optional: true,
 		default: 'CURRENT',
 	},
+	ENABLE_CHAT: {
+		message: 'Enable or Disable Chat Capabilities',
+		optional: true,
+		default: false,
+	},
+	COMMUNICATION_SERVICE_HOST: {
+		message: 'Communication service host',
+		optional: process.env.ENABLE_CHAT === 'true' ? false : true,
+		default: false,
+	},
+	COMMUNICATION_SERVICE_BASE_URL: {
+		message: 'Base URL for the Communication Service',
+		optional: true,
+		default: '/communications/',
+	},
 }
 
 let success = true

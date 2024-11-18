@@ -26,7 +26,7 @@ const searchConfig = require('@configs/search.json')
 const emailEncryption = require('@utils/emailEncryption')
 const { defaultRulesFilter, validateDefaultRulesFilter } = require('@helpers/defaultRules')
 const connectionQueries = require('@database/queries/connection')
-
+const communicationHelper = require('@helpers/communications')
 module.exports = class MentorsHelper {
 	/**
 	 * upcomingSessions.
@@ -696,6 +696,21 @@ module.exports = class MentorsHelper {
 
 			const profileMandatoryFields = await utils.validateProfileData(processDbResponse, validationData)
 			mentorProfile.profile_mandatory_fields = profileMandatoryFields
+
+			let communications = null
+
+			if (mentorExtension?.meta?.communications_user_id) {
+				try {
+					const chat = await communicationHelper.login(id)
+					communications = chat
+				} catch (error) {
+					console.error('Failed to log in to communication service:', error)
+				}
+			}
+			processDbResponse.meta = {
+				...processDbResponse.meta,
+				communications,
+			}
 
 			return responses.successResponse({
 				statusCode: httpStatusCode.ok,

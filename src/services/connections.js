@@ -1,7 +1,7 @@
 const httpStatusCode = require('@generics/http-status')
 const connectionQueries = require('@database/queries/connection')
 const responses = require('@helpers/responses')
-const menteeQueries = require('@database/queries/userExtension')
+const userExtensionQueries = require('@database/queries/userExtension')
 const { UniqueConstraintError } = require('sequelize')
 const common = require('@constants/common')
 const entityTypeService = require('@services/entity-type')
@@ -10,6 +10,7 @@ const { Op } = require('sequelize')
 const { getDefaultOrgId } = require('@helpers/getDefaultOrgId')
 const { removeDefaultOrgEntityTypes } = require('@generics/utils')
 const utils = require('@generics/utils')
+const communicationHelper = require('@helpers/communications')
 
 module.exports = class ConnectionHelper {
 	/**
@@ -36,7 +37,7 @@ module.exports = class ConnectionHelper {
 	static async initiate(bodyData, userId) {
 		try {
 			// Check if the target user exists
-			const userExists = await menteeQueries.getMenteeExtension(bodyData.user_id)
+			const userExists = await userExtensionQueries.getMenteeExtension(bodyData.user_id)
 			if (!userExists) {
 				return responses.failureResponse({
 					statusCode: httpStatusCode.not_found,
@@ -114,8 +115,8 @@ module.exports = class ConnectionHelper {
 			}
 
 			const [userExtensionsModelName, userDetails] = await Promise.all([
-				menteeQueries.getModelName(),
-				menteeQueries.getMenteeExtension(friendId, [
+				userExtensionQueries.getModelName(),
+				userExtensionQueries.getMenteeExtension(friendId, [
 					'name',
 					'user_id',
 					'mentee_visibility',
@@ -196,7 +197,7 @@ module.exports = class ConnectionHelper {
 
 			// Map friend details by user IDs
 			const friendIds = connections.rows.map((connection) => connection.friend_id)
-			let friendDetails = await menteeQueries.getUsersByUserIds(friendIds, {
+			let friendDetails = await userExtensionQueries.getUsersByUserIds(friendIds, {
 				attributes: [
 					'name',
 					'user_id',
@@ -212,7 +213,7 @@ module.exports = class ConnectionHelper {
 				],
 			})
 
-			const userExtensionsModelName = await menteeQueries.getModelName()
+			const userExtensionsModelName = await userExtensionQueries.getModelName()
 
 			const uniqueOrgIds = [...new Set(friendDetails.map((obj) => obj.organization_id))]
 			friendDetails = await entityTypeService.processEntityTypesToAddValueLabels(
@@ -267,15 +268,42 @@ module.exports = class ConnectionHelper {
 					responseCode: 'CLIENT_ERROR',
 				})
 
-			const approvedResponse = await connectionQueries.approveRequest(
-				userId,
-				bodyData.user_id,
-				connectionRequest.meta
+			await connectionQueries.approveRequest(userId, bodyData.user_id, connectionRequest.meta)
+
+			const userDetails = await userExtensionQueries.getUsersByUserIds(
+				[userId, bodyData.user_id],
+				{
+					attributes: ['settings', 'user_id'],
+				},
+				true
 			)
+			let chatRoom
+			// Create room only if both users have enable chat option
+			if (
+				userDetails.length === 2 &&
+				userDetails[0]?.settings?.chat_enabled === true &&
+				userDetails[1]?.settings?.chat_enabled === true
+			) {
+				chatRoom = await communicationHelper.createChatRoom(
+					userId,
+					bodyData.user_id,
+					connectionRequest.meta.message
+				)
+			}
+
+			// Update connection meta with room_id if chatRoom was created
+			const metaUpdate = chatRoom
+				? { ...connectionRequest.meta, room_id: chatRoom.result.room.room_id }
+				: connectionRequest.meta
+
+			const updateConnection = await connectionQueries.updateConnection(userId, bodyData.user_id, {
+				meta: metaUpdate,
+			})
+
 			return responses.successResponse({
 				statusCode: httpStatusCode.created,
 				message: 'CONNECTION_REQUEST_APPROVED',
-				result: approvedResponse[0],
+				result: updateConnection,
 			})
 		} catch (error) {
 			console.error(error)
@@ -338,7 +366,7 @@ module.exports = class ConnectionHelper {
 			}
 
 			const query = utils.processQueryParametersWithExclusions(queryParams)
-			const userExtensionsModelName = await menteeQueries.getModelName()
+			const userExtensionsModelName = await userExtensionQueries.getModelName()
 
 			// Fetch validation data for filtering connections (excluding roles)
 			const validationData = await entityTypeQueries.findAllEntityTypesAndEntities({

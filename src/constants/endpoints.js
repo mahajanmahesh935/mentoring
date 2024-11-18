@@ -18,4 +18,9 @@ module.exports = {
 	REMOVE_SCHEDULED_JOB: 'jobs/remove', // Remove scheduled job endpoint
 	ORGANIZATION_LIST: 'v1/organization/list',
 	VALIDATE_SESSIONS: 'v1/account/validateUserSession',
+	//Communication apis
+	COMMUNICATION_SIGNUP: 'v1/communication/signup',
+	COMMUNICATION_LOGIN: 'v1/communication/login',
+	COMMUNICATION_LOGOUT: 'v1/communication/logout',
+	COMMUNICATION_CREATE_CHAT_ROOM: 'v1/communication/createRoom',
 }
