@@ -87,6 +87,9 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				defaultValue: { chat_enabled: defaultChatEnabled },
 			},
+			image: {
+				type: DataTypes.STRING,
+			},
 		},
 		{
 			sequelize,

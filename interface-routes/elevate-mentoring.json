@@ -2235,6 +2235,73 @@
 					"packageName": "elevate-mentoring"
 				}
 			]
+		},
+		{
+			"sourceRoute": "/interface/v1/mentors/details/:id",
+			"type": "GET",
+			"priority": "MUST_HAVE",
+			"inSequence": true,
+			"orchestrated": true,
+			"responseMessage": "Profile fetched successfully.",
+			"targetPackages": [
+				{
+					"basePackageName": "mentoring",
+					"packageName": "elevate-mentoring",
+					"targetBody": [],
+					"responseBody": [
+						{
+							"sourceField": "user_roles",
+							"targetField": "mentoring.user_roles[]"
+						}
+					]
+				},
+				{
+					"basePackageName": "user",
+					"packageName": "elevate-user",
+					"targetBody": [],
+					"responseBody": []
+				}
+			]
+		},
+		{
+			"sourceRoute": "/interface/v1/profile/read",
+			"type": "GET",
+			"priority": "MUST_HAVE",
+			"inSequence": true,
+			"orchestrated": true,
+			"responseMessage": "Profile fetched successfully.",
+			"targetPackages": [
+				{
+					"basePackageName": "user",
+					"packageName": "elevate-user",
+					"targetBody": [],
+					"responseBody": [
+						{
+							"sourceField": "permissions",
+							"targetField": "permissions[]"
+						},
+						{
+							"sourceField": "user_roles",
+							"targetField": "user_roles[]"
+						}
+					]
+				},
+				{
+					"basePackageName": "mentoring",
+					"packageName": "elevate-mentoring",
+					"targetBody": [],
+					"responseBody": [
+						{
+							"sourceField": "permissions",
+							"targetField": "permissions[]"
+						},
+						{
+							"sourceField": "user_roles",
+							"targetField": "mentoring.user_roles[]"
+						}
+					]
+				}
+			]
 		}
 	]
 }

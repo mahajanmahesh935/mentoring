@@ -11,7 +11,6 @@ const mentorQueries = require('@database/queries/mentorExtension')
 const menteeQueries = require('@database/queries/userExtension')
 const adminService = require('../generics/materializedViews')
 const responses = require('@helpers/responses')
-const emailEncryption = require('@utils/emailEncryption')
 
 module.exports = class AdminHelper {
 	/**
@@ -93,7 +92,7 @@ module.exports = class AdminHelper {
 					const payload = {
 						type: 'email',
 						email: {
-							to: await emailEncryption.decrypt(attendee.email),
+							to: attendee.email,
 							subject: templateData.subject,
 							body: utils.composeEmailBody(templateData.body, {
 								name: attendee.name,

@@ -8,6 +8,7 @@ const { performance, PerformanceObserver } = require('perf_hooks')
 const { getAvailabilitiesByDay, buildUserAvailabilities } = require('@dtos/availability')
 const userRequests = require('@requests/user')
 const _ = require('lodash')
+const menteeQueries = require('@database/queries/userExtension')
 
 module.exports = class availabilityHelper {
 	/**
@@ -458,8 +459,14 @@ module.exports = class availabilityHelper {
 			}
 
 			const available_users = updatedAvailabilities.map(({ user_id }) => user_id)
-			let userDetails = (await userRequests.getListOfUserDetails(available_users)).result
-			userDetails = _.map(userDetails, (userDetail) => _.pick(userDetail, ['id', 'name']))
+
+			const userDetails = await menteeQueries.getUsersByUserIds(
+				available_users,
+				{
+					attributes: ['user_id', 'name', 'email'],
+				},
+				true
+			)
 
 			return responses.successResponse({
 				statusCode: httpStatusCode.ok,
