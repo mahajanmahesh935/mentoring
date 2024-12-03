@@ -203,5 +203,7 @@
 	"CONNECTION_REQUEST_NOT_FOUND_OR_ALREADY_PROCESSED": "The connection request could not be found or has already been processed.",
 	"COMMUNICATION_TOKEN_FETCHED_SUCCESSFULLY": "Communication token retrieved successfully.",
 	"COMMUNICATION_TOKEN_NOT_FOUND": "Communication token could not be located.",
-	"USER_LOGGED_OUT": "User has been logged out successfully."
+	"USER_LOGGED_OUT": "User has been logged out successfully.",
+	"USER_DETAILS_FETCHED_SUCCESSFULLY": "User details fetched successfully.",
+	"ORGANIZATION_FETCHED_SUCCESSFULLY": "Organization fetched successfully."
 }

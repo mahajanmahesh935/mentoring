@@ -31,6 +31,7 @@ const { defaultRulesFilter } = require('@helpers/defaultRules')
 const searchConfig = require('@configs/search.json')
 const emailEncryption = require('@utils/emailEncryption')
 const communicationHelper = require('@helpers/communications')
+const menteeExtensionQueries = require('@database/queries/userExtension')
 
 module.exports = class MenteesHelper {
 	/**
@@ -38,10 +39,12 @@ module.exports = class MenteesHelper {
 	 * @method
 	 * @name profile
 	 * @param {String} userId - user id.
+	 * @param {String} orgId - organization id.
+	 * @param {String} roles - user roles.
 	 * @returns {JSON} - profile details
 	 */
-	static async read(id, orgId) {
-		const menteeDetails = await userRequests.fetchUserDetails({ userId: id })
+	static async read(id, orgId, roles) {
+		const menteeDetails = await userRequests.getUserDetails(id)
 		const mentee = await menteeQueries.getMenteeExtension(id)
 		delete mentee.user_id
 		delete mentee.visible_to_organizations
@@ -69,7 +72,7 @@ module.exports = class MenteesHelper {
 
 		const totalSession = await sessionAttendeesQueries.countEnrolledSessions(id)
 
-		const menteePermissions = await permissions.getPermissions(menteeDetails.data.result.user_roles)
+		const menteePermissions = await permissions.getPermissions(roles)
 		if (!Array.isArray(menteeDetails.data.result.permissions)) {
 			menteeDetails.data.result.permissions = []
 		}
@@ -257,15 +260,8 @@ module.exports = class MenteesHelper {
 
 	static async joinSession(sessionId, userId) {
 		try {
-			const mentee = await userRequests.fetchUserDetails({ userId })
-
-			if (mentee.data.responseCode !== 'OK') {
-				return responses.failureResponse({
-					message: 'USER_NOT_FOUND',
-					statusCode: httpStatusCode.bad_request,
-					responseCode: 'CLIENT_ERROR',
-				})
-			}
+			const mentee = await menteeExtensionQueries.getMenteeExtension(userId, ['name', 'user_id'])
+			if (!mentee) throw createUnauthorizedResponse('USER_NOT_FOUND')
 
 			const session = await sessionQueries.findById(sessionId)
 
@@ -292,9 +288,8 @@ module.exports = class MenteesHelper {
 				})
 			}
 
-			let menteeDetails = mentee.data.result
 			const sessionAttendee = await sessionAttendeesQueries.findAttendeeBySessionAndUserId(
-				menteeDetails.id,
+				mentee.user_id,
 				sessionId
 			)
 			if (!sessionAttendee) {
@@ -328,7 +323,7 @@ module.exports = class MenteesHelper {
 			} else {
 				const attendeeLink = await bigBlueButtonService.joinMeetingAsAttendee(
 					sessionId,
-					menteeDetails.name,
+					mentee.name,
 					session.mentee_password
 				)
 				meetingInfo = {
@@ -468,8 +463,8 @@ module.exports = class MenteesHelper {
 				})
 			}
 			const organizationName = menteeExtension
-				? (await userRequests.fetchOrgDetails({ organizationId: menteeExtension.organization_id }))?.data
-						?.result?.name
+				? (await userRequests.getOrgDetails({ organizationId: menteeExtension.organization_id }))?.data?.result
+						?.name
 				: ''
 			if (!isAMentor && menteeExtension.is_mentor == true) {
 				throw responses.failureResponse({
@@ -612,13 +607,39 @@ module.exports = class MenteesHelper {
 			const mentorIds = [...new Set(sessions.map((session) => session.mentor_id))]
 
 			// Fetch mentor details
-			const mentorDetails = (await userRequests.getListOfUserDetails(mentorIds)).result
+			// const mentorDetails = (await userRequests.getListOfUserDetails(mentorIds)).result
+			const mentorDetails = await menteeQueries.getUsersByUserIds(
+				mentorIds,
+				{
+					attributes: ['user_id', 'organization_id'],
+				},
+				true
+			)
+
+			let organizationIds = []
+			mentorDetails.forEach((element) => {
+				organizationIds.push(element.organization_id)
+			})
+			const organizationDetails = await organisationExtensionQueries.findAll(
+				{
+					organization_id: {
+						[Op.in]: [...organizationIds],
+					},
+				},
+				{
+					attributes: ['name', 'organization_id'],
+				}
+			)
+
 			// Map mentor names to sessions
 			sessions.forEach((session) => {
-				const mentor = mentorDetails.find((mentorDetail) => mentorDetail.id === session.mentor_id)
+				const mentor = mentorDetails.find((mentorDetail) => mentorDetail.user_id === session.mentor_id)
 				if (mentor) {
+					const orgnization = organizationDetails.find(
+						(organizationDetail) => organizationDetail.organization_id === mentor.organization_id
+					)
 					session.mentor_name = mentor.name
-					session.organization = mentor.organization
+					session.organization = orgnization.name
 				}
 			})
 
@@ -657,6 +678,7 @@ module.exports = class MenteesHelper {
 			}
 			// Call user service to fetch organisation details --SAAS related changes
 			let userOrgDetails = await userRequests.fetchOrgDetails({ organizationId: orgId })
+
 			// Return error if user org does not exists
 			if (!userOrgDetails.success || !userOrgDetails.data || !userOrgDetails.data.result) {
 				return responses.failureResponse({
@@ -665,8 +687,14 @@ module.exports = class MenteesHelper {
 					responseCode: 'CLIENT_ERROR',
 				})
 			}
+
+			const organization_name = userOrgDetails.data.result.name
+
 			// Find organisation policy from organisation_extension table
-			let organisationPolicy = await organisationExtensionQueries.findOrInsertOrganizationExtension(orgId)
+			let organisationPolicy = await organisationExtensionQueries.findOrInsertOrganizationExtension(
+				orgId,
+				organization_name
+			)
 
 			data.user_id = userId
 
@@ -805,7 +833,8 @@ module.exports = class MenteesHelper {
 				//both both user data and organisation can change at the same time.
 				let userOrgDetails = await userRequests.fetchOrgDetails({ organizationId: data.organization.id })
 				const orgPolicies = await organisationExtensionQueries.findOrInsertOrganizationExtension(
-					data.organization.id
+					data.organization.id,
+					userOrgDetails.data.result.name
 				)
 				if (!orgPolicies?.organization_id) {
 					return responses.failureResponse({
@@ -959,7 +988,7 @@ module.exports = class MenteesHelper {
 
 				if (organization_ids.length > 0) {
 					//get organization list
-					const organizationList = await userRequests.listOrganization(organization_ids)
+					const organizationList = await userRequests.organizationList(organization_ids)
 					if (organizationList.success && organizationList.data?.result?.length > 0) {
 						result.organizations = organizationList.data.result
 					}
@@ -1303,7 +1332,7 @@ module.exports = class MenteesHelper {
 			}
 
 			const menteeIds = extensionDetails.data.map((item) => item.user_id)
-			const userDetails = await userRequests.getListOfUserDetails(menteeIds, true)
+			const userDetails = await userRequests.getUserDetailedList(menteeIds)
 
 			if (extensionDetails.data.length > 0) {
 				const uniqueOrgIds = [...new Set(extensionDetails.data.map((obj) => obj.organization_id))]
@@ -1318,11 +1347,12 @@ module.exports = class MenteesHelper {
 			userDetails.result = userDetails.result
 				.map((value) => {
 					// Map over each value in the values array of the current group
-					const user_id = value.id
+					const user_id = value.user_id
 					// Check if extensionDataMap has an entry with the key equal to the user_id
 					if (extensionDataMap.has(user_id)) {
 						const newItem = extensionDataMap.get(user_id)
 						value = { ...value, ...newItem }
+						value.id = user_id
 						delete value.user_id
 						delete value.mentor_visibility
 						delete value.mentee_visibility

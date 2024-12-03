@@ -40,7 +40,7 @@ module.exports = class OrganizationExtensionQueries {
 	 * @throws {Error} If organizationId is missing or if an error occurs during the operation.
 	 */
 
-	static async findOrInsertOrganizationExtension(organizationId) {
+	static async findOrInsertOrganizationExtension(organizationId, organization_name) {
 		try {
 			if (!organizationId) {
 				throw new Error('organization Id Missing')
@@ -48,6 +48,8 @@ module.exports = class OrganizationExtensionQueries {
 
 			const data = common.getDefaultOrgPolicies()
 			data.organization_id = organizationId
+			data.name = organization_name
+
 			// Try to find the data, and if it doesn't exist, create it
 			const [orgPolicies, created] = await OrganizationExtension.findOrCreate({
 				where: {
@@ -110,6 +112,26 @@ module.exports = class OrganizationExtensionQueries {
 			return updatedRecords
 		} catch (error) {
 			throw new Error(`Error updating organization extension: ${error.message}`)
+		}
+	}
+
+	static async getAllByIds(ids) {
+		try {
+			const filterClause = `organization_id IN (${ids.map((id) => `'${id}'`).join(',')})`
+
+			const query = `
+				SELECT *
+				FROM ${common.materializedViewsPrefix + MenteeExtension.tableName}
+				WHERE
+					${filterClause}
+				`
+
+			const results = await Sequelize.query(query, {
+				type: QueryTypes.SELECT,
+			})
+			return results
+		} catch (error) {
+			throw error
 		}
 	}
 }
