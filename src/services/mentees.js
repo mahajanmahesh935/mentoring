@@ -48,6 +48,7 @@ module.exports = class MenteesHelper {
 		const mentee = await menteeQueries.getMenteeExtension(id)
 		delete mentee.user_id
 		delete mentee.visible_to_organizations
+		delete mentee.image
 
 		const defaultOrgId = await getDefaultOrgId()
 		if (!defaultOrgId)

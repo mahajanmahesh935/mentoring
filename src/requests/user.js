@@ -185,14 +185,17 @@ const fetchUserDetails = async ({ token, userId }) => {
 
 const getUserDetails = async (userId) => {
 	try {
-		const userDetails = await menteeQueries.findOneFromView(userId)
-
+		const userDetails = await menteeQueries.getMenteeExtension(userId)
 		if (userDetails.image) {
-			userDetails.image = await getDownloadableUrl(userDetails.image).result
+			const downloadImageResponse = await getDownloadableUrl(userDetails.image)
+			userDetails.image = downloadImageResponse.result
 		}
 		userDetails.user_roles = [{ title: common.MENTEE_ROLE }]
 		if (userDetails.is_mentor) {
 			userDetails.user_roles.push({ title: common.MENTOR_ROLE })
+		}
+		if (userDetails.email) {
+			userDetails.email = await emailEncryption.decrypt(userDetails.email)
 		}
 
 		let response = {
@@ -412,7 +415,8 @@ const list = function (userType, pageNo, pageSize, searchText) {
 			await Promise.all(
 				userDetails.data.map(async (user) => {
 					if (user.image) {
-						user.image = await getDownloadableUrl(user.image)
+						const downloadImageResponse = await getDownloadableUrl(user.image)
+						user.image = downloadImageResponse.result
 					}
 					return user
 				})
@@ -770,7 +774,8 @@ const getUserDetailedList = function (userIds) {
 				userDetails.map(async function (user) {
 					user.email = await emailEncryption.decrypt(user.email)
 					if (user.image) {
-						user.image = await getDownloadableUrl(user.image).result
+						const downloadImageResponse = await getDownloadableUrl(user.image)
+						user.image = downloadImageResponse.result
 					}
 					user.user_roles = [{ title: common.MENTEE_ROLE }]
 					if (user.is_mentor) {

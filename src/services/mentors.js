@@ -691,6 +691,10 @@ module.exports = class MentorsHelper {
 				model_names: { [Op.contains]: [mentorExtensionsModelName] },
 			})
 
+			if (mentorExtension.image) {
+				delete mentorExtension.image
+			}
+
 			// validationData = utils.removeParentEntityTypes(JSON.parse(JSON.stringify(validationData)))
 			const validationData = removeDefaultOrgEntityTypes(entityTypes, orgId)
 			const processDbResponse = utils.processDbResponse(mentorExtension, validationData)

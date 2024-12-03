@@ -226,6 +226,7 @@ module.exports = class UserHelper {
 			const roleChangeResult = await orgAdminService.roleChange(roleChangePayload, userExtensionData)
 			return roleChangeResult
 		} else {
+			if (userExtensionData.email) delete userExtensionData.email
 			//If role is not changed, org policy changes along with other user data updation is done
 			//using the updateMentee or updateMentor workflows
 			const user = isAMentee
