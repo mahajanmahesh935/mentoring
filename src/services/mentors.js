@@ -25,7 +25,8 @@ const { buildSearchFilter } = require('@helpers/search')
 const searchConfig = require('@configs/search.json')
 const emailEncryption = require('@utils/emailEncryption')
 const { defaultRulesFilter, validateDefaultRulesFilter } = require('@helpers/defaultRules')
-
+const connectionQueries = require('@database/queries/connection')
+const communicationHelper = require('@helpers/communications')
 module.exports = class MentorsHelper {
 	/**
 	 * upcomingSessions.
@@ -259,11 +260,14 @@ module.exports = class MentorsHelper {
 			if (session.length > 0) {
 				const userIds = _.uniqBy(session, 'mentor_id').map((item) => item.mentor_id)
 
-				let mentorDetails = await userRequests.getListOfUserDetails(userIds)
+				let mentorDetails = await userRequests.getUserDetailedList(userIds)
+
 				mentorDetails = mentorDetails.result
+				//console.log("mentorDetails.result",mentorDetails.result);
 
 				for (let i = 0; i < session.length; i++) {
-					let mentorIndex = mentorDetails.findIndex((x) => x.id === session[i].mentor_id)
+					let mentorIndex = mentorDetails.findIndex((x) => x.user_id === session[i].mentor_id)
+					console.log(session[i].mentor_id, 'mentorIndex', mentorIndex)
 					session[i].mentor_name = mentorDetails[mentorIndex].name
 					session[i].organization = mentorDetails[mentorIndex].organization
 				}
@@ -342,8 +346,14 @@ module.exports = class MentorsHelper {
 					responseCode: 'CLIENT_ERROR',
 				})
 			}
+
+			const organization_name = userOrgDetails.data.result.name
+
 			// Find organisation policy from organisation_extension table
-			let organisationPolicy = await organisationExtensionQueries.findOrInsertOrganizationExtension(orgId)
+			let organisationPolicy = await organisationExtensionQueries.findOrInsertOrganizationExtension(
+				orgId,
+				organization_name
+			)
 
 			data.user_id = userId
 			const defaultOrgId = await getDefaultOrgId()
@@ -478,7 +488,8 @@ module.exports = class MentorsHelper {
 				//both both user data and organisation can change at the same time.
 				let userOrgDetails = await userRequests.fetchOrgDetails({ organizationId: data.organization.id })
 				const orgPolicies = await organisationExtensionQueries.findOrInsertOrganizationExtension(
-					data.organization.id
+					data.organization.id,
+					userOrgDetails.data.result.name
 				)
 				if (!orgPolicies?.organization_id) {
 					return responses.failureResponse({
@@ -639,7 +650,7 @@ module.exports = class MentorsHelper {
 				}
 			}
 
-			let mentorProfile = await userRequests.fetchUserDetails({ userId: id })
+			let mentorProfile = await userRequests.getUserDetails(id)
 			if (!mentorProfile.data.result) {
 				return responses.failureResponse({
 					statusCode: httpStatusCode.not_found,
@@ -680,6 +691,10 @@ module.exports = class MentorsHelper {
 				model_names: { [Op.contains]: [mentorExtensionsModelName] },
 			})
 
+			if (mentorExtension.image) {
+				delete mentorExtension.image
+			}
+
 			// validationData = utils.removeParentEntityTypes(JSON.parse(JSON.stringify(validationData)))
 			const validationData = removeDefaultOrgEntityTypes(entityTypes, orgId)
 			const processDbResponse = utils.processDbResponse(mentorExtension, validationData)
@@ -695,6 +710,21 @@ module.exports = class MentorsHelper {
 
 			const profileMandatoryFields = await utils.validateProfileData(processDbResponse, validationData)
 			mentorProfile.profile_mandatory_fields = profileMandatoryFields
+
+			let communications = null
+
+			if (mentorExtension?.meta?.communications_user_id) {
+				try {
+					const chat = await communicationHelper.login(id)
+					communications = chat
+				} catch (error) {
+					console.error('Failed to log in to communication service:', error)
+				}
+			}
+			processDbResponse.meta = {
+				...processDbResponse.meta,
+				communications,
+			}
 
 			return responses.successResponse({
 				statusCode: httpStatusCode.ok,
@@ -911,7 +941,10 @@ module.exports = class MentorsHelper {
 
 			const mentorIds = extensionDetails.data.map((item) => item.user_id)
 
-			const userDetails = await userRequests.getListOfUserDetails(mentorIds, true)
+			const userDetails = await userRequests.getListOfUserDetails(mentorIds, true, false)
+
+			const connectedUsers = await connectionQueries.getConnectionsByUserIds(userId, mentorIds)
+			const connectedMentorIds = new Set(connectedUsers.map((connectedUser) => connectedUser.friend_id))
 
 			if (extensionDetails.data.length > 0) {
 				const uniqueOrgIds = [...new Set(extensionDetails.data.map((obj) => obj.organization_id))]
@@ -930,10 +963,12 @@ module.exports = class MentorsHelper {
 			extensionDetails.data = extensionDetails.data
 				.map((extensionDetail) => {
 					const user_id = `${extensionDetail.user_id}`
+					const isConnected = connectedMentorIds.has(extensionDetail.user_id)
+
 					if (userDetailsMap.has(user_id)) {
 						let userDetail = userDetailsMap.get(user_id)
 						// Merge userDetail with extensionDetail, prioritize extensionDetail properties
-						userDetail = { ...userDetail, ...extensionDetail }
+						userDetail = { ...userDetail, ...extensionDetail, is_connected: isConnected }
 						delete userDetail.user_id
 						delete userDetail.mentor_visibility
 						delete userDetail.mentee_visibility

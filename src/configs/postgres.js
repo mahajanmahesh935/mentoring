@@ -1,4 +1,14 @@
+require('module-alias/register')
 require('dotenv').config()
+
+let environmentData = require('../envVariables')()
+
+if (!environmentData.success) {
+	logger.error('Server could not start . Not all environment variable is provided', {
+		triggerNotification: true,
+	})
+	process.exit()
+}
 
 const defaultOrgId =
 	process.env.DEFAULT_ORG_ID.toString() ||

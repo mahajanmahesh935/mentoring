@@ -15,4 +15,5 @@ SELECT create_distributed_table('session_enrollments', 'mentee_id');
 SELECT create_distributed_table('session_ownerships', 'mentor_id');
 SELECT create_distributed_table('sessions', 'id');
 SELECT create_distributed_table('user_extensions', 'user_id');
-
+SELECT create_distributed_table('connection_requests', 'user_id');
+SELECT create_distributed_table('connections', 'user_id');

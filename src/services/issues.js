@@ -8,6 +8,8 @@ const issueQueries = require('../database/queries/issue')
 const userRequests = require('@requests/user')
 const responses = require('@helpers/responses')
 
+const menteeExtensionQueries = require('@database/queries/userExtension')
+
 module.exports = class issuesHelper {
 	/**
 	 * Report an issue.
@@ -20,7 +22,12 @@ module.exports = class issuesHelper {
 
 	static async create(bodyData, decodedToken) {
 		try {
-			const userDetails = (await userRequests.fetchUserDetails({ userId: decodedToken.id })).data.result
+			const userDetails = await menteeExtensionQueries.getMenteeExtension(decodedToken.id, [
+				'name',
+				'user_id',
+				'email',
+			])
+			if (!userDetails) throw createUnauthorizedResponse('USER_NOT_FOUND')
 
 			const name = userDetails.name
 			const role = decodedToken.roles.some((role) => role.title === 'mentor') ? 'Mentor' : 'Mentee'

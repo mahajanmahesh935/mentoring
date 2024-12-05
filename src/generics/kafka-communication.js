@@ -5,8 +5,16 @@
  * Description : Kafka producer methods
  */
 
+const emailEncryption = require('@utils/emailEncryption')
+
 const pushEmailToKafka = async (message) => {
 	try {
+		if (message.email && message.email.to) {
+			const decryptData = await emailEncryption.decryptAndValidate(message.email.to)
+			if (decryptData) {
+				message.email.to = decryptData
+			}
+		}
 		const payload = { topic: process.env.NOTIFICATION_KAFKA_TOPIC, messages: [{ value: JSON.stringify(message) }] }
 		console.log('KAKFA PAYLOAD: ', payload)
 		return await pushPayloadToKafka(payload)

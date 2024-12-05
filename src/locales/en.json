@@ -189,5 +189,21 @@
 	"ADD_ORG_HEADER": "{{orgIdHeader}} is mandatory when {{adminHeader}} is passed",
 	"UNAUTHORIZED_REQUEST": "You are not authorized to access this resource. Please ensure that you have the correct permissions or authentication credentials.",
 	"NO_RESULTS_FOUND": "No results found",
-	"ENTITY_TYPE_AND_ENTITES_DELETED_SUCCESSFULLY": "Entity types and Entities deleted successfully."
+	"ENTITY_TYPE_AND_ENTITES_DELETED_SUCCESSFULLY": "Entity types and Entities deleted successfully.",
+	"CONNECTION_REQUEST_SEND_SUCCESSFULLY": "Your connection request has been sent successfully!",
+	"CONNECTION_REQUEST_EXISTS": "You already have a connection request with this user.",
+	"CONNECTION_LIST": "Successfully retrieved your connection list!",
+	"CONNECTION_REQUEST_APPROVED": "Your connection request has been approved.",
+	"CONNECTION_REQUEST_REJECTED": "Your connection request has been rejected.",
+	"CONNECTION_REQUEST_NOT_FOUND": "Oops! We couldn't find that connection request.",
+	"CONNECTION_EXITS": "You are already connected with this user.",
+	"CONNECTION_NOT_FOUND": "Connection not found.",
+	"CONNECTION_DETAILS": "Connection details fetched successfully.",
+	"CONNECTED_USERS_FETCHED": "Connections retrieved successfully.",
+	"CONNECTION_REQUEST_NOT_FOUND_OR_ALREADY_PROCESSED": "The connection request could not be found or has already been processed.",
+	"COMMUNICATION_TOKEN_FETCHED_SUCCESSFULLY": "Communication token retrieved successfully.",
+	"COMMUNICATION_TOKEN_NOT_FOUND": "Communication token could not be located.",
+	"USER_LOGGED_OUT": "User has been logged out successfully.",
+	"USER_DETAILS_FETCHED_SUCCESSFULLY": "User details fetched successfully.",
+	"ORGANIZATION_FETCHED_SUCCESSFULLY": "Organization fetched successfully."
 }

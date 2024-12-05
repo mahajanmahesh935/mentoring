@@ -15,7 +15,6 @@ const questionSetQueries = require('../database/queries/question-set')
 const { Op } = require('sequelize')
 const responses = require('@helpers/responses')
 const { getDefaultOrgId } = require('@helpers/getDefaultOrgId')
-const emailEncryption = require('@utils/emailEncryption')
 
 module.exports = class OrgAdminService {
 	/**
@@ -58,7 +57,6 @@ module.exports = class OrgAdminService {
 			// Check current role based on that swap data
 			// If current role is mentor validate data from mentor_extenion table
 			let mentorDetails = await mentorQueries.getMentorExtension(bodyData.user_id, [], true)
-			if (updateData.email) updateData.email = emailEncryption.encrypt(updateData.email.toLowerCase())
 			// If such mentor return error
 			if (!mentorDetails) {
 				return responses.failureResponse({
@@ -83,7 +81,8 @@ module.exports = class OrgAdminService {
 				}
 
 				const orgPolicies = await organisationExtensionQueries.findOrInsertOrganizationExtension(
-					bodyData.organization_id
+					bodyData.organization_id,
+					organizationDetails.data.result.name
 				)
 				if (!orgPolicies?.organization_id) {
 					return responses.failureResponse({
@@ -100,6 +99,7 @@ module.exports = class OrgAdminService {
 				)
 			}
 			mentorDetails.is_mentor = false
+			if (mentorDetails.email) delete mentorDetails.email
 			// Add fetched mentor details to user_extension table
 			const menteeCreationData = await menteeQueries.updateMenteeExtension(bodyData.user_id, mentorDetails)
 			if (!menteeCreationData) {
@@ -143,7 +143,7 @@ module.exports = class OrgAdminService {
 		try {
 			// Get mentee_extension data
 			let menteeDetails = await menteeQueries.getMenteeExtension(bodyData.user_id, '', true)
-			if (updateData.email) updateData.email = emailEncryption.encrypt(updateData.email.toLowerCase())
+
 			// If no mentee present return error
 			if (!menteeDetails) {
 				return responses.failureResponse({
@@ -166,7 +166,8 @@ module.exports = class OrgAdminService {
 				}
 
 				const orgPolicies = await organisationExtensionQueries.findOrInsertOrganizationExtension(
-					bodyData.organization_id
+					bodyData.organization_id,
+					organizationDetails.data.result.name
 				)
 				if (!orgPolicies?.organization_id) {
 					return responses.failureResponse({
@@ -183,6 +184,7 @@ module.exports = class OrgAdminService {
 				)
 			}
 
+			if (menteeDetails.email) delete menteeDetails.email
 			// Add fetched mentee details to mentor_extension table
 			const mentorCreationData = await mentorQueries.updateMentorExtension(
 				bodyData.user_id,
@@ -387,7 +389,10 @@ module.exports = class OrgAdminService {
 			}
 
 			// Get organization policies
-			const orgPolicies = await organisationExtensionQueries.findOrInsertOrganizationExtension(orgId)
+			const orgPolicies = await organisationExtensionQueries.findOrInsertOrganizationExtension(
+				orgId,
+				organizationDetails.data.result.name
+			)
 			if (!orgPolicies?.organization_id) {
 				return responses.failureResponse({
 					message: 'ORG_EXTENSION_NOT_FOUND',

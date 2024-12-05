@@ -59,6 +59,7 @@ SCHEDULER_SERVICE_URL="http://interface:3569/jobs/scheduleJob"
 SESSION_EDIT_WINDOW_MINUTES="0"
 SUPPORT_EMAIL_ID="support@xyz.com,team@xyz.com"
 MENTEE_SESSION_ENROLLMENT_BY_MANAGER_EMAIL_TEMPLATE='mentee_session_enrollment_by_manager'
+MENTEE_SESSION_ENROLLMENT_EMAIL_TEMPLATE='mentee_session_enrollment'
 MENTOR_PRIVATE_SESSION_INVITE_BY_MANAGER_EMAIL_TEMPLATE='mentor_invite_private_session_by_manager'
 MENTOR_PUBLIC_SESSION_INVITE_BY_MANAGER_EMAIL_TEMPLATE='mentor_invite_public_session_by_manager'
 MENTOR_SESSION_DELETE_BY_MANAGER_EMAIL_TEMPLATE='session_deleted_by_manager'

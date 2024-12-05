@@ -78,9 +78,9 @@ echo "Database '$DB_NAME' exists, proceeding with script."
 DEFAULT_FORM_FOLDER_LOCATION=$FOLDER_NAME
 
 
-chmod +x create_default_form_sql.sh
+chmod +x sample-data/mentoring/create_default_form_sql.sh
 
-./create_default_form_sql.sh $FOLDER_NAME
+.sample-data/mentoring/create_default_form_sql.sh $FOLDER_NAME
 
 FORMS_SQL_FILE="forms.sql"
 if [ ! -f "$FORMS_SQL_FILE" ]; then

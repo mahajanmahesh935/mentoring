@@ -1,6 +1,8 @@
 'use strict'
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
+const defaultChatEnabled = process.env.ENABLE_CHAT === 'true'
+
 module.exports = (sequelize, DataTypes) => {
 	const UserExtension = sequelize.define(
 		'UserExtension',
@@ -79,6 +81,14 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.BOOLEAN,
 				allowNull: false,
 				defaultValue: false,
+			},
+			settings: {
+				type: DataTypes.JSONB,
+				allowNull: false,
+				defaultValue: { chat_enabled: defaultChatEnabled },
+			},
+			image: {
+				type: DataTypes.STRING,
 			},
 		},
 		{

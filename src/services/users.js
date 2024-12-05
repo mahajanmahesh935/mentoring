@@ -70,8 +70,26 @@ module.exports = class UserHelper {
 
 	static async create(decodedToken) {
 		try {
-			const result = await this.#createOrUpdateUserAndOrg(decodedToken.id)
-			return result
+			const isNewUser = await this.#checkUserExistence(decodedToken.id)
+			if (isNewUser) {
+				const result = await this.#createOrUpdateUserAndOrg(decodedToken.id, isNewUser)
+				return result
+			} else {
+				const menteeExtension = await menteeQueries.getMenteeExtension(decodedToken.id)
+
+				if (!menteeExtension) {
+					return responses.failureResponse({
+						statusCode: httpStatusCode.not_found,
+						message: 'USER_NOT_FOUND',
+					})
+				}
+
+				return responses.successResponse({
+					statusCode: httpStatusCode.ok,
+					message: 'USER_DETAILS_FETCHED_SUCCESSFULLY',
+					result: menteeExtension,
+				})
+			}
 		} catch (error) {
 			console.log(error)
 			throw error
@@ -81,7 +99,8 @@ module.exports = class UserHelper {
 	static async update(updateData) {
 		try {
 			const userId = updateData.userId
-			const result = await this.#createOrUpdateUserAndOrg(userId, updateData)
+			const isNewUser = await this.#checkUserExistence(userId)
+			const result = await this.#createOrUpdateUserAndOrg(userId, isNewUser)
 			return result
 		} catch (error) {
 			console.log(error)
@@ -89,8 +108,7 @@ module.exports = class UserHelper {
 		}
 	}
 
-	static async #createOrUpdateUserAndOrg(userId, updateData = null) {
-		const isNew = await this.#checkUserExistence(userId)
+	static async #createOrUpdateUserAndOrg(userId, isNewUser) {
 		const userDetails = await userRequests.fetchUserDetails({ userId })
 		if (!userDetails?.data?.result) {
 			return responses.failureResponse({
@@ -99,9 +117,29 @@ module.exports = class UserHelper {
 				responseCode: 'UNAUTHORIZED',
 			})
 		}
+
+		const validationError = await this.#validateUserDetails(userDetails)
+
+		if (validationError) {
+			return responses.failureResponse({
+				message: validationError,
+				statusCode: httpStatusCode.not_found,
+				responseCode: 'UNAUTHORIZED',
+			})
+		}
+
 		const orgExtension = await this.#createOrUpdateOrg({ id: userDetails.data.result.organization_id })
+
+		if (!orgExtension) {
+			return responses.failureResponse({
+				message: 'ORG_EXTENSION_NOT_FOUND',
+				statusCode: httpStatusCode.not_found,
+				responseCode: 'UNAUTHORIZED',
+			})
+		}
 		const userExtensionData = this.#getExtensionData(userDetails.data.result, orgExtension)
-		const createOrUpdateResult = isNew
+
+		const createOrUpdateResult = isNewUser
 			? await this.#createUser(userExtensionData)
 			: await this.#updateUser(userExtensionData)
 		if (createOrUpdateResult.statusCode != httpStatusCode.ok) return createOrUpdateResult
@@ -127,6 +165,7 @@ module.exports = class UserHelper {
 			competency: userDetails.competency,
 			designation: userDetails.designation,
 			language: userDetails.language,
+			image: userDetails.image ? userDetails.image : '',
 		}
 	}
 
@@ -187,6 +226,7 @@ module.exports = class UserHelper {
 			const roleChangeResult = await orgAdminService.roleChange(roleChangePayload, userExtensionData)
 			return roleChangeResult
 		} else {
+			if (userExtensionData.email) delete userExtensionData.email
 			//If role is not changed, org policy changes along with other user data updation is done
 			//using the updateMentee or updateMentor workflows
 			const user = isAMentee
@@ -223,5 +263,37 @@ module.exports = class UserHelper {
 			console.error('HERE: ', error)
 			throw error
 		}
+	}
+
+	/**
+	 * Validates that the required user details are present and not null/undefined.
+	 *
+	 * This function checks if the userDetails object contains the necessary fields
+	 * for processing a user. It specifically looks for:
+	 * - id
+	 * - user_roles
+	 * - email
+	 * - name
+	 * - organization
+	 * - organization_id
+	 *
+	 * If any of these fields are missing or null, the function returns an error message.
+	 *
+	 * @param {Object} userDetails - The user details object containing user data.
+	 * @returns {string|null} - Returns an error message if validation fails, otherwise null.
+	 */
+
+	static async #validateUserDetails(userDetails) {
+		if (!userDetails.data.result) {
+			return 'FAILED_TO_GET_REQUIRED_USER_DETAILS'
+		} else {
+			const requiredFields = ['id', 'user_roles', 'email', 'name', 'organization', 'organization_id']
+			for (const field of requiredFields) {
+				if (!userDetails.data.result[field] || userDetails.data.result[field] == null) {
+					return 'FAILED_TO_GET_REQUIRED_USER_DETAILS'
+				}
+			}
+		}
+		return null
 	}
 }

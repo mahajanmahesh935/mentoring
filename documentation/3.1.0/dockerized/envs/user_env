@@ -1,4 +1,5 @@
-ACCESS_TOKEN_EXPIRY="30m"
+ACCESS_TOKEN_EXPIRY="1440m"
+ALLOWED_IDLE_TIME="1450"
 ACCESS_TOKEN_SECRET="xG7V87nfj2394fJD394jfgh08dfDfh98DKJlndfj9d"  # Replace with your secure secret
 ADMIN_INVITEE_UPLOAD_EMAIL_TEMPLATE_CODE="invitee_upload_status"
 ADMIN_SECRET_CODE="j8a3Ndf9sdH92nDkf7j4FgH92nDdjf7G2J9sHnLz8X5N"  # Replace with secure admin secret code
